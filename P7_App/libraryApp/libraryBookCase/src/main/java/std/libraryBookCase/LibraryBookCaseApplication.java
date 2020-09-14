@@ -1,13 +1,13 @@
-package std.libraryStock;
+package std.libraryBookCase;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LibraryStockApplication {
+public class LibraryBookCaseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LibraryStockApplication.class, args);
+		SpringApplication.run(LibraryBookCaseApplication.class, args);
 	}
 
 }

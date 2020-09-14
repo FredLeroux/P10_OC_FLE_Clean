@@ -39,8 +39,7 @@
 	</dependencies>
 
 	<modules>
-		<module>libraryUi</module>
-		<module>libraryStock</module>
+		<module>libraryBookCase</module>
 	</modules>
 
 	<build>

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>std.libraryApp</groupId>
-	<artifactId>libraryStock</artifactId>
+	<artifactId>libraryBookCase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>libraryStock</name>
+	<name>libraryBookCase</name>
 	<description>library stock</description>
 
 	<properties>
@@ -28,6 +28,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
