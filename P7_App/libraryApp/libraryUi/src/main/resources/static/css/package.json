@@ -1,0 +1,11 @@
+{
+  "name": "css",
+  "version": "1.0.0",
+  "description": "css management libraryApp",
+  "main": "index.js",
+  "scripts": {
+    "libraryAppCssMgnt": "sass --watch ./scss:./css"
+  },
+  "author": "FLE",
+  "license": "ISC"
+}

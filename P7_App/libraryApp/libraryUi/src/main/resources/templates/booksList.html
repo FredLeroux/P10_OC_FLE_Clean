@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Liste des livres</title>
+<script th:src="@{/JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/JQuery/JQueryUi/jquery-ui-1.12.1/jquery-ui.js}"></script>
+<!-- jquery-ui.min.js not used in order to apply modification in jquery-ui.js (search for FLE 21/09/2020 in jquery.js file for details) -->
+<link rel="stylesheet" 
+	th:href="@{/JQuery/JQueryUi/jquery-theme/jquery-ui-themes-1.12.1/themes/pepper-grinder/jquery-ui.css}">
+<script th:src="@{/JS/jQueryTools.js}"></script>
+<script th:src="@{/JS/bookListJQuery.js}"></script>
+<link rel="stylesheet" th:href="@{/css/css/bookListTableCss.css}">
+</head>
+<body>  
+	<div>
+		<a th:id="bookListBackButton" th:href="@{/}">Retour Acceuil</a>
+		<br>
+	</div>
+	<div>
+		<h2>Choix bibliothèque(s)</h2>
+			<select class="buildingFilter" th:id="buildingSelect"  >
+				<option th:value="0" th:selected>tous les batiments</option>
+				<option th:each="building:${buildings}" th:value="${building.id}" th:text="${building.name}"  ></option>
+			</select>
+	</div>
+	<br>
+	<div>
+		<h2>Filtrer par genre(s) littéraire(s)</h2>
+	<div id="check">
+		<label th:each="kind:${kinds}" th:text="${kind.kind}" th:for="${kind.kind}"></label>
+		<input th:each="kind:${kinds}" th:class="kind" th:type="checkbox" th:name="${kind.kind}" th:id="${kind.kind}" th:value="${kind.kind}" >
+	</div>
+	<br>
+	<div>
+		<button th:id="clearKindsFilter" style="display: none">Supprimer le/les filtre(s)</button>
+	</div>
+	<br>
+	</div>
+	<br>
+	<div style="text-align: center">
+		<iframe th:src="@{/bookListTable}" class="booklistTableIframe" th:id="booksListIframe"></iframe>
+	</div>
+	<script th:inline="javascript">
+		bookListJQueryElmt();
+		initFilterOnload();
+		setBookTableIframe();
+		toggleDisplayClearKindFilterButton();
+		kindOnClickAction();
+		clearButtonOnClickAction();
+	</script>
+</body>
+</html>

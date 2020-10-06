@@ -40,6 +40,9 @@
 
 	<modules>
 		<module>libraryBookCase</module>
+		<module>libraryBuildings</module>
+		<module>libraryCustomers</module>
+		<module>libraryUi</module>
 	</modules>
 
 	<build>
@@ -47,6 +50,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

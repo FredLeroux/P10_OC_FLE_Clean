@@ -1,0 +1,30 @@
+{
+    "sEmptyTable":     "Aucun livre ne correspond aux critères de recherche ",
+    "sInfo":           "Affichage des livres _START_ à _END_ sur _TOTAL_ livres",
+    "sInfoEmpty":      "Aucun livre à afficher",
+    "sInfoFiltered":   "(filtré à partir d'une collection de _MAX_ livres au total)",
+    "sInfoPostFix":    "",
+    "sInfoThousands":  ",",
+    "sLengthMenu":     "Afficher _MENU_ livres",
+    "sLoadingRecords": "Chargement...",
+    "sProcessing":     "Traitement...",
+    "sSearch":         "Rechercher par titre ou auteur :",
+    "sZeroRecords":    "Aucun livres correspondant trouvé",
+    "oPaginate": {
+        "sFirst":    "Premiere page",
+        "sLast":     "Derniere page",
+        "sNext":     "Page suivante",
+        "sPrevious": "Page précédente"
+    },
+    "oAria": {
+        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+        "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+    },
+    "select": {
+            "rows": {
+                "_": "%d lignes sélectionnées",
+                "0": "Aucune ligne sélectionnée",
+                "1": "1 ligne sélectionnée"
+            }
+    }
+}

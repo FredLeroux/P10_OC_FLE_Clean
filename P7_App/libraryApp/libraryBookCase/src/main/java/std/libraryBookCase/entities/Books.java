@@ -2,17 +2,22 @@ package std.libraryBookCase.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 @Entity
 @Table(name = "books", schema = "libraryum")
@@ -41,7 +46,8 @@ public class Books implements Serializable {
 	@Column(name = "availability")
 	private Boolean availability;
 
-	@Column(name = "library_building_fk")
-	private Integer libraryBuildingFk;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "library_building_fk")
+	private LibraryBuilding libraryBuilding;
 
 }
