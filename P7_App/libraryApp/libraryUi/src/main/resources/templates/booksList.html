@@ -12,11 +12,12 @@
 <script th:src="@{/JS/bookListJQuery.js}"></script>
 <link rel="stylesheet" th:href="@{/css/css/bookListTableCss.css}">
 </head>
-<body>  
-	<div>
-		<a th:id="bookListBackButton" th:href="@{/}">Retour Acceuil</a>
-		<br>
-	</div>
+<body>
+	<header> 
+		<div th:replace="appHead :: LibraryApp_header"></div>
+		<div th:replace="appHead :: bookList_subTitle"></div>				
+	</header> 
+	<div th:replace="appHead :: backHomeButton_nav"></div>
 	<div>
 		<h2>Choix bibliothèque(s)</h2>
 			<select class="buildingFilter" th:id="buildingSelect"  >

@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
 @Entity
-@Table(name = "books", schema = "libraryum")
+@Table(name = "library_books", schema = "libraryum")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

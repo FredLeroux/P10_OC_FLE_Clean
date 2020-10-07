@@ -3,7 +3,7 @@
 function bookListJQueryElmt() {
 	$(".kind").checkboxradio();
 	$("#clearKindsFilter").button();
-	$("#bookListBackButton").button();
+	//$("#testBackButton").button();
 	$("#buildingSelect").selectmenu({
 		"change": function() {
 			storeBuildingChoice(this.value)
