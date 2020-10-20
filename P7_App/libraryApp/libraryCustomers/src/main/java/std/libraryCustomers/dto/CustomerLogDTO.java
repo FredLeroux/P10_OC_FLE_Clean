@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import std.libraryCustomers.entities.LibraryRole;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class CustomerDTO {
+public class CustomerLogDTO {
 
-	private Integer id;
 	private String customerEmail;
 	private String customerPassword;
+	private LibraryRoleDTO role;
 
 }

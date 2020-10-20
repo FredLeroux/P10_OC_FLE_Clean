@@ -12,12 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.FieldNameConstants;
+
 
 @Entity
 @Table(name = "library_books", schema = "libraryum")
@@ -25,7 +24,7 @@ import lombok.experimental.FieldNameConstants;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Books implements Serializable {
+public class LibraryBook implements Serializable {
 
 
 	private static final long serialVersionUID = 7123011051900300385L;

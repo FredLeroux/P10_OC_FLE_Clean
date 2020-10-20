@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import std.libraryBookCase.dto.BooksAndQuantityDTO;
-import std.libraryBookCase.dto.BooksDTO;
-import std.libraryBookCase.dto.BooksKindsDTO;
+import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBooksDTO;
+import std.libraryBookCase.dto.LibraryBooksKindsDTO;
 import std.libraryBookCase.service.LibraryBookCaseService;
 
 @RestController
@@ -26,29 +26,29 @@ public class LibraryBookCaseController {
 	LibraryBookCaseService libraryBookCaseService;
 
 	@GetMapping(value = "/books")
-	public List<BooksAndQuantityDTO> books() {
+	public List<LibraryBooksAndQuantityDTO> books() {
 		return libraryBookCaseService.getAllBooks();
 
 	}
 
 	@GetMapping(value = "/kinds")
-	public List<BooksKindsDTO> kinds() {
+	public List<LibraryBooksKindsDTO> kinds() {
 		return libraryBookCaseService.getKindsList();
 	}
 
 	@GetMapping(value = "/buildingFiltered")
-	public List<BooksAndQuantityDTO> booksBuildingFiltered(
+	public List<LibraryBooksAndQuantityDTO> booksBuildingFiltered(
 			@RequestParam(name = "libraryBuilding") Integer libraryBuilding) {
 		return libraryBookCaseService.getBooksFilteredByBuilding(libraryBuilding);
 	}
 
 	@GetMapping(value = "/kindsFiltered")
-	public List<BooksAndQuantityDTO> booksKindsFiltered(@RequestParam(name = "kinds") List<String> kinds) {
+	public List<LibraryBooksAndQuantityDTO> booksKindsFiltered(@RequestParam(name = "kinds") List<String> kinds) {
 		return libraryBookCaseService.getBooksFilteredByKinds(kinds);
 	}
 
 	@GetMapping(value = "/buildingAndKindsFiltered")
-	public List<BooksAndQuantityDTO> booksBuildingAndKindsFiltered(
+	public List<LibraryBooksAndQuantityDTO> booksBuildingAndKindsFiltered(
 			@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
 			@RequestParam(name = "kinds") List<String> kinds) {
 		return libraryBookCaseService.getBooksFilteredByLibraryBuildingIdAndKinds(libraryBuilding, kinds);

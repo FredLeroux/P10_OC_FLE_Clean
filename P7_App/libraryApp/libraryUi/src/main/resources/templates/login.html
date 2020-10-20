@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script th:src="@{/JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/JQuery/JQueryUi/jquery-ui-1.12.1/jquery-ui.js}"></script>
+<script src="https://kit.fontawesome.com/4d5fe12e4b.js"></script>
+<link rel="stylesheet"
+	th:href="@{/JQuery/JQueryUi/jquery-theme/jquery-ui-themes-1.12.1/themes/pepper-grinder/jquery-ui.css}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<title>Insert title here</title>
+<style type="text/css">
+
+</style>
+<script>
+
+$(document).ready(function(){
+	$('#mail').button();
+	$('#pass').button();
+	$('#logBtn').button().position({
+		 my: "right",
+		  at: "right-4px",//add 4-px allow to add margin 
+		  of: "#logBtnDiv"
+		});
+	$('#load').position({
+		 my: "right",
+		  at: "right-4px",//add 4-px allow to add margin 
+		  of: "#logBtnDiv"
+		});
+	//$('input').labels().addClass( 'ui-state-highlight' )
+	$("#myDiv").html("testJq");
+	$("#load").hide();
+	});
+
+
+
+</script>
+</head>
+<body>
+ 
+<form th:id="logForm" th:action="@{/login}" th:method ="post" class="col-md-4 offset-md-4 bg-info shadow-lg p-1 mb-4 mt-4">
+  	<div th:if="${param.error}" class="alert alert-danger mt-2 p-1 text-center">    
+    	<div>
+    		<strong><i class="fas fa-at"></i></strong> ou <strong><i class="fas fa-key"></i></strong> incorrect
+    	</div>
+    </div>
+    <div class="form-group">			
+   		<div class="input-group mb-2 mt-2 p-1 rounded-lg">
+   			<div class="input-group-prepend ">   			 
+     			<label th:for="username" class="input-group-text" th:id="mail">
+     				<strong><i class="fas fa-at"></i></strong>
+     			</label>
+    		</div> 
+    		<input th:type="text" th:name = "username" th:id ="username" 
+    			class="form-control" th:attr="placeholder='E-mail'"/> 
+    			 			
+ 		</div >
+ 	</div>
+ 	<div class="form-group">
+  		<div class="input-group mb-2 p-1 rounded-lg">
+   			<div class="input-group-prepend ">   			 
+     			<label th:for="password" class="input-group-text" th:id="pass">
+     				<strong><i class="fas fa-key"></i></strong>
+     			</label>
+   		 	</div>
+    	<input th:name = "password" th:id ="password" th:type="password" 
+    		class="form-control" th:attr="placeholder='Mot de passe'"/>
+   		</div >
+   		</div>
+   		<div th:id="logBtnDiv" class="input-group mb-2 p-2 rounded-lg">
+   	<button th:type="submit" th:value="Connexion" th:id="logBtn">Connexion</button>   	
+  		  			
+  			<div id="load" class="spinner-border text-dark p-2 mb-1" role="status">
+ 				<span class="sr-only">Loading...</span>
+			</div>  			
+  		</div>	
+  		
+</form>
+
+<script type="text/javascript">
+$("input").labels().addClass("ui-state-highlight");
+$('#logBtn').click(function(){
+	$("#load").show();
+	$('#logBtn').hide();
+	$( "#username" ).prop( "readonly", true );
+	$( "#password" ).prop( "readonly", true );
+	
+});
+</script>
+
+</body>
+</html>

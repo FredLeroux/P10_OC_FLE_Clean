@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import std.libraryBookCase.dao.LibraryBookCaseDAO;
-import std.libraryBookCase.dto.BooksAndQuantityDTO;
-import std.libraryBookCase.dto.BooksDTO;
-import std.libraryBookCase.dto.BooksKindsDTO;
-import std.libraryBookCase.entities.Books;
+import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBooksDTO;
+import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.entities.LibraryBook;
 
 @Service
 public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
@@ -23,39 +23,39 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     LibraryBookCaseDAO dao;
 
     private ModelMapper modelMapper = new ModelMapper();
-    private BooksDTO bookDTO = new BooksDTO();
-    private BooksKindsDTO booksKindsDTO = new BooksKindsDTO();
+    private LibraryBooksDTO bookDTO = new LibraryBooksDTO();
+    private LibraryBooksKindsDTO booksKindsDTO = new LibraryBooksKindsDTO();
 
     @Override
-    public List<BooksAndQuantityDTO> getAllBooks() {
+    public List<LibraryBooksAndQuantityDTO> getAllBooks() {
         return booksAndQuantityList(booksDTOList(dao.findByAvailabilityTrue()));
     }
 
     @Override
-	public List<BooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id) {
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id) {
     	 return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingIdAndAvailabilityTrue(id)));
 	}
 
     @Override
-	public List<BooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds) {
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds) {
     	return booksAndQuantityList(booksDTOList(dao.findByKindInAndAvailabilityTrue(kinds)));
 	}
 
     @Override
-	public List<BooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds) {
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds) {
     	return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingIdAndKindInAndAvailabilityTrue(id, kinds)));
 	}
 
-    private List<BooksDTO> booksDTOList(List<Books> list) {
+    private List<LibraryBooksDTO> booksDTOList(List<LibraryBook> list) {
         return list.stream().map(O -> convertBooksToDTO(O)).collect(Collectors.toList());
     }
 
-    private BooksDTO convertBooksToDTO(Books book) {
+    private LibraryBooksDTO convertBooksToDTO(LibraryBook book) {
         return modelMapper.map(book, bookDTO.getClass());
     }
 
-    private ArrayList<BooksAndQuantityDTO> booksAndQuantityList(List<BooksDTO> booksDTOList ) {
-        ArrayList<BooksAndQuantityDTO> booksAndQuantityDTOs = new ArrayList<>();
+    private ArrayList<LibraryBooksAndQuantityDTO> booksAndQuantityList(List<LibraryBooksDTO> booksDTOList ) {
+        ArrayList<LibraryBooksAndQuantityDTO> booksAndQuantityDTOs = new ArrayList<>();
         booksDTOList.forEach(o->{
             if(isTitleAndLibraryBuildingExist(booksAndQuantityDTOs, o)) {
                 incrementBooksAndNumberDTONumber(booksAndQuantityDTOs.get(booksAndQuantityDTOs.size()-1));
@@ -67,8 +67,8 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     }
 
 
-    private boolean isTitleAndLibraryBuildingExist(List<BooksAndQuantityDTO> booksList, BooksDTO books) {
-    	for(BooksAndQuantityDTO dto:booksList) {
+    private boolean isTitleAndLibraryBuildingExist(List<LibraryBooksAndQuantityDTO> booksList, LibraryBooksDTO books) {
+    	for(LibraryBooksAndQuantityDTO dto:booksList) {
     		if(isTitleExist(dto, books)&&isLibraryBuildingExist(dto, books)) {
       		  return true;
       	  }
@@ -76,32 +76,32 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     	return false;
     }
 
-    private boolean isTitleExist(BooksAndQuantityDTO books, BooksDTO booksDTO) {
+    private boolean isTitleExist(LibraryBooksAndQuantityDTO books, LibraryBooksDTO booksDTO) {
     	 return books.getTitle().equals(booksDTO.getTitle());
     }
 
-    private boolean isLibraryBuildingExist(BooksAndQuantityDTO books, BooksDTO booksDTO) {
+    private boolean isLibraryBuildingExist(LibraryBooksAndQuantityDTO books, LibraryBooksDTO booksDTO) {
            return books.getLibraryBuildingName().equals(booksDTO.getLibraryBuilding().getName());
     }
 
-    private BooksAndQuantityDTO createBooksAndNumberDTO(BooksDTO book) {
-        return new BooksAndQuantityDTO(book.getId(), book.getKind(), book.getTitle(), book.getAuthor(),
+    private LibraryBooksAndQuantityDTO createBooksAndNumberDTO(LibraryBooksDTO book) {
+        return new LibraryBooksAndQuantityDTO(book.getId(), book.getKind(), book.getTitle(), book.getAuthor(),
                 book.getLibraryBuilding().getName(), 1);
     }
 
-    private void incrementBooksAndNumberDTONumber(BooksAndQuantityDTO book) {
+    private void incrementBooksAndNumberDTONumber(LibraryBooksAndQuantityDTO book) {
         book.setNumber(book.getNumber() + 1);
     }
 
 	@Override
-	public List<BooksKindsDTO> getKindsList() {
+	public List<LibraryBooksKindsDTO> getKindsList() {
 		return  booksKindsDTOList(dao.findByAvailabilityTrue());
 	}
 
-	 private List<BooksKindsDTO> booksKindsDTOList(List<Books> list) {
+	 private List<LibraryBooksKindsDTO> booksKindsDTOList(List<LibraryBook> list) {
 	        return list.stream().map(O -> convertBooksToKindsDTO(O)).distinct().collect(Collectors.toList());
 	    }
-	 private BooksKindsDTO convertBooksToKindsDTO(Books book) {
+	 private LibraryBooksKindsDTO convertBooksToKindsDTO(LibraryBook book) {
 	        return modelMapper.map(book, booksKindsDTO.getClass());
 	    }
 

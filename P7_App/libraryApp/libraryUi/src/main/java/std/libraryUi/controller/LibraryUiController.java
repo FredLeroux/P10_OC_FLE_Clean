@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,6 +28,11 @@ public class LibraryUiController {
 	@GetMapping(value = "/")
 	public ModelAndView home(Model model) {
 		return new ModelAndView("home");
+	}
+
+	@GetMapping(value = "login")
+	public ModelAndView login() {
+		return new ModelAndView("login");
 	}
 
 	@GetMapping(value = "/booksList")

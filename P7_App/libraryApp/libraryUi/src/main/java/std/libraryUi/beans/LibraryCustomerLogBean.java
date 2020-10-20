@@ -1,7 +1,6 @@
-package std.libraryBookCase.dto;
+package std.libraryUi.beans;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-public class BooksKindsDTO {
+public class LibraryCustomerLogBean {
 
-	private String kind;
+
+	private String customerEmail;
+	private String customerPassword;
+	private LibraryRoleBean role;
 
 }

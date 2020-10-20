@@ -4,21 +4,21 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import std.libraryBookCase.dto.BooksAndQuantityDTO;
-import std.libraryBookCase.dto.BooksKindsDTO;
-import std.libraryBookCase.entities.Books;
+import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.entities.LibraryBook;
 
 
 public interface LibraryBookCaseService {
 
-	public List<BooksAndQuantityDTO> getAllBooks();
+	public List<LibraryBooksAndQuantityDTO> getAllBooks();
 
-	public List<BooksKindsDTO> getKindsList();
+	public List<LibraryBooksKindsDTO> getKindsList();
 
-	public List<BooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id);
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id);
 
-	public List<BooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds);
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds);
 
-	public List<BooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id,List<String> kinds);
+	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id,List<String> kinds);
 
 }

@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <script th:src="@{/JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{/JS/test jquery in js file.js}"></script>
+<script th:src="@{/JQuery/JQueryUi/jquery-ui-1.12.1/jquery-ui.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/JQuery/JQueryUi/jquery-theme/jquery-ui-themes-1.12.1/themes/pepper-grinder/jquery-ui.css}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Insert title here</title>
+
 </head>
 <body>
 <header> 
@@ -13,6 +17,28 @@
 	</header> 
 
 <a href="/booksList">booksList</a>
+<a href="/login">log</a>
+<a href="/logout">logout</a>
+<div id="myDiv">
+test
+</div>
 
+<div class="container-fluid text-center">
+	<div class="row content">
+ 		<div class="col-sm-1 sidenav text-left">
+ 			<p><a href="/booksList">booksList</a></p>
+			<p><a href="/login">log</a></p>
+			<p><a href="/logout">logout</a></p>
+ 		</div>
+ 		<div class="col-sm-11 ">
+			<iframe th:src="@{/login}"  th:id="homeframe" style="width: 100%"></iframe>		
+ 		</div>
+	</div>
+
+
+</div>
+<script>
+$("#myDiv").html("testJq");
+</script>
 </body>
 </html>

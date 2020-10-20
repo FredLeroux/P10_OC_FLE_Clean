@@ -1,6 +1,6 @@
 package std.libraryBookCase.dto;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,14 +12,15 @@ import std.libraryBookCase.entities.LibraryBuilding;
 @AllArgsConstructor
 @Getter
 @Setter
+public class LibraryBooksDTO {
 
-public class BooksAndQuantityDTO {
+
 
 	private Integer id;
 	private String kind;
 	private String title;
 	private String author;
-	private String libraryBuildingName;
-	private Integer number;
+	private LibraryBuilding libraryBuilding;
+
 
 }
