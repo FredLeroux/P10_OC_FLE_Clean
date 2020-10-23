@@ -3,13 +3,26 @@
 function bookListJQueryElmt() {
 	$(".kind").checkboxradio();
 	$("#clearKindsFilter").button();
-	//$("#testBackButton").button();
 	$("#buildingSelect").selectmenu({
 		"change": function() {
 			storeBuildingChoice(this.value)
 			filterBooksList();
 		}
 	});
+	$("#buildingSelect").selectmenu( "widget" )
+        .addClass( "uiElmt" );
+$("#buildingSelect").selectmenu( "menuWidget" )
+        .addClass( "uiElmt" );
+	//libraryAppUiButtonCss(".kind");
+	//libraryAppUiButtonCss("#clearKindsFilter");
+	//libraryAppUiButtonCss("#buildingSelect");
+	$(".kind").each(function(){
+		$(this).checkboxradio("widget").addClass("uiElmt");
+	})
+}
+
+function css(){
+
 }
 
 function filterBooksList() {

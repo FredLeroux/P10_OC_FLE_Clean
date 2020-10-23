@@ -1,4 +1,3 @@
-
 function setSessionStoredValue(name, value) {
 	sessionStorage.setItem(name, value);
 }
@@ -7,10 +6,15 @@ function getSessionStoredValue(name) {
 	return sessionStorage.getItem(name);
 }
 
+
+
 /** set iframe height function of content height + 100 px */
 function setIframeHeight(iFrameName){
-	let jqueryName = "#"+iFrameName;
-    $(jqueryName).height($(jqueryName).contents().height()+100+'px');
+    $(jqueryName(iFrameName)).height($(jqueryName(iFrameName)).contents().height()+100+'px');
+}
+
+function setIframeSrc(iFrameName,src){
+	 $(jqueryName(iFrameName)).attr("src",src);
 }
 
 
@@ -85,6 +89,10 @@ function sessionStoreArray(name, array) {
 
 function selectValue(className, value) {
 	$("." + className).val(value).selectmenu("refresh");
+}
+
+function jqueryName(elmtName){
+	return "#".concat(elmtName);
 }
 
 

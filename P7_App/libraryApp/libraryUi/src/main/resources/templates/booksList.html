@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+>
 <head>
 <meta charset="UTF-8">
 <title>Liste des livres</title>
@@ -10,15 +11,19 @@
 	th:href="@{/JQuery/JQueryUi/jquery-theme/jquery-ui-themes-1.12.1/themes/pepper-grinder/jquery-ui.css}">
 <script th:src="@{/JS/jQueryTools.js}"></script>
 <script th:src="@{/JS/bookListJQuery.js}"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" th:href="@{/css/css/bookListTableCss.css}">
+<link rel="stylesheet" th:href="@{/css/css/appCss.css}">
+
 </head>
 <body>
-	<header> 
+<header> 
 		<div th:replace="appHead :: LibraryApp_header"></div>
 		<div th:replace="appHead :: bookList_subTitle"></div>				
-	</header> 
+	</header>
 	<div th:replace="appHead :: backHomeButton_nav"></div>
-	<div>
+<!--	<div>
 		<h2>Choix bibliothèque(s)</h2>
 			<select class="buildingFilter" th:id="buildingSelect"  >
 				<option th:value="0" th:selected>tous les batiments</option>
@@ -41,14 +46,48 @@
 	<br>
 	<div style="text-align: center">
 		<iframe th:src="@{/bookListTable}" class="booklistTableIframe" th:id="booksListIframe"></iframe>
+	</div>  -->
+	<div class="container-fluid text-center">
+	<div class="row content">
+ 		<div class="col-lg-2 sidenav text-left"> 		
+ 			<div>
+		<h2>Choix bibliothèque(s)</h2>
+		<div style="font-family: fantasy;">
+			<select  th:id="buildingSelect"  >
+				<option th:value="0" style="color: red" th:selected>tous les batiments</option>
+				<option th:each="building:${buildings}" th:value="${building.id}" th:text="${building.name}"  ></option>
+			</select>
+		</div>
 	</div>
+	<br>
+	<div>
+		<h2>Filtrer par genre(s) littéraire(s)</h2>
+	<div id="check" >
+		<label th:each="kind:${kinds}" th:text="${kind.kind}" th:for="${kind.kind}"></label>
+		<input th:each="kind:${kinds}" class="kind uiElmt" th:type="checkbox" th:name="${kind.kind}" th:id="${kind.kind}" th:value="${kind.kind}" >
+	</div>
+	<br>
+	<div>
+		<button th:id="clearKindsFilter" style="display: none">Supprimer le/les filtre(s)</button>
+	</div>
+	<br>
+	</div>
+ 		</div>
+ 		<div class="col-md-12 col-lg-10 ">
+			<iframe th:src="@{/bookListTable}" class="booklistTableIframe" th:id="booksListIframe"></iframe>		
+ 		</div>
+	</div>
+	</div>
+
+
 	<script th:inline="javascript">
-		bookListJQueryElmt();
+		
 		initFilterOnload();
 		setBookTableIframe();
 		toggleDisplayClearKindFilterButton();
 		kindOnClickAction();
 		clearButtonOnClickAction();
+		bookListJQueryElmt();
 	</script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import std.libraryUi.security.configClass.UnauthentificatedRequest;
 import std.libraryUi.security.encoder.LibraryEncoder;
@@ -22,6 +23,8 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LibraryEncoder encoder;
 
+
+
 	@Bean
 	public UnauthentificatedRequest UnauthentificatedRequest() {
 		return new UnauthentificatedRequest();
@@ -29,20 +32,19 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers("/log")
-			.permitAll()
-			.antMatchers("/booksList")
-			.hasAnyAuthority("TYPE_admin","TYPE_user")
+
+		 http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+
+		http
+		.authorizeRequests()
+			.antMatchers("/booksList").hasAnyAuthority("TYPE_admin","TYPE_user")
 			.and()
-			.formLogin()
-			.loginPage("/login").permitAll()
-			.and().logout().permitAll()
+			.headers().frameOptions().sameOrigin()
 			.and()
-			.headers()
-			.frameOptions()
-			.sameOrigin()
-			.and().exceptionHandling().authenticationEntryPoint(UnauthentificatedRequest())
+			.formLogin().loginPage("/login")
+			.and()
+			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+			/**/
 			;
 	}
 

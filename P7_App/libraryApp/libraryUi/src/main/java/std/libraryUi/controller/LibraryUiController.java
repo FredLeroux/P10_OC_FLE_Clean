@@ -26,14 +26,24 @@ public class LibraryUiController {
 	LibraryBuildingsProxy libraryBuildingsProxy;
 
 	@GetMapping(value = "/")
-	public ModelAndView home(Model model) {
+	public ModelAndView home() {
 		return new ModelAndView("home");
+	}
+
+	@GetMapping(value="/welcome")
+	public ModelAndView welcome() {
+		return new ModelAndView("welcome");
 	}
 
 	@GetMapping(value = "login")
 	public ModelAndView login() {
 		return new ModelAndView("login");
 	}
+
+/*	@GetMapping(value ="logout")
+	public ModelAndView logout() {
+		return new ModelAndView("home");
+	}*/
 
 	@GetMapping(value = "/booksList")
 	public  ModelAndView allBook(ModelAndView model) {

@@ -27,7 +27,6 @@ public class LibraryUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(@RequestParam(value = "username") String user) throws UsernameNotFoundException {
 		Optional<LibraryCustomerLogBean> logDetails = customerLog.getCustomer(user);
 		if (!logDetails.isPresent()) {
-			System.out.println("notfound");
 			throw new UsernameNotFoundException(user);
 		}
 		UserDetails userD = (UserDetails) new User(logDetails.get().getCustomerEmail(),

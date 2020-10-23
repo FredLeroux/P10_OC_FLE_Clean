@@ -1,0 +1,28 @@
+@font-face {
+  font-family: header-font;
+  src: url("/css/fonts/head/Beguns FREE.ttf");
+}
+
+@font-face {
+  font-family: sub-header-font;
+  src:url("/css/fonts/head/Old Bookshop HK.ttf");
+}
+
+@font-face {
+  font-family: menu-font;
+  src:url("/css/fonts/menu/Birds of Paradise.ttf");
+}
+
+.uiElmt{
+	width:100%;
+	text-align:left;
+	font-family:menu-font;
+	font-size:1.5em;
+	font-weight: lighter;
+	padding: 0;
+	padding-left: 10px;
+}
+
+.test{
+	color:red;
+}
