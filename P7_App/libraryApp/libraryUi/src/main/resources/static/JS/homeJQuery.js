@@ -2,10 +2,7 @@
  *
  */
 
-function homeJQueryElmt(){
-	$('.homeLink').button();
-	//libraryAppUiButtonCss('.homeLink');
-}
+
 
 
 function setHomeIframeHeight(){

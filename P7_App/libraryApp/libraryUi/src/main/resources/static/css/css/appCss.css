@@ -10,18 +10,86 @@
   font-family: menu-font;
   src: url("/css/fonts/menu/Birds of Paradise.ttf");
 }
-.uiElmt {
+iframe {
   width: 100%;
-  text-align: left;
+  border: none;
+}
+
+.title {
+  background-color: #f6f5f4;
+  border-top: 10px double #654b24;
+  border-bottom: 10px double #654b24;
+  border-radius: 10px 10px 10px 10px;
+  color: #654b24;
+  text-align: center;
+  font-family: header-font;
+  font-size: 6vw;
+  padding: 0px;
+  margin-top: 1vw;
+}
+
+.sub-title {
+  color: #654b24;
+  text-align: center;
   font-family: menu-font;
-  font-size: 1.5em;
+  font-size: 4vw;
+}
+
+.menu-text {
+  font-family: menu-font;
   font-weight: lighter;
+  text-align: left;
+  font-size: 1.7em;
+  text-decoration: underline;
+  text-decoration-color: #654b24;
+}
+
+.uiElmt-sideNav-login {
+  font-family: menu-font;
+  font-weight: lighter;
+  text-align: left;
+  font-size: 1.5em;
+  padding: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.uiElmt-sideNav-unlogin {
+  font-family: menu-font;
+  font-weight: lighter;
+  text-align: left;
+  font-size: 1.5em;
+  padding: 0;
+  padding-left: 10px;
+  background: #b93100 !important;
+  color: white !important;
+  padding-right: 10px;
+}
+
+.uiElmt-sideNav-link {
+  font-family: menu-font;
+  font-weight: lighter;
+  text-align: left;
+  font-size: 1.5em;
+  padding: 0;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.uiElmt-sideNav-select {
+  font-family: menu-font;
+  font-weight: lighter;
+  text-align: left;
+  font-size: 1.5em;
   padding: 0;
   padding-left: 10px;
 }
 
-.test {
-  color: red;
+.log {
+  background-color: #f6f5f4;
+  border-top: 10px double #654b24;
+  border-bottom: 10px double #654b24;
+  border-radius: 10px 10px 10px 10px;
 }
 
-/*# sourceMappingURL=appcss.css.map */
+/*# sourceMappingURL=appCss.css.map */

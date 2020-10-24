@@ -2,92 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org"
 >
 <head>
+<template th:replace="appFragments :: LibraryApp_head"></template>
 <meta charset="UTF-8">
-<title>Liste des livres</title>
-<script th:src="@{/JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{/JQuery/JQueryUi/jquery-ui-1.12.1/jquery-ui.js}"></script>
-<!-- jquery-ui.min.js not used in order to apply modification in jquery-ui.js (search for FLE 21/09/2020 in jquery.js file for details) -->
-<link rel="stylesheet" 
-	th:href="@{/JQuery/JQueryUi/jquery-theme/jquery-ui-themes-1.12.1/themes/pepper-grinder/jquery-ui.css}">
-<script th:src="@{/JS/jQueryTools.js}"></script>
 <script th:src="@{/JS/bookListJQuery.js}"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" th:href="@{/css/css/bookListTableCss.css}">
-<link rel="stylesheet" th:href="@{/css/css/appCss.css}">
-
+<title>Liste des livres</title>
 </head>
 <body>
-<header> 
-		<div th:replace="appHead :: LibraryApp_header"></div>
-		<div th:replace="appHead :: bookList_subTitle"></div>				
+	<header> 
+		<div th:replace="appFragments :: LibraryApp_header"></div>
+		<div th:replace="appFragments :: bookList_subTitle"></div>				
 	</header>
-	<div th:replace="appHead :: backHomeButton_nav"></div>
-<!--	<div>
-		<h2>Choix bibliothèque(s)</h2>
-			<select class="buildingFilter" th:id="buildingSelect"  >
-				<option th:value="0" th:selected>tous les batiments</option>
-				<option th:each="building:${buildings}" th:value="${building.id}" th:text="${building.name}"  ></option>
-			</select>
-	</div>
-	<br>
-	<div>
-		<h2>Filtrer par genre(s) littéraire(s)</h2>
-	<div id="check">
-		<label th:each="kind:${kinds}" th:text="${kind.kind}" th:for="${kind.kind}"></label>
-		<input th:each="kind:${kinds}" th:class="kind" th:type="checkbox" th:name="${kind.kind}" th:id="${kind.kind}" th:value="${kind.kind}" >
-	</div>
-	<br>
-	<div>
-		<button th:id="clearKindsFilter" style="display: none">Supprimer le/les filtre(s)</button>
-	</div>
-	<br>
-	</div>
-	<br>
-	<div style="text-align: center">
-		<iframe th:src="@{/bookListTable}" class="booklistTableIframe" th:id="booksListIframe"></iframe>
-	</div>  -->
 	<div class="container-fluid text-center">
 	<div class="row content">
- 		<div class="col-lg-2 sidenav text-left"> 		
+ 		<div class="col-lg-2 sidenav text-left">
+ 		<p th:replace="appFragments :: backHomeButton_nav"></p>	
  			<div>
-		<h2>Choix bibliothèque(s)</h2>
-		<div style="font-family: fantasy;">
+		<h2 class="menu-text">Choix bibliothèque</h2>
+		<div>			
 			<select  th:id="buildingSelect"  >
-				<option th:value="0" style="color: red" th:selected>tous les batiments</option>
+				<option th:value="0"  th:selected>tous les batiments</option>
 				<option th:each="building:${buildings}" th:value="${building.id}" th:text="${building.name}"  ></option>
 			</select>
 		</div>
 	</div>
 	<br>
 	<div>
-		<h2>Filtrer par genre(s) littéraire(s)</h2>
+		<h2 class="menu-text">Filtrer par genre littéraire</h2>
 	<div id="check" >
 		<label th:each="kind:${kinds}" th:text="${kind.kind}" th:for="${kind.kind}"></label>
-		<input th:each="kind:${kinds}" class="kind uiElmt" th:type="checkbox" th:name="${kind.kind}" th:id="${kind.kind}" th:value="${kind.kind}" >
+		<input th:each="kind:${kinds}" class="kind" th:type="checkbox" th:name="${kind.kind}" th:id="${kind.kind}" th:value="${kind.kind}" >
 	</div>
 	<br>
 	<div>
-		<button th:id="clearKindsFilter" style="display: none">Supprimer le/les filtre(s)</button>
+	<p>
+		<button th:id="clearKindsFilter" style="display: none;"><i class="far fa-trash-alt pr-1" style="color: rgb(185, 49, 0);"></i>Genre (s)</button>
+	</p>
 	</div>
 	<br>
 	</div>
  		</div>
  		<div class="col-md-12 col-lg-10 ">
-			<iframe th:src="@{/bookListTable}" class="booklistTableIframe" th:id="booksListIframe"></iframe>		
+			<iframe th:src="@{/bookListTable}" th:id="booksListIframe"></iframe>		
  		</div>
 	</div>
 	</div>
 
 
 	<script th:inline="javascript">
-		
+	bookListJQueryElmt();
+	uiButton("#clearKindsFilter","uiElmt-sideNav-link");	
+	uiCheckBoxRadio(".kind", "uiElmt-sideNav-link");	
+	uiSelectMenu("#buildingSelect","uiElmt-sideNav-select" ,'100%');
 		initFilterOnload();
 		setBookTableIframe();
 		toggleDisplayClearKindFilterButton();
 		kindOnClickAction();
 		clearButtonOnClickAction();
-		bookListJQueryElmt();
+		
+		
+		
 	</script>
 </body>
 </html>

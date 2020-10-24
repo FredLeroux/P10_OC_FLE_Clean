@@ -13,16 +13,88 @@
   src:url("/css/fonts/menu/Birds of Paradise.ttf");
 }
 
-.uiElmt{
-	width:100%;
-	text-align:left;
-	font-family:menu-font;
-	font-size:1.5em;
+iframe {
+  width: 100%;
+  border: none;
+
+}
+//sass variable
+$color-1:rgb(101, 75, 36);
+$background-ui:rgb(246, 245, 244);
+$warn-color: rgb(185, 49, 0);
+$menu-font:menu-font;
+$header-font:header-font;
+
+@mixin level-3-font{
+	font-family:$menu-font;
 	font-weight: lighter;
+	text-align:left;
+}
+
+@mixin border-and-background{
+	background-color: $background-ui;
+	border-top:10px double $color-1;
+	border-bottom:10px double $color-1;
+	border-radius: 10px 10px 10px 10px;
+}
+
+
+@mixin nav-elemt-basis{
+	@include level-3-font;
+	font-size:1.5em;
 	padding: 0;
 	padding-left: 10px;
 }
 
-.test{
-	color:red;
+.title{
+	@include border-and-background;
+	color:$color-1;
+	text-align:center;
+	font-family:$header-font;
+	font-size: 6vw;
+	padding: 0px;
+    margin-top: 1vw;
 }
+
+.sub-title{
+	color:$color-1;
+	text-align:center;
+	font-family:$menu-font;
+	font-size: 4vw;
+}
+
+.menu-text{
+	@include level-3-font;
+	font-size:1.7em;
+	text-decoration: underline;
+	text-decoration-color: $color-1;
+}
+
+.uiElmt-sideNav-login{
+	@include nav-elemt-basis;
+	padding-right: 10px;
+}
+
+.uiElmt-sideNav-unlogin{
+	@include nav-elemt-basis;
+	background:$warn-color !important;
+	color: white !important;
+	padding-right: 10px;
+
+}
+
+.uiElmt-sideNav-link{
+	@include nav-elemt-basis;
+	width:100%;
+}
+
+.uiElmt-sideNav-select{
+	@include nav-elemt-basis;
+}
+
+.log{
+	@include border-and-background;
+
+
+}
+

@@ -1,29 +1,21 @@
-/** needs jQUeryTools file to be imported before in jsp */
+/** needs jQUeryTools file to be imported before in html */
 
+/**
+Using JqueryUi Selectmenu function will apply function on select menu change
+this is the way to use JQueryUi selecmenu()
+see https://jqueryui.com/selectmenu/#product-selection
+ */
 function bookListJQueryElmt() {
-	$(".kind").checkboxradio();
-	$("#clearKindsFilter").button();
 	$("#buildingSelect").selectmenu({
 		"change": function() {
 			storeBuildingChoice(this.value)
 			filterBooksList();
 		}
 	});
-	$("#buildingSelect").selectmenu( "widget" )
-        .addClass( "uiElmt" );
-$("#buildingSelect").selectmenu( "menuWidget" )
-        .addClass( "uiElmt" );
-	//libraryAppUiButtonCss(".kind");
-	//libraryAppUiButtonCss("#clearKindsFilter");
-	//libraryAppUiButtonCss("#buildingSelect");
-	$(".kind").each(function(){
-		$(this).checkboxradio("widget").addClass("uiElmt");
-	})
-}
 
-function css(){
 
 }
+
 
 function filterBooksList() {
 	var building = getSessionStoredValue("libraryBuilding");
@@ -42,7 +34,7 @@ function initFilterOnload() {
 	var bool1 = building != null;
 	var bool2 = kinds.length != 0;
 	if (building != null) {
-		selectValue('buildingFilter', building);
+		selectValue('#buildingSelect', building);
 	}
 	if (bool2) {
 		$.each(kinds, function(index, value) {
@@ -61,7 +53,6 @@ function toggleDisplayClearKindFilterButton() {
 	let buttonId = "#clearKindsFilter"
 	if (array.length != 0) {
 		$(buttonId).show();
-		$(buttonId).css('position', 'absolute');
 	} else {
 		$(buttonId).hide();
 	}

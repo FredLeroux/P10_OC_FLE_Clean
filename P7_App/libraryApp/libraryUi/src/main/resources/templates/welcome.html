@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
+<template th:replace="appFragments :: LibraryApp_head"></template>
+<script th:src="@{/JQuery/datepickerI18n/datepicker_fr.js}"></script>
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Bienvenue</h1>
+<h1 class="menu-text">Bienvenue</h1>
+<div id="date"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$( "#date" ).datepicker( $.datepicker.regional[ "fr" ] );
+	window.top.window.setHomeIframeHeight();
+});
+</script>
 </body>
 </html>

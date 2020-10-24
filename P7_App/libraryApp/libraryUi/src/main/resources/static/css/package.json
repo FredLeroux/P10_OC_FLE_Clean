@@ -4,7 +4,7 @@
   "description": "css management libraryApp",
   "main": "index.js",
   "scripts": {
-    "libraryAppCssMgnt": "sass --watch ./scss:./css"
+    "sass": "sass --watch ./scss:./css"
   },
   "author": "FLE",
   "license": "ISC"

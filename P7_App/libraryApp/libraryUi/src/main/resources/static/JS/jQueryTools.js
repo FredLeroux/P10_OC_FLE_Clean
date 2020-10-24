@@ -87,8 +87,8 @@ function sessionStoreArray(name, array) {
 
 }
 
-function selectValue(className, value) {
-	$("." + className).val(value).selectmenu("refresh");
+function selectValue(selector, value) {
+	$(selector).val(value).selectmenu("refresh");
 }
 
 function jqueryName(elmtName){
