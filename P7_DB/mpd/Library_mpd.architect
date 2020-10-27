@@ -89,7 +89,7 @@
     <column id="COL19" populated="true" UUID="05a96413-4902-450c-9d53-30e28dccbe63" autoIncrement="false" autoIncrementSequenceName="library_loan_return_date_seq" defaultValue="" name="return_date" nullable="0" physicalName="return_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL20" populated="true" UUID="4cf727f6-1059-4678-ac16-388092837e67" autoIncrement="false" autoIncrementSequenceName="library_loan_postponement_seq" defaultValue="" name="postponement" nullable="0" physicalName="postponement" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+    <column id="COL20" populated="true" UUID="4cf727f6-1059-4678-ac16-388092837e67" autoIncrement="false" autoIncrementSequenceName="library_loan_postponed_seq" defaultValue="" name="postponed" nullable="0" physicalName="postponed" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
      <remarks></remarks>
     </column>
     <column id="COL21" populated="true" UUID="9b4faa6d-2dcf-4b67-8d66-5fa407496724" autoIncrement="false" autoIncrementSequenceName="library_loan_returned_seq" defaultValue="" name="returned" nullable="0" physicalName="returned" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
@@ -165,7 +165,7 @@
     <folder id="FOLTAB372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB374" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX40" populated="true" UUID="1d76fbdf-92c1-44e0-9dbf-df40f364da8c" clustered="false" name="library_roles_pk" physicalName="library_role_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX40" populated="true" UUID="1d76fbdf-92c1-44e0-9dbf-df40f364da8c" clustered="false" name="library_roles_pk" physicalName="library_roles_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC41" populated="true" UUID="621adab2-905a-4c48-9d17-4102e4166214" ascendingOrDescending="UNSPECIFIED" column-ref="COL38" name="id" physicalName="id" />
     </index>
    </folder>
@@ -174,7 +174,7 @@
    <relationship id="REL42" populated="true" UUID="91549a81-9998-4301-ad92-6b92f3242bcb" deferrability="7" deleteRule="3" fk-table-ref="TAB8" fkCardinality="7" identifying="true" name="library_building_books_fk" physicalName="library_building_books_fk" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP43" populated="true" UUID="a5008678-d75e-43d9-b930-ba05a65dc4f4" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL4" />
    </relationship>
-   <relationship id="REL44" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_Borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+   <relationship id="REL44" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP45" populated="true" UUID="c5c34f14-dbae-4511-ac90-6fcb9a4f2434" fk-column-ref="COL22" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
    <relationship id="REL46" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="custommer_borrowed_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
