@@ -14,29 +14,30 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import std.libraryCustomers.controller.LibraryCustomerController;
+import std.libraryCustomers.dto.CustomerLogDTO;
 import std.libraryUi.beans.LibraryCustomerLogBean;
-import std.libraryUi.proxies.LibraryCustomerProxy;
 
 @Service
 public class LibraryUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private LibraryCustomerProxy customerLog;
+
+	private LibraryCustomerController customerLog;
 
 	@Override
 	public UserDetails loadUserByUsername(@RequestParam(value = "username") String user) throws UsernameNotFoundException {
-		Optional<LibraryCustomerLogBean> logDetails = customerLog.getCustomer(user);
-		if (!logDetails.isPresent()) {
+		CustomerLogDTO logDetails = customerLog.getCustomer(user);
+		/*if (!logDetails.isPresent()) {
 			throw new UsernameNotFoundException(user);
-		}
-		UserDetails userD = (UserDetails) new User(logDetails.get().getCustomerEmail(),
-				logDetails.get().getCustomerPassword(), authority(logDetails.get()));
+		}*/
+		UserDetails userD = (UserDetails) new User(logDetails.getCustomerEmail(),
+				logDetails.getCustomerPassword(), authority(logDetails.getRole().getRoleType()));
 		return userD;
 	}
 
-	private List<GrantedAuthority> authority(LibraryCustomerLogBean logDetails) {
+	private List<GrantedAuthority> authority(String logDetails) {
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-		GrantedAuthority auth = new SimpleGrantedAuthority(logDetails.getRole().getRoleType());
+		GrantedAuthority auth = new SimpleGrantedAuthority(logDetails);
 		grantList.add(auth);
 		return grantList;
 	}

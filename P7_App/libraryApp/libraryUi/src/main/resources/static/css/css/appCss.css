@@ -10,9 +10,23 @@
   font-family: menu-font;
   src: url("/css/fonts/menu/Birds of Paradise.ttf");
 }
+@font-face {
+  font-family: body-font;
+  src: url("/css/fonts/body/Satisfy-Regular.ttf");
+}
 iframe {
   width: 100%;
   border: none;
+}
+
+.dataTables_wrapper {
+  font-family: body-font !important;
+  font-size: 1.4em;
+}
+
+.body-font > div {
+  font-family: body-font !important;
+  font-size: 1.4em;
 }
 
 .title {
@@ -90,6 +104,21 @@ iframe {
   border-top: 10px double #654b24;
   border-bottom: 10px double #654b24;
   border-radius: 10px 10px 10px 10px;
+}
+
+.css-class-to-highlight > a {
+  background: blue !important;
+  border: 1px solid red !important;
+  color: yellow !important;
+}
+
+.tooltipUi {
+  white-space: pre-wrap;
+  padding-right: 10px;
+  background: #eae8dd !important;
+  border: 1px solid #654b24 !important;
+  font-family: body-font !important;
+  color: #654b24 !important;
 }
 
 /*# sourceMappingURL=appCss.css.map */

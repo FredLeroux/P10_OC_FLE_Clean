@@ -10,10 +10,70 @@
 <h1 class="menu-text">Bienvenue</h1>
 <div id="date"></div>
 <script type="text/javascript">
+var dates = [new Date(2020,9,26)];
+var datum = new Date(2020,9,15);
+var today = new Date();
 $(document).ready(function(){
-	$( "#date" ).datepicker( $.datepicker.regional[ "fr" ] );
+	//$( "#date" ).datepicker( $.datepicker.regional[ "fr" ]);
+	datePickerSetting("#date");
+	//$( "#date" ).datepicker( "destroy");
+	//datePickerHighLightDate("#date");
+	//changemonth();
+	highlightDateToolTip('.css-class-to-highlight');
 	window.top.window.setHomeIframeHeight();
+	
 });
+function datePickerSetting(selector){
+	$( "#date" ).datepicker({ 
+	"datepicker" :	$.datepicker.regional[ "fr" ],		
+	"beforeShowDay": function(date){		
+		if(date.setHours(0,0,0) === datum.setHours(0,0,0) ){
+			// for calculation date difference	alert((Math.floor(parseInt(today.setHours(0,0,0)-datum.setHours(0,0,0))/(1000*60*60*24))));
+				
+			return [true, 'css-class-to-highlight', 'retouner \n le seigneur de s anneaux les deux tours'];
+			
+			}
+		return [true, '', ''];				
+		},		
+
+	});
+	highlightDateToolTip('.css-class-to-highlight'); 	
+	 $( "#date" ).datepicker().addClass("body-font");
+	 
+	
+}
+
+
+
+function highlightDateToolTip(selector){	
+	alert('highlight');
+	$( "#date" ).tooltip({
+		 //appearcustom
+	      show: {
+	        effect: "fade",
+	        delay: 0	        
+	      },
+	      //customclass
+	 tooltipClass:"tooltipUi"		
+	});
+	
+}	
+
+function datePickerHighLightDate(selector){
+	$( "#date" ).datepicker({
+		
+		beforeShowDay: function(date){
+			
+			if(date.setHours(0,0,0) === datum.setHours(0,0,0) ){
+				return [true, 'css-class-to-highlight', ''];
+				}
+			return [true, '', ''];
+					
+			}
+
+			});
+}
+
 </script>
 </body>
 </html>

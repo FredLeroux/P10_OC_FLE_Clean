@@ -7,7 +7,7 @@
 <script th:src="@{/JS/bookListJQuery.js}"></script>
 <title>Liste des livres</title>
 </head>
-<body>
+<body style ="display: none;">
 	<header> 
 		<div th:replace="appFragments :: LibraryApp_header"></div>
 		<div th:replace="appFragments :: bookList_subTitle"></div>				
@@ -49,6 +49,9 @@
 
 
 	<script th:inline="javascript">
+	$(document).ready(function(){
+		//;
+		});
 	bookListJQueryElmt();
 	uiButton("#clearKindsFilter","uiElmt-sideNav-link");	
 	uiCheckBoxRadio(".kind", "uiElmt-sideNav-link");	

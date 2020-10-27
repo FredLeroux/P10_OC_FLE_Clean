@@ -27,6 +27,7 @@ function bookListTable() {
 			{ targets: 4, className: 'dt-center' }
 		]
 	});
+
 }
 
 function triggerAdjustIFrameHeight() {

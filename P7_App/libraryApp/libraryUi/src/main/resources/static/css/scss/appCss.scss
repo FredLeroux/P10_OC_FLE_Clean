@@ -13,6 +13,11 @@
   src:url("/css/fonts/menu/Birds of Paradise.ttf");
 }
 
+@font-face {
+  font-family: body-font;
+  src:url("/css/fonts/body/Satisfy-Regular.ttf");
+}
+
 iframe {
   width: 100%;
   border: none;
@@ -21,15 +26,19 @@ iframe {
 //sass variable
 $color-1:rgb(101, 75, 36);
 $background-ui:rgb(246, 245, 244);
+$background-calendar:rgb(234, 232, 221);
 $warn-color: rgb(185, 49, 0);
 $menu-font:menu-font;
 $header-font:header-font;
+$body-font:body-font;
 
 @mixin level-3-font{
 	font-family:$menu-font;
 	font-weight: lighter;
 	text-align:left;
 }
+
+
 
 @mixin border-and-background{
 	background-color: $background-ui;
@@ -45,6 +54,16 @@ $header-font:header-font;
 	padding: 0;
 	padding-left: 10px;
 }
+
+.dataTables_wrapper{
+	font-family:$body-font !important;
+	font-size: 1.4em;
+}
+
+.body-font>div{
+	font-family:$body-font !important;
+	font-size: 1.4em;
+	}
 
 .title{
 	@include border-and-background;
@@ -94,7 +113,23 @@ $header-font:header-font;
 
 .log{
 	@include border-and-background;
+}
+.css-class-to-highlight>a{
+	background: rgb(0, 0, 255) !important;
+	border: 1px solid rgb(255, 0, 0)!important;
 
+	color: rgb(255, 255, 0) !important;
 
 }
+
+.tooltipUi {
+	white-space: pre-wrap;
+	padding-right: 10px;
+	background:$background-calendar!important;
+	border: 1px solid $color-1 !important;
+	font-family:$body-font !important;
+	color:$color-1 !important;
+}
+
+
 
