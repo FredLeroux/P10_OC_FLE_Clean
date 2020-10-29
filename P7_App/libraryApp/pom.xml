@@ -48,6 +48,7 @@
 		<module>libraryBuildings</module>
 		<module>libraryCustomers</module>
 		<module>libraryLoan</module>
+		<module>libraryAPIGatewayZuul</module>
 		<module>libraryUi</module>
 	</modules>
 

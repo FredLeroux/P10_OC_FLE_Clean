@@ -65,10 +65,7 @@ public class LibraryUiController {
 		return new ModelAndView("login");
 	}
 
-/*	@GetMapping(value ="logout")
-	public ModelAndView logout() {
-		return new ModelAndView("home");
-	}*/
+
 
 	@GetMapping(value = "/booksList")
 	public  ModelAndView allBook(ModelAndView model, Principal principal) {

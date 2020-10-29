@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import std.libraryUi.beans.LoanInfoBean;
 
-@FeignClient(name ="libraryBookLoans", url ="localhost:9004" )
+@FeignClient(name ="libraryBookLoans", url ="localhost:9005" )
 public interface LibraryBookLoansProxy {
 
-	@GetMapping(value="loan")
+	@GetMapping(value="/libraryBookLoans/loan")///libraryBookLoans
 	public List<LoanInfoBean> loan();
 
 }

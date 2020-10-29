@@ -9,10 +9,10 @@ import std.libraryUi.beans.LibraryBuildingBean;
 
 
 
-@FeignClient(name = "libraryBuildings", url = "localhost:9002")
+@FeignClient(name = "libraryBuildings", url = "localhost:9005")
 public interface LibraryBuildingsProxy {
 
-	@GetMapping(value = "buildings")
+	@GetMapping(value = "libraryBuildings/buildings")///libraryBuildings
 	public List<LibraryBuildingBean> getBuildings();
 
 }

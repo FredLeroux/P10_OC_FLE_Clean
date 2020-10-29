@@ -36,6 +36,7 @@ public class LibraryCustomerController {
 
 	@GetMapping("/getCustomerLog")
 	public CustomerLogDTO getCustomer(@RequestParam(value = "username") String customerEmail) {
+		System.out.println("log");
 		CustomerLogDTO dto = serviceCustomer.findByCustomerEmail(customerEmail);
 		return dto;
 	}

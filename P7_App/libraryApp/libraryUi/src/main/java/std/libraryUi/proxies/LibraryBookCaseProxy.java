@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import std.libraryUi.beans.BookKindsBean;
 import std.libraryUi.beans.BooksBean;
 
-@FeignClient(name = "libraryBookCase", url = "localhost:9001")
+@FeignClient(name = "libraryBookCase", url = "localhost:9005")
 public interface LibraryBookCaseProxy {
 
-	@GetMapping(value = "/books")
+	@GetMapping(value = "/libraryBookCase/books")///libraryBookCase
 	public List<BooksBean> books();
 
-	@GetMapping(value = "/kinds")
+	@GetMapping(value = "/libraryBookCase/kinds")
 	public List<BookKindsBean> kinds();
 
-	@GetMapping(value = "/buildingFiltered")
+	@GetMapping(value = "/libraryBookCase/buildingFiltered")
 	public List<BooksBean> booksBuildingFiltered(
 			@RequestParam(name = "libraryBuilding") Integer libraryBuilding);
 
-	@GetMapping(value ="/kindsFiltered")
+	@GetMapping(value ="/libraryBookCase/kindsFiltered")
 	public List<BooksBean>booksKindsFiltered(
 			@RequestParam(name = "kinds") List<String> kinds);
 
-	@GetMapping(value = "/buildingAndKindsFiltered")
+	@GetMapping(value = "/libraryBookCase/buildingAndKindsFiltered")
 	public List<BooksBean> booksBuildingAndKindsFiltered(
 			@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
 			@RequestParam(name = "kinds") List<String> kinds);
