@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import std.libraryUi.controller.controllerMethods.ControllerMethods;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryBuildingsProxy;
@@ -33,6 +34,7 @@ public class LibraryUiController {
 	@Autowired
 	LibraryBookLoansProxy libraryBookLoansProxy;
 
+	private ControllerMethods methods = new ControllerMethods();
 	private Boolean bool = false;
 
 	@GetMapping(value = "/")
@@ -108,8 +110,7 @@ public class LibraryUiController {
 	@GetMapping(value ="/getLoan")
 	public ModelAndView loanInfo(ModelAndView model){
 		model.setViewName("loan");
-		model.addObject("list",libraryBookLoansProxy.loan());
-
+		model.addObject("list", methods.loanInfoDTOList(libraryBookLoansProxy.loan()));
 		return model;
 	}
 
