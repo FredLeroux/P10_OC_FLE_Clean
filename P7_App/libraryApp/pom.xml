@@ -47,6 +47,7 @@
 		<module>libraryBookCase</module>
 		<module>libraryBuildings</module>
 		<module>libraryCustomers</module>
+		<module>libraryLoan</module>
 		<module>libraryUi</module>
 	</modules>
 

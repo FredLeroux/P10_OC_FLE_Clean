@@ -31,6 +31,10 @@ $warn-color: rgb(185, 49, 0);
 $menu-font:menu-font;
 $header-font:header-font;
 $body-font:body-font;
+$dataTable-odd:rgb(255, 255, 255);
+$dataTable-even: rgb(243, 242, 241);
+$dataTable-tr-hover-background: rgb(107, 87, 54);
+$dataTable-tr-hover-text-color: rgb(255, 255, 255);
 
 @mixin level-3-font{
 	font-family:$menu-font;
@@ -54,11 +58,25 @@ $body-font:body-font;
 	padding: 0;
 	padding-left: 10px;
 }
-
+//datatable custom style-start
 .dataTables_wrapper{
-	font-family:$body-font !important;
-	font-size: 1.4em;
+	font-family:body-font !important ;
+	font-size: 1.3em;
 }
+
+tr.even{
+	background:$dataTable-even !important;
+}
+
+tr.odd{
+	background-color:$dataTable-odd !important;
+}
+
+tr.even:hover,tr.odd:hover{
+	background-color:$dataTable-tr-hover-background !important;
+	color:$dataTable-tr-hover-text-color !important;
+}
+//datatable custom style-end
 
 .body-font>div{
 	font-family:$body-font !important;

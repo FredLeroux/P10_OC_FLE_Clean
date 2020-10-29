@@ -2,17 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<template th:replace="appFragments :: LibraryApp_head"></template>
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <script th:src="@{/JQuery/datepickerI18n/datepicker_fr.js}"></script>
+<script th:src="@{/JS/datepikerLoan.js}"></script>
 <title>Insert title here</title>
 </head>
 <body>
+<div th:id="loading" style="background-color: black;"> loading...</div>
+<div th:id="content">
 <h1 class="menu-text">Bienvenue</h1>
 <div id="date"></div>
-<script type="text/javascript">
+<table id="loans" >
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>returnDate</th>
+				<th>postponed</th>
+				<th>book</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="loan:${list}">
+				<td th:text="${loan.id}"></td>
+				<td th:text="${loan.returnDate}"></td>
+				<td th:text="${loan.postponed}"></td>
+				<td th:text="${loan.book.title}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script th:inline="javascript">
+var list = /*[[${list}]]*/ null;
 var dates = [new Date(2020,9,26)];
-var datum = new Date(2020,9,15);
+var datum = new Date(2020,10,15);
 var today = new Date();
+
+function splitDateString(date){
+	return date.split("-");
+}
+
+alert(createDate("2020-10-18"));
+
+
+
+
 $(document).ready(function(){
 	//$( "#date" ).datepicker( $.datepicker.regional[ "fr" ]);
 	datePickerSetting("#date");
@@ -20,6 +53,7 @@ $(document).ready(function(){
 	//datePickerHighLightDate("#date");
 	//changemonth();
 	highlightDateToolTip('.css-class-to-highlight');
+	//document.getElementById('targetFrame').contentWindow.setHomeIframeHeight();
 	window.top.window.setHomeIframeHeight();
 	
 });
@@ -37,7 +71,7 @@ function datePickerSetting(selector){
 		},		
 
 	});
-	highlightDateToolTip('.css-class-to-highlight'); 	
+	//highlightDateToolTip('.css-class-to-highlight'); 	
 	 $( "#date" ).datepicker().addClass("body-font");
 	 
 	
@@ -45,8 +79,7 @@ function datePickerSetting(selector){
 
 
 
-function highlightDateToolTip(selector){	
-	alert('highlight');
+function highlightDateToolTip(selector){
 	$( "#date" ).tooltip({
 		 //appearcustom
 	      show: {
@@ -73,6 +106,25 @@ function datePickerHighLightDate(selector){
 
 			});
 }
+
+function readyStateChanged() {
+    if(document.readyState!=="complete"){
+        console.log('chargement');
+		$('#loading').show();
+		$('#content').hide();
+		setTimeout(function (){
+
+			 console.log('chargementWait');
+
+			}, 2000);
+        }else{
+        	console.log('chargé');
+        	$('#loading').hide();
+    		$('#content').show();
+    		window.top.window.setHomeIframeHeight();}
+}
+
+$(document).on('readystatechange', readyStateChanged); 
 
 </script>
 </body>

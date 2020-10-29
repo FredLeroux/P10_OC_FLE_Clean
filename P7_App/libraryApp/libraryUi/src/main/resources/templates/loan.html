@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table id="loans" >
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>returnDate</th>
+				<th>postponed</th>
+				<th>book</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="loan:${list}">
+				<td th:text="${loan.id}"></td>
+				<td th:text="${loan.returnDate}"></td>
+				<td th:text="${loan.postponed}"></td>
+				<td th:text="${loan.book.title}"></td>
+			</tr>
+		</tbody>
+	</table>
+<script th:inline="javascript">
+var list = /*[[${list}]]*/ null;
+alert(list[0]['id']);
+</script>
+</body>
+</html>

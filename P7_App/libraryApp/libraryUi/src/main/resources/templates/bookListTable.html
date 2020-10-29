@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<template th:replace="appFragments :: LibraryApp_head"></template>
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <script
 	th:src="@{https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js}" 
 	integrity="sha384-XnTxmviuqUy3cHBf+lkYWuTSDlhxCDxd9RgSo5zvzsCq93P9xNa6eENuAITCwxNh" 
@@ -16,11 +16,17 @@
 	integrity="sha384-6nGlCO+v2mIxLP47sfNBZXjkZqCIOP77izEn/i+IAhVNP3C4cvsFWatAOX34nLYw"
 	crossorigin="anonymous">
 <script th:src="@{/JS/bookListTableJQuery.js}"></script>
+
+
 <title>tableaux des livres</title>
+<style type="text/css">
+
+
+</style>
 </head>
 <body>
 <!-- use .dataTables_wrapper in css to custom table  -->
-	<table id="booksList" class="row-border hover " style="opacity: 0;">
+	<table id="booksList" class="cell-border  hover stripe" style="opacity: 0;">
 		<thead>
 			<tr>
 				<th>Genre</th>

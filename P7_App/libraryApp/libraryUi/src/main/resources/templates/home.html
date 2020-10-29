@@ -3,7 +3,7 @@
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<template th:replace="appFragments :: LibraryApp_head"></template>
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <script th:src="@{/JS/homeJQuery.js}"></script>
 
 <title>Insert title here</title>
@@ -30,7 +30,8 @@
 
 
 </div>
-<script>
+<script th:inline="javascript">
+
 
 setHomeIframeHeight();
 

@@ -32,7 +32,6 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		 http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
 
 		http
@@ -44,8 +43,6 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().loginPage("/login")
 			.and()
 			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
-			/**/
-			;
 	}
 
 

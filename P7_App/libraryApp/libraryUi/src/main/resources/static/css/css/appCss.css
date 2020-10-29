@@ -21,7 +21,20 @@ iframe {
 
 .dataTables_wrapper {
   font-family: body-font !important;
-  font-size: 1.4em;
+  font-size: 1.3em;
+}
+
+tr.even {
+  background: #f3f2f1 !important;
+}
+
+tr.odd {
+  background-color: white !important;
+}
+
+tr.even:hover, tr.odd:hover {
+  background-color: #6b5736 !important;
+  color: white !important;
 }
 
 .body-font > div {

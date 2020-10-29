@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder.Default;
 import lombok.Getter;
@@ -39,6 +42,7 @@ public class Customer {
 	@Column(name = "customer_account_non_locked")
 	private Boolean customerAccountNonLocked;
 	@ManyToOne(cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "library_role_fk")
 	private LibraryRole role;
 

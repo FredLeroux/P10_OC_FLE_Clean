@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-<template th:replace="appFragments :: LibraryApp_head"></template>
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <meta charset="UTF-8">
 <script th:src="@{/JS/bookListJQuery.js}"></script>
 <title>Liste des livres</title>
 </head>
-<body style ="display: none;">
+<body >
 	<header> 
 		<div th:replace="appFragments :: LibraryApp_header"></div>
 		<div th:replace="appFragments :: bookList_subTitle"></div>				
