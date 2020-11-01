@@ -2,9 +2,12 @@ package std.libraryUi.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
-
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,10 +41,13 @@ public class LibraryUiController {
 	private Boolean bool = false;
 
 	@GetMapping(value = "/")
-	public ModelAndView home(ModelAndView model,Principal principal) {
+	public ModelAndView home(ModelAndView model,Principal principal,Locale timezone) {
 		model.setViewName("home");
 		LocalDate date = LocalDate.now().plusDays(14);
-		System.out.println(date.getDayOfWeek());
+		System.out.println(date.getDayOfWeek()+"  //  "+timezone);
+		Locale local = new Locale("de");
+		String formattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(local));
+		System.out.println("FULL format: " + formattedDate);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		System.out.println(principal.getName());
@@ -57,7 +63,7 @@ public class LibraryUiController {
 	public ModelAndView welcome(ModelAndView model) {
 		model.setViewName("welcome");
 		if(bool) {
-		model.addObject("list",libraryBookLoansProxy.loan());
+		model.addObject("list",methods.loanInfoDTOList(libraryBookLoansProxy.loan(),"fr"));
 		}
 		return model;
 	}
@@ -110,7 +116,7 @@ public class LibraryUiController {
 	@GetMapping(value ="/getLoan")
 	public ModelAndView loanInfo(ModelAndView model){
 		model.setViewName("loan");
-		model.addObject("list", methods.loanInfoDTOList(libraryBookLoansProxy.loan()));
+		model.addObject("list", methods.loanInfoDTOList(libraryBookLoansProxy.loan(),"fr"));
 		return model;
 	}
 

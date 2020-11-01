@@ -37,6 +37,10 @@ tr.even:hover, tr.odd:hover {
   color: white !important;
 }
 
+.ui-datepicker-today > ui-state-active {
+  background: blue !important;
+}
+
 .body-font > div {
   font-family: body-font !important;
   font-size: 1.4em;

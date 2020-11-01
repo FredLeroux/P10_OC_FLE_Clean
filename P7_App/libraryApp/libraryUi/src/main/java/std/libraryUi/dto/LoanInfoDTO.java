@@ -16,6 +16,8 @@ public class LoanInfoDTO {
 	private Integer month;
 	private Integer day;
 	private Integer daysLeft;
+	private String localizedFullDate;
 	private String bookTitle;
+	private Boolean postponed;
 
 }

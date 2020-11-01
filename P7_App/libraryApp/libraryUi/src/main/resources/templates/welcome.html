@@ -5,6 +5,9 @@
 <th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <script th:src="@{/JQuery/datepickerI18n/datepicker_fr.js}"></script>
 <script th:src="@{/JS/datepikerLoan.js}"></script>
+
+<script th:src="@{/JS/LocalDate/LocalDateFormater.js}"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,6 +15,7 @@
 <div th:id="content">
 <h1 class="menu-text">Bienvenue</h1>
 <div id="date"></div>
+<!--  
 <table id="loans" >
 		<thead>
 			<tr>
@@ -29,31 +33,32 @@
 				<td th:text="${loan.book.title}"></td>
 			</tr>
 		</tbody>
-	</table>
+	</table>-->
 </div>
 <script th:inline="javascript">
 var list = /*[[${list}]]*/ null;
 var dates = [new Date(2020,9,26)];
 var datum = new Date(2020,10,15);
-var today = new Date();
+var today = new Date(2020,10,1);
 
 function splitDateString(date){
 	return date.split("-");
 }
 
-alert(createDate("2020-10-18"));
+alert(today.getMonth());
+alert("2"+localDateFormater(today,"/JS/LocalDate/LocalDateFormat","fr"));
 
-
-
+datePickerSetting("#date");
 
 $(document).ready(function(){
 	//$( "#date" ).datepicker( $.datepicker.regional[ "fr" ]);
-	datePickerSetting("#date");
+	
 	//$( "#date" ).datepicker( "destroy");
 	//datePickerHighLightDate("#date");
 	//changemonth();
 	highlightDateToolTip('.css-class-to-highlight');
 	//document.getElementById('targetFrame').contentWindow.setHomeIframeHeight();
+	$(".ui-state-active").addClass("customActive")
 	window.top.window.setHomeIframeHeight();
 	
 });

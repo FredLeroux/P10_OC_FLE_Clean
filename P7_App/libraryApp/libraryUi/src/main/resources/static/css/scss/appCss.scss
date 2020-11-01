@@ -78,6 +78,11 @@ tr.even:hover,tr.odd:hover{
 }
 //datatable custom style-end
 
+.ui-datepicker-today>ui-state-active{
+	background: rgb(0, 0, 255) !important;
+}
+
+
 .body-font>div{
 	font-family:$body-font !important;
 	font-size: 1.4em;

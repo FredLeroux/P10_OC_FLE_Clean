@@ -23,13 +23,17 @@ function datePickerSetting(selector,list){
 }
 /**
 Date format expected yyyy-mm-dd */
-function createDate(date){
+function createDateFromString(date){
 	let array = splitDateString(date);
 	let year = array[0];
 	/* as JavaScript date count month fron 0 to 11 in order to get the right month, minus month by 1
 	example for a date 2020-10-18 w/o -1 return november instead of october*/
 	let month = array[1]-1
 	let day = array[2];
+	return new Date(year,month,day);
+}
+
+function creteDate(year,month,day){
 	return new Date(year,month,day);
 }
 
