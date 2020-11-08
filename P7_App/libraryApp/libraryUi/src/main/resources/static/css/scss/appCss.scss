@@ -24,17 +24,91 @@ iframe {
 
 }
 //sass variable
-$color-1:rgb(101, 75, 36);
-$background-ui:rgb(246, 245, 244);
-$background-calendar:rgb(234, 232, 221);
-$warn-color: rgb(185, 49, 0);
-$menu-font:menu-font;
 $header-font:header-font;
+$menu-font:menu-font;
+$datepicker-background-color:rgb(235, 233, 222);
+$background-ui:rgb(246, 245, 244);
 $body-font:body-font;
-$dataTable-odd:rgb(255, 255, 255);
+$color-1:rgb(101, 75, 36);
 $dataTable-even: rgb(243, 242, 241);
+$dataTable-odd:rgb(255, 255, 255);
 $dataTable-tr-hover-background: rgb(107, 87, 54);
 $dataTable-tr-hover-text-color: rgb(255, 255, 255);
+$datepicker-date-active-background-color:rgb(247,243,222);
+$datepicker-date-active-border-color:rgb(178,162,102);
+$datepicker-date-alert-background-color:rgb(185, 49, 0);
+$datepicker-date-border-color: rgb(203,199,189);
+$datepicker-date-color:rgb(58,52,39);
+$datepicker-date-neutral-background-color:rgb(248,246,247);
+$datepicker-date-ok-background-color: rgb(0,129,34);
+$datepicker-date-warn-background-color:rgb(229,148,0);
+$datepicker-date-highlighted-hover-font-color:rgb(25,25,112);
+$datepicker-date-highlighted-hover-border-color:rgb(25,25,112);
+$datepicker-tooltip-color:rgb(25,25,112);
+$datepicker-tooltip-border-color:rgb(25,25,112);
+$datepicker-tooltip-background-color:rgb(234, 232, 221);
+$datepicker-tooltip-font: body-font;
+$warn-color: rgb(185, 49, 0);
+
+@mixin date-highlight-common{
+	border-color:$datepicker-date-active-border-color !important;
+	color: $datepicker-background-color !important;
+}
+
+.date-highlight-ok>a{
+	@include date-highlight-common;
+	background: $datepicker-date-ok-background-color !important ;
+}
+
+.date-highlight-warn>a{
+	@include date-highlight-common;
+	background: $datepicker-date-warn-background-color !important ;
+}
+
+.date-highlight-alert>a{
+	@include date-highlight-common;
+	background: $datepicker-date-alert-background-color !important ;
+}
+
+.date-highlight-today>a{
+	border-color:$datepicker-date-active-border-color !important;
+	background: $datepicker-date-active-background-color !important ;
+}
+
+.date-highlight-today>a:hover,.date-highlight-alert>a:hover,.date-highlight-warn>a:hover,.date-highlight-ok>a:hover{
+	color: $datepicker-date-highlighted-hover-font-color !important ;
+	border-color: $datepicker-date-highlighted-hover-border-color !important;
+}
+
+.date-highlight-today-alert>a{
+	@include date-highlight-common;
+	background: $datepicker-date-alert-background-color !important ;
+	animation: blinkDate 2s linear infinite;
+}
+
+.date-highlight-neutral>a{
+	background: $datepicker-date-neutral-background-color !important ;
+}
+
+.date-highlight-neutral>a:hover{
+	color: $datepicker-date-color !important ;
+	border-color: $datepicker-date-border-color !important;
+	cursor: default !important;
+}
+
+@keyframes blinkDate{
+0%{opacity: 0;}
+25%{opacity: 0.25;}
+50%{opacity: 0.5;}
+75%{opacity: 0.75;}
+100%{opacity: 1;}
+}
+
+.book-late-alert{
+	color: $warn-color;
+}
+
+
 
 @mixin level-3-font{
 	font-family:$menu-font;
@@ -78,9 +152,7 @@ tr.even:hover,tr.odd:hover{
 }
 //datatable custom style-end
 
-.ui-datepicker-today>ui-state-active{
-	background: rgb(0, 0, 255) !important;
-}
+
 
 
 .body-font>div{
@@ -137,21 +209,43 @@ tr.even:hover,tr.odd:hover{
 .log{
 	@include border-and-background;
 }
-.css-class-to-highlight>a{
-	background: rgb(0, 0, 255) !important;
-	border: 1px solid rgb(255, 0, 0)!important;
 
-	color: rgb(255, 255, 0) !important;
 
+.loanSummary{
+	font-family: $body-font;
+	font-size: 1.2em;
 }
 
-.tooltipUi {
+
+
+.datepicker-tooltip {
 	white-space: pre-wrap;
 	padding-right: 10px;
-	background:$background-calendar!important;
-	border: 1px solid $color-1 !important;
-	font-family:$body-font !important;
-	color:$color-1 !important;
+	background:$datepicker-background-color!important;
+	border: 1px solid !important;
+	border-color: $datepicker-tooltip-border-color !important;
+	font-family:$datepicker-tooltip-font  !important;
+	color:$datepicker-tooltip-color !important;
+}
+
+.postPoneAsk{
+	border: none;
+	background-color: none;
+	background: none;
+	margin: 0;
+	padding :0;
+}
+
+.postPoneAsk:hover{
+	text-decoration: underline;
+	color:$datepicker-date-highlighted-hover-font-color;
+}
+
+.loanSummaryRows:hover {
+	color:$datepicker-date-highlighted-hover-font-color;
+	background-color:$datepicker-background-color ;
+	cursor: default;
+
 }
 
 

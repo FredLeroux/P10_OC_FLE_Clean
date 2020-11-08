@@ -19,6 +19,72 @@ iframe {
   border: none;
 }
 
+.date-highlight-ok > a {
+  border-color: #b2a266 !important;
+  color: #ebe9de !important;
+  background: #008122 !important;
+}
+
+.date-highlight-warn > a {
+  border-color: #b2a266 !important;
+  color: #ebe9de !important;
+  background: #e59400 !important;
+}
+
+.date-highlight-alert > a {
+  border-color: #b2a266 !important;
+  color: #ebe9de !important;
+  background: #b93100 !important;
+}
+
+.date-highlight-today > a {
+  border-color: #b2a266 !important;
+  background: #f7f3de !important;
+}
+
+.date-highlight-today > a:hover, .date-highlight-alert > a:hover, .date-highlight-warn > a:hover, .date-highlight-ok > a:hover {
+  color: midnightblue !important;
+  border-color: midnightblue !important;
+}
+
+.date-highlight-today-alert > a {
+  border-color: #b2a266 !important;
+  color: #ebe9de !important;
+  background: #b93100 !important;
+  animation: blinkDate 2s linear infinite;
+}
+
+.date-highlight-neutral > a {
+  background: #f8f6f7 !important;
+}
+
+.date-highlight-neutral > a:hover {
+  color: #3a3427 !important;
+  border-color: #cbc7bd !important;
+  cursor: default !important;
+}
+
+@keyframes blinkDate {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.book-late-alert {
+  color: #b93100;
+}
+
 .dataTables_wrapper {
   font-family: body-font !important;
   font-size: 1.3em;
@@ -35,10 +101,6 @@ tr.odd {
 tr.even:hover, tr.odd:hover {
   background-color: #6b5736 !important;
   color: white !important;
-}
-
-.ui-datepicker-today > ui-state-active {
-  background: blue !important;
 }
 
 .body-font > div {
@@ -123,19 +185,38 @@ tr.even:hover, tr.odd:hover {
   border-radius: 10px 10px 10px 10px;
 }
 
-.css-class-to-highlight > a {
-  background: blue !important;
-  border: 1px solid red !important;
-  color: yellow !important;
+.loanSummary {
+  font-family: body-font;
+  font-size: 1.2em;
 }
 
-.tooltipUi {
+.datepicker-tooltip {
   white-space: pre-wrap;
   padding-right: 10px;
-  background: #eae8dd !important;
-  border: 1px solid #654b24 !important;
+  background: #ebe9de !important;
+  border: 1px solid !important;
+  border-color: midnightblue !important;
   font-family: body-font !important;
-  color: #654b24 !important;
+  color: midnightblue !important;
+}
+
+.postPoneAsk {
+  border: none;
+  background-color: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+.postPoneAsk:hover {
+  text-decoration: underline;
+  color: midnightblue;
+}
+
+.loanSummaryRows:hover {
+  color: midnightblue;
+  background-color: #ebe9de;
+  cursor: default;
 }
 
 /*# sourceMappingURL=appCss.css.map */

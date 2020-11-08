@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.controller.controllerMethods.ControllerMethods;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
@@ -37,35 +40,32 @@ public class LibraryUiController {
 	@Autowired
 	LibraryBookLoansProxy libraryBookLoansProxy;
 
-	private ControllerMethods methods = new ControllerMethods();
-	private Boolean bool = false;
+	@Autowired
+	private ControllerMethods methods;
 
 	@GetMapping(value = "/")
-	public ModelAndView home(ModelAndView model,Principal principal,Locale timezone) {
+	public ModelAndView home(ModelAndView model, Principal principal, Locale timezone) {
 		model.setViewName("home");
-		LocalDate date = LocalDate.now().plusDays(14);
-		System.out.println(date.getDayOfWeek()+"  //  "+timezone);
-		Locale local = new Locale("de");
-		String formattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(local));
-		System.out.println("FULL format: " + formattedDate);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		System.out.println(principal.getName());
-		bool = true;
 
-		}else {
-			bool = false;
+		return model;
+	}
+
+	@GetMapping(value = "/loanTracking")
+	public ModelAndView welcome(ModelAndView model, Principal principal) {
+		model.setViewName("loanTracking");
+		if (methods.isUserAuthenticated()) {
+			List<LoanInfoBean> list = libraryBookLoansProxy.loansList(principal.getName());
+			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
+			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
+			System.out.println("backtoLibraryUi api");
 		}
 		return model;
 	}
 
-	@GetMapping(value="/welcome")
-	public ModelAndView welcome(ModelAndView model) {
-		model.setViewName("welcome");
-		if(bool) {
-		model.addObject("list",methods.loanInfoDTOList(libraryBookLoansProxy.loan(),"fr"));
-		}
-		return model;
+	@PostMapping(value = "/postPone")
+	public ModelAndView postPone(ModelAndView model, Integer loanId, Principal principal) {
+		methods.postPoneLoan(loanId,principal.getName(), 14);
+		return new ModelAndView("redirect:/welcome");
 	}
 
 	@GetMapping(value = "login")
@@ -73,10 +73,8 @@ public class LibraryUiController {
 		return new ModelAndView("login");
 	}
 
-
-
 	@GetMapping(value = "/booksList")
-	public  ModelAndView allBook(ModelAndView model, Principal principal) {
+	public ModelAndView allBook(ModelAndView model, Principal principal) {
 		model.setViewName("booksList");
 		model.addObject("list", libraryCaseProxy.books());
 		model.addObject("buildings", libraryBuildingsProxy.getBuildings());
@@ -92,14 +90,13 @@ public class LibraryUiController {
 	}
 
 	@GetMapping(value = "/booksListFiltered")
-	public String filter(Model model,
-			@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	public String filter(Model model, @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
 			@RequestParam(name = "kinds") List<String> kinds) {
 		if (libraryBuilding == 0 && kinds.size() == 0) {
 			model.addAttribute("list", libraryCaseProxy.books());
-		}else if (libraryBuilding == 0 && kinds.size() != 0) {
+		} else if (libraryBuilding == 0 && kinds.size() != 0) {
 			model.addAttribute("list", libraryCaseProxy.booksKindsFiltered(kinds));
-		}else if (libraryBuilding != 0 && kinds.size() == 0) {
+		} else if (libraryBuilding != 0 && kinds.size() == 0) {
 			model.addAttribute("list", libraryCaseProxy.booksBuildingFiltered(libraryBuilding));
 		} else if (libraryBuilding != 0 && kinds.size() != 0) {
 			model.addAttribute("list", libraryCaseProxy.booksBuildingAndKindsFiltered(libraryBuilding, kinds));
@@ -113,12 +110,12 @@ public class LibraryUiController {
 		return "bookListTable";
 	}
 
-	@GetMapping(value ="/getLoan")
-	public ModelAndView loanInfo(ModelAndView model){
+	@GetMapping(value = "/getLoan")
+	public ModelAndView loanInfo(ModelAndView model) {
 		model.setViewName("loan");
-		model.addObject("list", methods.loanInfoDTOList(libraryBookLoansProxy.loan(),"fr"));
+		// model.addObject("list",
+		// methods.loanInfoDTOList(libraryBookLoansProxy.loansList(),"fr"));
 		return model;
 	}
-
 
 }

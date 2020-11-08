@@ -9,12 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LoanInfoDTO {
+public class UiLoanInfoDTO {
 
 	private Integer id;
-	private Integer year;
-	private Integer month;
-	private Integer day;
 	private Integer daysLeft;
 	private String localizedFullDate;
 	private String bookTitle;

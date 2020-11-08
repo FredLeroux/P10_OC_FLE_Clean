@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class LibraryBookLoansController {
 	LoanService loan;
 
 	@GetMapping(value = "/loansList")
-	public List<LoanInfoDTO> loan(@RequestParam(value = "userName") String userName) {
+	public List<LoanInfoDTO> loansList(@RequestParam(value = "userName") String userName) {
 		return loan.customerLoans(userName);
 	}
 
@@ -28,17 +29,16 @@ public class LibraryBookLoansController {
 	 *
 	 * @param loanId
 	 * @param postponeDaysNumber
-	 * @param weekDaysOff        set null if not used
-	 * @param holidays           set null if not used
-	 * @apiNote postpone the loan return date in function of postponeDaysNumber,
-	 *          and/or weekDaysOff(if not null) and/or holidays(if not null)
+	 * @param userName
+	 * @apiNote the daysOffList and holidays as to be managed in the method owner
+	 *          micro-service id not used set them to null
+	 *
 	 */
-	@GetMapping(value = "/postpone")
+	@PostMapping(value = "/postpone")
 	public void postpone(@RequestParam(value = "loanId") Integer loanId,
-			@RequestParam(value = "postponeDyasNumber") Integer postponeDaysNumber,
-			@RequestParam(value = "weekDaysOff") ArrayList<DayOfWeek> weekDaysOff,
-			@RequestParam(value = "holidays") ArrayList<LocalDate> holidays) {
-		loan.postpone(loanId, postponeDaysNumber, weekDaysOff, holidays);
+			@RequestParam(value = "userName") String userName,
+			@RequestParam(value = "postponeDaysNumber") Integer postponeDaysNumber) {
+		loan.postponeLoan(loanId,userName, postponeDaysNumber, null, null);
 
 	}
 

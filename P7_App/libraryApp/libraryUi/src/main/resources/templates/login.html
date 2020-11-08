@@ -69,7 +69,7 @@ $(document).ready(function(){
      			</label>
    		 	</div>
     	<input th:name = "password" th:id ="password" th:type="password" 
-    		class="form-control" th:attr="placeholder='Mot de passe'"/>
+    		class="form-control" th:attr="placeholder='Mot de passe'" />
    		</div >
    		</div>
    		<div th:id="logBtnDiv" class="input-group mb-2 p-2 rounded-lg">
@@ -88,6 +88,12 @@ $(document).ready(function(){
 </div>
 <script type="text/javascript">
 $("input").labels().addClass("ui-state-highlight");
+$("#pass").mousedown(function(){
+	$('#password').attr("type","text")
+});
+$("#pass").mouseup(function(){
+	$('#password').attr("type","password")
+});
 $('#logBtn').click(function(){
 	$("#load").show();
 	$('#logBtn').hide();

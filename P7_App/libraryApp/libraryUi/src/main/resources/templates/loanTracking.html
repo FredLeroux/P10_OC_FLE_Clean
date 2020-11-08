@@ -6,49 +6,76 @@
 <script th:src="@{/JQuery/datepickerI18n/datepicker_fr.js}"></script>
 <script th:src="@{/JS/datepikerLoan.js}"></script>
 
-<script th:src="@{/JS/LocalDate/LocalDateFormater.js}"></script>
+<script th:src="@{/JS/jQueryTools.js}"></script>
 
 <title>Insert title here</title>
 </head>
 <body>
-<div th:id="loading" style="background-color: black;"> loading...</div>
-<div th:id="content">
-<h1 class="menu-text">Bienvenue</h1>
-<div id="date"></div>
-<!--  
-<table id="loans" >
-		<thead>
-			<tr>
-				<th>id</th>
-				<th>returnDate</th>
-				<th>postponed</th>
-				<th>book</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="loan:${list}">
-				<td th:text="${loan.id}"></td>
-				<td th:text="${loan.returnDate}"></td>
-				<td th:text="${loan.postponed}"></td>
-				<td th:text="${loan.book.title}"></td>
-			</tr>
-		</tbody>
-	</table>-->
-</div>
+	<div class="container-fluid text-center">
+
+<!--  <div th:id="loading" style="background-color: black;"> loading...</div>-->
+
+
+
+		<div class="row content">
+			<div class="col-xl-4 col-lg-5 col-md-12 ">
+				<span class="menu-text" >Calendrier</span><br>
+				<div class="d-inline-flex justify-content-center" id="date"></div>
+			</div>
+		<div class="col-xl-8 col-lg-7 col-md-12">
+			<span class="menu-text" > Résumer des livres empruntés</span>
+			<br>
+			<table class="table table-borderless table-sm loanSummary">				
+				<tr	th:if="${list==null}">
+					<td>Connectez vous pour affichez le résumer</td>
+				</tr>
+				<tr	th:if="${list !=null and list.empty}">
+					<td>Aucun emprunt en cours</td>
+				</tr>
+				<tr class="loanSummaryRows" th:if="${list !=null and !list.empty}" th:each="loan:${list}" th:classappend="${loan.daysLeft<0}?book-late-alert:''">
+					<td class="text-left" >			 		
+						<span >- </span>
+						<span th:text="${loan.bookTitle}"></span>
+						<span th:if="${loan.daysLeft < 0}">en <ins>retard</ins> était à retouner le : </span>
+						<span th:if="${loan.daysLeft >= 0}">à retourner au plus tard le : </span>
+						<span th:text="${loan.localizedFullDate}"></span>	
+						<br>					
+					</td>					
+					<td th:if= "${loan.postponed ==false}" class="text-left align-bottom">
+						<form  th:action="@{/postPone}" method="post">
+							<input type = "hidden" th:value="${loan.id}" name="loanId">
+							<span><sup>xxx</sup></span>
+							<input class="postPoneAsk"  type="submit" value="Demander un délai de 14 Jours" >					
+							<span><sup>xxx</sup></span>
+						</form>						
+					</td>
+					<td th:if= "${loan.postponed ==true}" class="text-left align-bottom">
+					<span><sup>xxx</sup></span>
+					<span ><del>Report déja appliqué</del></span>	
+					<span><sup>xxx</sup></span>
+					</td>							
+				</tr>				
+			</table>
+		</div>
+	</div>		
+</div>		
+	
+
+
+
 <script th:inline="javascript">
 var list = /*[[${list}]]*/ null;
-var dates = [new Date(2020,9,26)];
+var datepickerList = /*[[${datepickerInfo}]]*/ null;
+/*var dates = [new Date(2020,9,26)];
 var datum = new Date(2020,10,15);
-var today = new Date(2020,10,1);
-
+var today = new Date();
+var todayStr = new Date(2020,10,02);
+loanReturnDatesArray(list);
 function splitDateString(date){
 	return date.split("-");
-}
+}*/
 
-alert(today.getMonth());
-alert("2"+localDateFormater(today,"/JS/LocalDate/LocalDateFormat","fr"));
-
-datePickerSetting("#date");
+datePickerSetting("#date",datepickerList);
 
 $(document).ready(function(){
 	//$( "#date" ).datepicker( $.datepicker.regional[ "fr" ]);
@@ -61,12 +88,14 @@ $(document).ready(function(){
 	$(".ui-state-active").addClass("customActive")
 	window.top.window.setHomeIframeHeight();
 	
-});
+});/*
 function datePickerSetting(selector){
 	$( "#date" ).datepicker({ 
 	"datepicker" :	$.datepicker.regional[ "fr" ],		
-	"beforeShowDay": function(date){		
-		if(date.setHours(0,0,0) === datum.setHours(0,0,0) ){
+	"beforeShowDay": function(date){
+		bool = date.toDateString().includes(datum.toDateString());	
+		if(bool){
+			alert(date+"//"+datum)
 			// for calculation date difference	alert((Math.floor(parseInt(today.setHours(0,0,0)-datum.setHours(0,0,0))/(1000*60*60*24))));
 				
 			return [true, 'css-class-to-highlight', 'retouner \n le seigneur de s anneaux les deux tours'];
@@ -80,7 +109,7 @@ function datePickerSetting(selector){
 	 $( "#date" ).datepicker().addClass("body-font");
 	 
 	
-}
+}*/
 
 
 
@@ -92,7 +121,7 @@ function highlightDateToolTip(selector){
 	        delay: 0	        
 	      },
 	      //customclass
-	 tooltipClass:"tooltipUi"		
+	 tooltipClass:"datepicker-tooltip "		
 	});
 	
 }	

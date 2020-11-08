@@ -11,9 +11,9 @@ import std.libraryBookLoans.entities.Loan;
 @Repository
 public interface LoanDAO extends JpaRepositoryImplementation<Loan, Integer> {
 
-	public Optional<Loan> findById(Integer id);
+	public Optional<Loan> findByIdAndCustomerCustomerEmail(Integer id, String customerEmail);
 
-
+	public Optional<Loan> findByIdAndCustomerId(Integer loanId, Integer customerId);
 
 	public List<Loan> findByCustomerIdAndReturnedFalse(Integer id);
 
