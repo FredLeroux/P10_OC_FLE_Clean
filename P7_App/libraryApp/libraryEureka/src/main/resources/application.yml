@@ -1,0 +1,15 @@
+server:
+   port: 9900
+   
+spring:
+   application:
+          name: libraryEureka
+          
+eureka:
+   client:
+      registerWithEureka: false
+      fetchRegistry: false
+      serviceUrl:
+         defaultZone: http://localhost:9900/eureka/
+
+  

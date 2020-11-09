@@ -2,6 +2,7 @@ package std.libraryBookLoans.controller;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +31,20 @@ public class LibraryBookLoansController {
 	 * @param loanId
 	 * @param postponeDaysNumber
 	 * @param userName
-	 * @apiNote the daysOffList and holidays as to be managed in the method owner
+	 * @param unitNumber
+	 * @param unit
+	 * @apiNote
+	 * - period is defined by unitNumber x unit(ChronoUnit only days/weeks/months/years)
+	 *  <br>-The daysOffList and holidays as to be managed in the method owner
 	 *          micro-service id not used set them to null
 	 *
 	 */
 	@PostMapping(value = "/postpone")
 	public void postpone(@RequestParam(value = "loanId") Integer loanId,
 			@RequestParam(value = "userName") String userName,
-			@RequestParam(value = "postponeDaysNumber") Integer postponeDaysNumber) {
-		loan.postponeLoan(loanId,userName, postponeDaysNumber, null, null);
+			@RequestParam(value = "unitNumber") Integer unitNumber,
+			@RequestParam(value = "unit")ChronoUnit unit) {
+		loan.postponeLoan(loanId,userName, unitNumber,unit, null, null);
 
 	}
 

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -64,8 +65,8 @@ public class LibraryUiController {
 
 	@PostMapping(value = "/postPone")
 	public ModelAndView postPone(ModelAndView model, Integer loanId, Principal principal) {
-		methods.postPoneLoan(loanId,principal.getName(), 14);
-		return new ModelAndView("redirect:/welcome");
+		methods.postPoneLoan(loanId,principal.getName(), 4,ChronoUnit.WEEKS);
+		return new ModelAndView("redirect:/loanTracking");
 	}
 
 	@GetMapping(value = "login")

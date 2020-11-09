@@ -2,6 +2,7 @@ package std.libraryBookLoans.service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,9 +55,9 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public void createLoan(Integer custommerId, Integer bookId, Integer period) {
+	public void createLoan(Integer custommerId, Integer bookId, Integer unitNumber,ChronoUnit unit) {
 		Loan loan = new Loan();
-		loanDefaultValue(loan, period);
+		loanDefaultValue(loan, unitNumber,unit);
 		loan.setBook(settedLoanedBook(bookId));
 		loan.setCustomer(settedCustommerLoan(custommerId));
 		loanDAO.saveAndFlush(loan);
@@ -71,34 +72,34 @@ public class LoanServiceImpl implements LoanService {
 			loan.setReturned(true);
 			loan.getBook().setAvailability(true);
 			loanDAO.saveAndFlush(loan);
-		}else {
+		} else {
 			throw new LoanUnknown("Erreur aucune correspondance");
 		}
 	}
 
 	@Override
-	public void postponeLoan(Integer loanId, String userName, Integer postponeDays, ArrayList<DayOfWeek> daysOffList,
+	public void postponeLoan(Integer loanId, String userName, Integer unitNumber,ChronoUnit unit, ArrayList<DayOfWeek> daysOffList,
 			ArrayList<LocalDate> holidays) {
 		Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 		if (optLoan.isPresent()) {
 			Loan loan = optLoan.get();
 			loan.setReturnDate(
-					posponeDaysOffTakedInAccount(loan.getReturnDate(), postponeDays, daysOffList, holidays).toString());
+					posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber,unit, daysOffList, holidays).toString());
 			loan.setPostponed(true);
 			loanDAO.saveAndFlush(loan);
-		}else {
-			//TODO exception
+		} else {
+			// TODO exception
 			throw new NullPointerException();
 		}
 
 	}
 
-	private LocalDate posponeDaysOffTakedInAccount(String date, Integer daysToAdd, ArrayList<DayOfWeek> daysOffList,
+	private LocalDate posponeDaysOffTakedInAccount(String date, Integer unitNumber,ChronoUnit unit, ArrayList<DayOfWeek> daysOffList,
 			ArrayList<LocalDate> holidays) {
 		List<DayOfWeek> daysOff = daysOffList != null ? daysOffList : Collections.emptyList();
 		List<LocalDate> holidayList = holidays != null ? holidays : Collections.emptyList();
 		Boolean isDayOff = true;
-		LocalDate postponed = postponedDate(date, daysToAdd);
+		LocalDate postponed = postponedDate(date, unitNumber,unit);
 		while (isDayOff) {
 			if (daysOff.contains(postponed.getDayOfWeek()) || holidayList.contains(postponed)) {
 				postponed = postponed.plusDays(1);
@@ -109,8 +110,8 @@ public class LoanServiceImpl implements LoanService {
 		return postponed;
 	}
 
-	private void loanDefaultValue(Loan loan, Integer period) {
-		loan.setReturnDate(postponedDate(LocalDate.now().toString(), period).toString());
+	private void loanDefaultValue(Loan loan, Integer unitNumber,ChronoUnit unit) {
+		loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber,unit).toString());
 		loan.setReturned(false);
 		loan.setPostponed(false);
 	}
@@ -169,8 +170,26 @@ public class LoanServiceImpl implements LoanService {
 		return null;
 	}
 
-	private LocalDate postponedDate(String date, Integer daysToAdd) {
-		return LocalDate.parse(date).plusDays(daysToAdd);
+	/**
+	 *
+	 * @param date
+	 * @param numberChronoOfUnit
+	 * @param unit is the ChronoUnit wished,waiting for days/weeks/months/years only
+	 * @return date postponed of daysToAdd
+	 *
+	 */
+	private LocalDate postponedDate(String date, Integer numberChronoOfUnit,ChronoUnit unit) {
+		if(ChronoUnit.DAYS.equals(unit)) {
+			return LocalDate.parse(date).plusDays(numberChronoOfUnit);
+		}else if(ChronoUnit.WEEKS.equals(unit)) {
+			return LocalDate.parse(date).plusWeeks(numberChronoOfUnit);
+		}else if(ChronoUnit.MONTHS.equals(unit)) {
+			return LocalDate.parse(date).plusMonths(numberChronoOfUnit);
+		}else if(ChronoUnit.YEARS.equals(unit)) {
+			return LocalDate.parse(date).plusYears(numberChronoOfUnit);
+		}
+		//TODO exception
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

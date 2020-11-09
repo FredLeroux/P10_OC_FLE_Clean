@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.dto.UiLoanDateAndBooksList;
@@ -47,12 +48,9 @@ public class ControllerMethods {
 				.compareTo(parseStringToDate(O2.getReturnDate())));
 	}
 
-	public void postPoneLoan(Integer loanId, String userName, Integer postponeDaysNumber) {
-			libraryBookLoansProxy.postpone(loanId,userName, postponeDaysNumber);
+	public void postPoneLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit) {
+		libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
 	}
-
-
-
 
 	/**
 	 *
