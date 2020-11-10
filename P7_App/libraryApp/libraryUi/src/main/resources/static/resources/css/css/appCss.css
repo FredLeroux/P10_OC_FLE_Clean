@@ -1,18 +1,18 @@
 @font-face {
   font-family: header-font;
-  src: url("/fonts/head/Beguns FREE.ttf");
+  src: url("/resources/fonts/head/Beguns FREE.ttf");
 }
 @font-face {
   font-family: sub-header-font;
-  src: url("/fonts/head/Old Bookshop HK.ttf");
+  src: url("/resources/fonts/head/Old Bookshop HK.ttf");
 }
 @font-face {
   font-family: menu-font;
-  src: url("/fonts/menu/Birds of Paradise.ttf");
+  src: url("/resources/fonts/menu/Birds of Paradise.ttf");
 }
 @font-face {
   font-family: body-font;
-  src: url("/fonts/body/Satisfy-Regular.ttf");
+  src: url("/resources/fonts/body/Satisfy-Regular.ttf");
 }
 iframe {
   width: 100%;

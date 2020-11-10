@@ -2,19 +2,34 @@ package std.libraryAPIGatewayZuul.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ZullGatewayController {
 
 	@GetMapping("/")
-	public ModelAndView home() {
-		return new ModelAndView("redirect:/libraryUi/");
+	public String home() {
+		return "ui";
 	}
 
-	@GetMapping("/welcome")
-	public ModelAndView welcome() {
-		return new ModelAndView("redirect:/libraryUi/welcome");
+	@GetMapping("/loanTracking")
+	public String loanTracking() {
+		return "/ui/loanTracking";
 	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "/ui/login";
+	}
+
+	@GetMapping("/bookList")
+	public String bookList() {
+		return "/ui/bookList";
+	}
+
+	/*@PostMapping("/letsGo")
+	public String performLogin() {
+		return "/ui/letsGo";
+	}*/
 
 }

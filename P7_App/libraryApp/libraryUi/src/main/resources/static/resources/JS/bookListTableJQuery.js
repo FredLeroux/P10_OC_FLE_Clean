@@ -10,7 +10,7 @@ example using thymeleaf
 function bookListTable() {
 	$("#booksList").DataTable({
 		language: {
-			"url": "/JQuery/JQueryDataTable/i18n/French/booksTable_fr.json"
+			"url": "/resources/JQuery/JQueryDataTable/i18n/French/booksTable_fr.json"
 		},
 		columns: [
 			{ "searchable": false },

@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LoanInfoBean;
 
-@FeignClient(name = "libraryBookLoans", url = "localhost:9005")
+@FeignClient(name = "gateway-zuul",url = "localhost:9005")
+@RibbonClient(name = "/libraryBookLoans")
 public interface LibraryBookLoansProxy {
 
 	@GetMapping(value = "/libraryBookLoans/loansList")

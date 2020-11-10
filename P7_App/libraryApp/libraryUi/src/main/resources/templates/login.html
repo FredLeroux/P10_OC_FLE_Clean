@@ -43,7 +43,7 @@ $(document).ready(function(){
  		<p th:replace="appFragments :: backHomeButton_nav"></p>
  		</div>
  		<div class="col-md-12 col-lg-10 ">
-			<form th:id="logForm" th:action="@{/login}" th:method ="post" class="col-md-6 offset-md-2 shadow-lg p-1 mb-4 mt-4 log">
+			<form th:id="logForm" th:action="@{/letsGo}" th:method ="post" class="col-md-6 offset-md-2 shadow-lg p-1 mb-4 mt-4 log">
   	<div th:if="${param.error}" class="alert alert-danger mt-2 p-1 text-center">    
     	<div>
     		<strong><i class="fas fa-at"></i></strong> ou <strong><i class="fas fa-key"></i></strong> incorrect

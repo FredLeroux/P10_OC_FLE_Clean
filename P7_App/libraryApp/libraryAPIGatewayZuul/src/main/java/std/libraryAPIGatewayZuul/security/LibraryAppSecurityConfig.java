@@ -1,4 +1,4 @@
-package std.libraryUi.security;
+package std.libraryAPIGatewayZuul.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,12 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import std.libraryUi.security.configClass.UnauthentificatedRequest;
-import std.libraryUi.security.encoder.LibraryEncoder;
-import std.libraryUi.security.service.LibraryUserDetailsService;
+import std.libraryAPIGatewayZuul.security.encoder.LibraryEncoder;
+import std.libraryAPIGatewayZuul.security.service.LibraryUserDetailsService;
 
-//@Configuration
-//@EnableWebSecurity
+
+@Configuration
+@EnableWebSecurity
 public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -25,10 +25,10 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-	@Bean
+	/*@Bean
 	public UnauthentificatedRequest UnauthentificatedRequest() {
 		return new UnauthentificatedRequest();
-	}
+	}*/
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
