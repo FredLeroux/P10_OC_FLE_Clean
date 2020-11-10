@@ -52,13 +52,13 @@ public class LibraryUiController {
 	@GetMapping(value = "/loanTracking")
 	public ModelAndView welcome(ModelAndView model, Principal principal) {
 		model.setViewName("loanTracking");
-	//	System.out.println("authentified= "+methods.isUserAuthenticated() );
-		//if (methods.isUserAuthenticated()) {
+		System.out.println("authentified= "+methods.isUserAuthenticated() );
+		if (methods.isUserAuthenticated()) {
 			List<LoanInfoBean> list = libraryBookLoansProxy.loansList(principal.getName());
 			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
 			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
 			System.out.println("backtoLibraryUi api");
-	//	}
+		}
 		return model;
 	}
 

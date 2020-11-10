@@ -23,7 +23,7 @@ public class LogFilter extends ZuulFilter {
 
 	@Override
 	public boolean shouldFilter() {
-		System.out.println("rFilter");
+		//System.out.println("rFilter");
 		return true;
 	}
 
@@ -33,7 +33,7 @@ public class LogFilter extends ZuulFilter {
 
 
 
-	      System.out.println("**** Requête interceptée ! L'URL est : {} " + req.getRequestURL()+"****");
+	     // System.out.println("**** Requête interceptée ! L'URL est : {} " + req.getRequestURL()+"****");
 
 	      RequestContext context = RequestContext.getCurrentContext();
 

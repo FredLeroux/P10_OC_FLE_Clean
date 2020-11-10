@@ -11,10 +11,11 @@ public class ZullGatewayController {
 
 	@GetMapping("/")
 	public String home() {
+		System.out.println("auth= "+ isUserAuthenticated());
 		return "ui";
 	}
 
-	@GetMapping("/loanTracking")
+	@GetMapping("loanTracking")
 	public String loanTracking() {
 		System.out.println("auth= "+ isUserAuthenticated());
 		return "/ui/loanTracking";
@@ -25,9 +26,9 @@ public class ZullGatewayController {
 		return "/ui/login";
 	}
 
-	@GetMapping("/bookList")
+	@GetMapping("/booksList")
 	public String bookList() {
-		return "/ui/bookList";
+		return "/ui/booksList";
 	}
 
 	/*@PostMapping("/letsGo")
