@@ -8,7 +8,8 @@ spring:
   application:
     name: gateway-zuul
 zuul:
-  routes:
+  #sensitiveHeaders:
+  routes:    
     libraryBookCase:
       serviceId: libraryBookCase
     libraryBookLoans:
@@ -21,8 +22,7 @@ zuul:
       serviceId: libraryUi
     resources:
       url: http://localhost:9000/resources
-    ui:
-      sensitiveHeaders:
+    ui:      
       url: libraryUi
       
    #eager avoid issue on ribbon filter at startup
