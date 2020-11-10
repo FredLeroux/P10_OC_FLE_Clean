@@ -11,9 +11,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,13 +52,13 @@ public class LibraryUiController {
 	@GetMapping(value = "/loanTracking")
 	public ModelAndView welcome(ModelAndView model, Principal principal) {
 		model.setViewName("loanTracking");
-		System.out.println("authentified= "+methods.isUserAuthenticated() );
-		if (methods.isUserAuthenticated()) {
+	//	System.out.println("authentified= "+methods.isUserAuthenticated() );
+		//if (methods.isUserAuthenticated()) {
 			List<LoanInfoBean> list = libraryBookLoansProxy.loansList(principal.getName());
 			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
 			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
 			System.out.println("backtoLibraryUi api");
-		}
+	//	}
 		return model;
 	}
 
