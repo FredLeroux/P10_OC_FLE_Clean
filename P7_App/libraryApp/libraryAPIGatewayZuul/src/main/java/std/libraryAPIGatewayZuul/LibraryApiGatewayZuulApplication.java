@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableEurekaClient
-@EnableFeignClients(basePackages = "std.libraryAPIGatewayZuul")
 public class LibraryApiGatewayZuulApplication {
 
 	public static void main(String[] args) {

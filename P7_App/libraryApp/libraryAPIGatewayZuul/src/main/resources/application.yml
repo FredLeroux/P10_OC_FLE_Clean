@@ -1,0 +1,35 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9900/eureka/
+server:
+  port: 9005
+spring:
+  application:
+    name: gateway-zuul
+zuul:
+  routes:
+    libraryBookCase:
+      serviceId: libraryBookCase
+    libraryBookLoans:
+      serviceId: libraryBookLoans
+    libraryBuildings:
+      serviceId: libraryBuildings
+    libraryCustomers:
+      serviceId: libraryCustomers
+    libraryUi:
+      serviceId: libraryUi
+    resources:
+      url: http://localhost:9000/resources
+    ui:
+      sensitiveHeaders:
+      url: libraryUi
+      
+   #eager avoid issue on ribbon filter at startup
+  ribbon:
+    eager-load:
+      enabled: true
+   
+      
+
+     

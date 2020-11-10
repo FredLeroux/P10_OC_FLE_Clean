@@ -13,8 +13,8 @@ import std.libraryUi.security.configClass.UnauthentificatedRequest;
 import std.libraryUi.security.encoder.LibraryEncoder;
 import std.libraryUi.security.service.LibraryUserDetailsService;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired

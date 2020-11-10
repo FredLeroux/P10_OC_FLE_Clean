@@ -51,7 +51,9 @@ $(document).ready(function(){
     </div>
     <div class="form-group">			
    		<div class="input-group mb-2 mt-2 p-1 rounded-lg">
-   			<div class="input-group-prepend ">   			 
+   			<div class="input-group-prepend "> 
+   			<!-- on lable attribut th:for allow when on click focus to input setted, usefull with jquery button 
+   			wich applytheme but also button type so by this way button is not useless -->  			 
      			<label th:for="username" class="input-group-text" th:id="mail">
      				<strong><i class="fas fa-at"></i></strong>
      			</label>
@@ -87,7 +89,6 @@ $(document).ready(function(){
 
 </div>
 <script type="text/javascript">
-$("input").labels().addClass("ui-state-highlight");
 $("#pass").mousedown(function(){
 	$('#password').attr("type","text")
 });
