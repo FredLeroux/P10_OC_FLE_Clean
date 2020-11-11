@@ -42,7 +42,7 @@ public class LogFilter extends ZuulFilter {
 
 	@Override
 	public String filterType() {
-		return "error";
+		return "pre";
 	}
 
 	@Override
