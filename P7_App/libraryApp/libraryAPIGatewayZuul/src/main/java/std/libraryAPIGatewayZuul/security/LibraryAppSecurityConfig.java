@@ -16,7 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import std.libraryAPIGatewayZuul.security.encoder.LibraryEncoder;
 import std.libraryAPIGatewayZuul.security.service.LibraryUserDetailsService;
 
-
 @Configuration
 @EnableWebSecurity
 public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,60 +26,19 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LibraryEncoder encoder;
 
-
-
-
-	@Bean
-	public LogSuccessCustomHandler authSuccessHandler() {
-		return new LogSuccessCustomHandler();
-	}
-
-
-
-
-
-
-
-
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors();
-		 http.csrf().disable();
-		 http.authorizeRequests().antMatchers("/", "/login", "/logout","/letsGo").permitAll();
-		 http.sessionManagement()
-	        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-
-
-
-		http
-		.authorizeRequests()
-			.antMatchers("/booksList").hasAnyAuthority("TYPE_admin","TYPE_user")
-			.and()
-			.headers().frameOptions().sameOrigin()
-			.and()
-			.formLogin().loginPage("/login")
-			.and()
-			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+		http.csrf().disable();
+		http.authorizeRequests().antMatchers("/", "/login", "/logout", "/letsGo").permitAll();
+		http.authorizeRequests().antMatchers("/booksList").hasAnyAuthority("TYPE_admin", "TYPE_user")
+		.and().headers().frameOptions().sameOrigin()
+		.and().formLogin().loginPage("/login")
+		.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 	}
-
 
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(user).passwordEncoder(encoder.bCryptEncoder());
-    }
-
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowCredentials(true);
-		configuration.addAllowedOrigin("http://localhost:9005");
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(user).passwordEncoder(encoder.bCryptEncoder());
 	}
-
-
-
 
 }
