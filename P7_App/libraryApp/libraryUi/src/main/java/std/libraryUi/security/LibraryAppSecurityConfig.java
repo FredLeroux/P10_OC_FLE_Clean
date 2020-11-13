@@ -12,8 +12,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -22,8 +22,11 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 //Allow use of security dependency w/o login auto implemented
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//http.httpBasic().disable();
+		http.httpBasic().disable();
 		http.headers().frameOptions().sameOrigin();
+		http
+		.authorizeRequests()
+			.antMatchers("/booksList").hasAnyAuthority("TYPE_admin","TYPE_user");
 
 	}
 

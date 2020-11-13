@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import std.libraryAPIGatewayZuul.security.encoder.LibraryEncoder;
 import std.libraryAPIGatewayZuul.security.service.LibraryUserDetailsService;
@@ -43,7 +45,7 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
+		http.cors();
 		 http.csrf().disable();
 		 http.authorizeRequests().antMatchers("/", "/login", "/logout","/letsGo").permitAll();
 		 http.sessionManagement()
@@ -68,6 +70,15 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(user).passwordEncoder(encoder.bCryptEncoder());
     }
 
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowCredentials(true);
+		configuration.addAllowedOrigin("http://localhost:9005");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 
 
