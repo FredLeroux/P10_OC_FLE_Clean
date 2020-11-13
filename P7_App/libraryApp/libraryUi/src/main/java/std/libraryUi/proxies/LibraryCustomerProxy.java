@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LibraryCustomerLogBean;
 
-@FeignClient(name = "gateway-zuul",url = "localhost:9005" )
+@FeignClient(name = "gateway-zuul" )
 @RibbonClient(name = "libraryCustomers")
 public interface LibraryCustomerProxy {
 

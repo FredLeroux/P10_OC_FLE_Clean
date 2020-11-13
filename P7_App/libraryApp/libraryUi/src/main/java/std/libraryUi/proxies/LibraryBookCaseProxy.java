@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import std.libraryUi.beans.BookKindsBean;
 import std.libraryUi.beans.BooksBean;
 
-@FeignClient(name = "gateway-zuul",url = "localhost:9005")
-@RibbonClient(name = "/libraryBookCase")
+@FeignClient(name = "gateway-zuul")
+@RibbonClient(name = "libraryBookCase")
 public interface LibraryBookCaseProxy {
 
 	@GetMapping(value = "/libraryBookCase/books")///libraryBookCase

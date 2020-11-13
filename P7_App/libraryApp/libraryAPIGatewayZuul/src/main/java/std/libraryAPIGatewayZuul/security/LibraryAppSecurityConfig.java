@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import std.libraryAPIGatewayZuul.security.encoder.LibraryEncoder;
@@ -25,16 +27,29 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-	/*@Bean
-	public UnauthentificatedRequest UnauthentificatedRequest() {
-		return new UnauthentificatedRequest();
-	}*/
+
+	@Bean
+	public LogSuccessCustomHandler authSuccessHandler() {
+		return new LogSuccessCustomHandler();
+	}
+
+
+
+
+
+
+
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		 http.csrf().disable();
 		 http.authorizeRequests().antMatchers("/", "/login", "/logout","/letsGo").permitAll();
+		 http.sessionManagement()
+	        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+
+
 
 		http
 		.authorizeRequests()
@@ -42,7 +57,7 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.headers().frameOptions().sameOrigin()
 			.and()
-			.formLogin().loginPage("/login").loginProcessingUrl("/letsGo")
+			.formLogin().loginPage("/login")
 			.and()
 			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 	}

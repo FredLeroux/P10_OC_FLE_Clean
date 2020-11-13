@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LoanInfoBean;
 
-@FeignClient(name = "gateway-zuul",url = "localhost:9005")
-@RibbonClient(name = "/libraryBookLoans")
+@FeignClient(name = "gateway-zuul")
+@RibbonClient(name = "libraryBookLoans")
 public interface LibraryBookLoansProxy {
 
 	@GetMapping(value = "/libraryBookLoans/loansList")

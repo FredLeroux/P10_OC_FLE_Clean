@@ -1,17 +1,18 @@
 package std.libraryUi.controller;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import std.libraryUi.beans.LoanInfoBean;
@@ -31,7 +33,13 @@ import std.libraryUi.proxies.LibraryBuildingsProxy;
 public class LibraryUiController {
 
 	@Autowired
+	private ApplicationContext appContext;
+
+	@Autowired
 	LibraryBookCaseProxy libraryCaseProxy;
+
+	@Autowired
+	HttpServletRequest request;
 
 	@Autowired
 	LibraryBuildingsProxy libraryBuildingsProxy;
@@ -49,16 +57,18 @@ public class LibraryUiController {
 		return model;
 	}
 
+
 	@GetMapping(value = "/loanTracking")
-	public ModelAndView welcome(ModelAndView model, Principal principal) {
+	public ModelAndView welcome(ModelAndView model, Principal principal,HttpServletRequest request) {
 		model.setViewName("loanTracking");
-		System.out.println("authentified= "+methods.isUserAuthenticated() );
-		if (methods.isUserAuthenticated()) {
-			List<LoanInfoBean> list = libraryBookLoansProxy.loansList(principal.getName());
+		//HttpSession session = request.getSession();
+		//System.out.println(session.getAttribute("code"));
+		//if (methods.isUserAuthenticated()) {
+			List<LoanInfoBean> list = libraryBookLoansProxy.loansList("mail"/*principal.getName()*/);
 			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
 			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
 			System.out.println("backtoLibraryUi api");
-		}
+		//}
 		return model;
 	}
 

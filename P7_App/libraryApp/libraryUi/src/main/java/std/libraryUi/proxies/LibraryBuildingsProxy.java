@@ -10,8 +10,8 @@ import std.libraryUi.beans.LibraryBuildingBean;
 
 
 
-@FeignClient(name = "gateway-zuul",url = "localhost:9005")
-@RibbonClient(name = "/libraryBuildings")
+@FeignClient(name = "gateway-zuul")
+@RibbonClient(name = "libraryBuildings")
 public interface LibraryBuildingsProxy {
 
 	@GetMapping(value = "/libraryBuildings/buildings")///libraryBuildings

@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
@@ -32,7 +35,7 @@ public class LogFilter extends ZuulFilter {
 		HttpServletRequest req = RequestContext.getCurrentContext().getRequest();
 
 
-
+		//System.out.println("userAuth"+isUserAuthenticated());
 	     // System.out.println("**** Requête interceptée ! L'URL est : {} " + req.getRequestURL()+"****");
 
 	      RequestContext context = RequestContext.getCurrentContext();
@@ -48,6 +51,15 @@ public class LogFilter extends ZuulFilter {
 	@Override
 	public int filterOrder() {
 		return 0;
+	}
+
+	public Boolean isUserAuthenticated() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -5,8 +5,8 @@ import org.springframework.cloud.netflix.zuul.filters.post.LocationRewriteFilter
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@EnableZuulProxy
+//@Configuration
+//@EnableZuulProxy
 public class Config {
 
 
