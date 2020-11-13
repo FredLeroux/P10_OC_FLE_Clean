@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.security.encoder;
+package std.libraryUi.configuration.security.encoder;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;

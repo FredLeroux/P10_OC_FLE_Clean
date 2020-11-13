@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.security.encoder;
+package std.libraryUi.configuration.security.encoder;
 
 import java.security.SecureRandom;
 

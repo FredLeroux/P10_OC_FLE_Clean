@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.security.service;
+package std.libraryUi.configuration.security.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import std.libraryAPIGatewayZuul.security.beans.LibraryCustomerLogBean;
-import std.libraryAPIGatewayZuul.security.proxies.LibraryCustomerProxy;
+import std.libraryUi.beans.LibraryCustomerLogBean;
+import std.libraryUi.proxies.LibraryCustomerProxy;
+
+
 
 
 
