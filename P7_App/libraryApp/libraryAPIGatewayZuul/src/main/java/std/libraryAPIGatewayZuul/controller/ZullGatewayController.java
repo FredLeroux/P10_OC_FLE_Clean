@@ -1,8 +1,5 @@
 package std.libraryAPIGatewayZuul.controller;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,13 +8,13 @@ public class ZullGatewayController {
 
 	@GetMapping("/")
 	public String home() {
-		System.out.println("auth= "+ isUserAuthenticated());
+		//System.out.println("auth= "+ isUserAuthenticated());
 		return "ui";
 	}
 
 	@GetMapping("loanTracking")
 	public String loanTracking() {
-		System.out.println("auth= "+ isUserAuthenticated());
+	//	System.out.println("auth= "+ isUserAuthenticated());
 		return "/ui/loanTracking";
 	}
 
@@ -36,13 +33,6 @@ public class ZullGatewayController {
 		return "/ui/letsGo";
 	}*/
 
-	public Boolean isUserAuthenticated() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 
 }
