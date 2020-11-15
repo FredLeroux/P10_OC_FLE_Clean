@@ -41,6 +41,8 @@ public class Customer {
 	private Boolean customerCredentialNonExpired;
 	@Column(name = "customer_account_non_locked")
 	private Boolean customerAccountNonLocked;
+	@Column(name ="customer_auth_token")
+	private String customerAuthToken;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "library_role_fk")

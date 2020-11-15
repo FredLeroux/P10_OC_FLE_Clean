@@ -14,6 +14,7 @@ public class CustomerLogDTO {
 
 	private String customerEmail;
 	private String customerPassword;
+	private String customerAuthToken;
 	private LibraryRoleDTO role;
 
 }

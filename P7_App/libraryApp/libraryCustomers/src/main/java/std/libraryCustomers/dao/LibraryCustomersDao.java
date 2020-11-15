@@ -13,6 +13,8 @@ public interface LibraryCustomersDao extends JpaRepository<Customer, Integer>{
 
 	public Optional<Customer> findByCustomerEmail(String customerEmail);
 
+	public Optional<Customer> findByCustomerAuthToken(String customerAuthToken);
+
 
 
 

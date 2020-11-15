@@ -39,7 +39,7 @@ public class ControllerMethods {
 			return false;
 		}
 	}
-//1751940581
+
 	public List<UiLoanInfoDTO> loanInfoDTOList(List<LoanInfoBean> list, String language) {
 		dateSortedList(list);
 		return list.stream().map(O -> loanInfoDTOMapper(O, language)).collect(Collectors.toList());

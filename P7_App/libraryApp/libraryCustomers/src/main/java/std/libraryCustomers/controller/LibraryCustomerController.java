@@ -1,7 +1,9 @@
 package std.libraryCustomers.controller;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +41,12 @@ public class LibraryCustomerController {
 		System.out.println("log");
 		CustomerLogDTO dto = serviceCustomer.findByCustomerEmail(customerEmail);
 		return dto;
+	}
+
+	@PostMapping("/authToken")
+	public void authToken(@RequestParam(value = "userName") String userName, @RequestParam(value="token") String token) {
+		System.out.println("tokencontroller");
+		serviceCustomer.addAuth(userName, token);
 	}
 
 }

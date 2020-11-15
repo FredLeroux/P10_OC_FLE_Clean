@@ -14,6 +14,7 @@ public class LibraryCustomerLogBean {
 
 	private String customerEmail;
 	private String customerPassword;
+	private String customerAuthToken;
 	private LibraryRoleBean role;
 
 }

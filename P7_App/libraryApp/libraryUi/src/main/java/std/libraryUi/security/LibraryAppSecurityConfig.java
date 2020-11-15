@@ -24,9 +24,9 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic().disable();
 		http.headers().frameOptions().sameOrigin();
-		http
+	/*	http
 		.authorizeRequests()
-			.antMatchers("/booksList").hasAnyAuthority("TYPE_admin","TYPE_user");
+			.antMatchers("/booksList").hasAnyAuthority("TYPE_admin","TYPE_user");*/
 
 	}
 

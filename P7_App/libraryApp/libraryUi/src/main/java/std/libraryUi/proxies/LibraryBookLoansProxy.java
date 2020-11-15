@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import std.libraryUi.beans.LoanInfoBean;
 
 @FeignClient(name = "gateway-zuul")
@@ -20,6 +21,8 @@ public interface LibraryBookLoansProxy {
 
 	@GetMapping(value = "/libraryBookLoans/loansList")
 	public List<LoanInfoBean> loansList(@RequestParam(value = "userName") String userName);
+
+
 
 	/**
 	 *

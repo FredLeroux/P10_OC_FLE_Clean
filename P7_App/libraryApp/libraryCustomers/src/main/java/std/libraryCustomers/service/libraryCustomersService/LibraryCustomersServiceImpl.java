@@ -1,5 +1,7 @@
 package std.libraryCustomers.service.libraryCustomersService;
 
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,4 +65,16 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 		return (O) mapper.map(source, destination.getClass());
 	}
 
+	@Override
+	public void addAuth(String userName, String token) {
+		Optional<Customer> optCustomer = dao.findByCustomerEmail(userName);
+		System.out.println(optCustomer.isPresent());
+		if(optCustomer.isPresent()) {
+			Customer customer = optCustomer.get();
+			System.out.println(customer.getCustomerEmail());
+			System.out.println(token);
+			customer.setCustomerAuthToken(token);
+			dao.saveAndFlush(customer);
+	}
+	}
 }
