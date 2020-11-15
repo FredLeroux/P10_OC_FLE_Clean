@@ -69,6 +69,8 @@ public class ControllerMethods {
 		return new ArrayList<>(lH.values());
 	}
 
+
+
 	private void dateWithAssociatedBooks(LinkedHashMap<String, UiLoanDateAndBooksList> lH, LoanInfoBean loanInfoBean) {
 		String key = loanInfoBean.getReturnDate();
 		if (lH.containsKey(key)) {

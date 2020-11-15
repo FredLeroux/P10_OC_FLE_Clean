@@ -16,4 +16,7 @@ public interface LibraryCustomerProxy {
 	@GetMapping(value = "/libraryCustomers/getCustomerLog")//libraryCustomers
 	public Optional<LibraryCustomerLogBean> getCustomer(@RequestParam(value = "username") String customerEmail);
 
+	@GetMapping("/libraryCustomers/getCustomer")
+	public String getCustomerUserName(@RequestParam(value = "token") String token);
+
 }

@@ -30,15 +30,9 @@
 
 
 </div>
-<p th:text ="${#authentication.name}"></p>
-<p th:if = "${#authentication.name == 'anonymousUser'}">
-			<a th:id="logBtn" href="/login">Connexion</a>
-		</p>
-		<p th:unless = "${#authentication.name == 'anonymousUser'}">
-			<a th:id="unlogBtn" href="/logout">Déconnexion</a>
-		</p>
-
-
+aaa
+<p th:text=${session.logged}></p>
+<p th:text=${model}></p>
 <script th:inline="javascript">
 
 

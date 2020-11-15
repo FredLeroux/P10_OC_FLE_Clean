@@ -16,6 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import std.libraryAPIGatewayZuul.security.encoder.LibraryEncoder;
 import std.libraryAPIGatewayZuul.security.service.LibraryUserDetailsService;
 
+
 @Configuration
 @EnableWebSecurity
 public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,7 +31,7 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "/letsGo").permitAll();
-		http.authorizeRequests().antMatchers("/booksList","/authToken").hasAnyAuthority("TYPE_admin", "TYPE_user")
+		http.authorizeRequests().antMatchers("/authToken").hasAnyAuthority("TYPE_admin", "TYPE_user")
 		.and().headers().frameOptions().sameOrigin()
 		.and().formLogin().loginPage("/login")
 		.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
@@ -40,5 +41,8 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(user).passwordEncoder(encoder.bCryptEncoder());
 	}
+
+
+
 
 }

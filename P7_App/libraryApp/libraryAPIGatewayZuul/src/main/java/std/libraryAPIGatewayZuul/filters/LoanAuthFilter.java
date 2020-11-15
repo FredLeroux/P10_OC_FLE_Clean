@@ -21,8 +21,10 @@ import org.springframework.stereotype.Component;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.General;
 
 import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
+import std.libraryAPIGatewayZuul.filters.filtersMethods.generalAuth.GeneralAuthMethodService;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.LoanAuthFilterMethodService;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.LoanAuthFilterMethodServiceImpl;
 import std.libraryAPIGatewayZuul.security.codeGenerator.CodeGenerator;
@@ -35,7 +37,9 @@ public class LoanAuthFilter extends ZuulFilter {
 	private LoanAuthFilterMethodService loanAuth;
 
 	@Autowired
-	HttpServletResponse rep;
+	private GeneralAuthMethodService generalAuth;
+
+
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
 
@@ -47,7 +51,8 @@ public class LoanAuthFilter extends ZuulFilter {
 
 	@Override
 	public Object run() throws ZuulException {
-	//	loanAuth.authTokenManagement("loanTracking","token", 60, true);
+		generalAuth.isKnown();
+		loanAuth.authTokenManagement("loanTracking","token", 60, true);
 		return null;
 	}
 

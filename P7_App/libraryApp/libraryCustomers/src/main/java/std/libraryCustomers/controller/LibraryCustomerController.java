@@ -43,6 +43,11 @@ public class LibraryCustomerController {
 		return dto;
 	}
 
+	@GetMapping("/getCustomer")
+	public String getCustomerUserName(@RequestParam(value = "token") String token) {
+		return serviceCustomer.findByAuthToken(token).getCustomerEmail().toString();
+	}
+
 	@PostMapping("/authToken")
 	public void authToken(@RequestParam(value = "userName") String userName, @RequestParam(value="token") String token) {
 		System.out.println("tokencontroller");

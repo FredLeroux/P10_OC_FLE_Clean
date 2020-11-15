@@ -10,6 +10,7 @@ import std.libraryCustomers.dao.LibraryCustomersDao;
 import std.libraryCustomers.dao.LibraryRolesDAO;
 import std.libraryCustomers.dto.CustomerLogDTO;
 import std.libraryCustomers.dto.CustomerSaveDTO;
+import std.libraryCustomers.dto.CustomerUserNameDTO;
 import std.libraryCustomers.dto.LibraryRoleDTO;
 import std.libraryCustomers.entities.Customer;
 import std.libraryCustomers.entities.LibraryRole;
@@ -27,6 +28,7 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 	private ModelMapper mapper = new ModelMapper();
 	private Customer customer = new Customer();
 	private CustomerLogDTO customerLogDTO = new CustomerLogDTO();
+	private CustomerUserNameDTO customerUserNameDTO =new CustomerUserNameDTO();
 	private LibraryRoleDTO libraryRoleDTO = new LibraryRoleDTO();
 
 	@Override
@@ -39,8 +41,19 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 		return dto;
 		}
 		return null;
-
 	}
+
+
+	@Override
+	public CustomerUserNameDTO findByAuthToken(String authToken) {
+		if(dao.findByCustomerAuthToken(authToken).isPresent()) {
+			Customer customer = dao.findByCustomerAuthToken(authToken).get();
+			CustomerUserNameDTO dto = mapper(customer,customerUserNameDTO);
+			return dto;
+			}
+			return null;
+		}
+
 
 	@Override
 	public void saveCustommer(CustomerSaveDTO customerDTO) {
@@ -77,4 +90,5 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 			dao.saveAndFlush(customer);
 	}
 	}
+
 }

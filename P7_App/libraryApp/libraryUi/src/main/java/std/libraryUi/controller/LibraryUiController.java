@@ -2,19 +2,20 @@ package std.libraryUi.controller;
 
 import java.security.Principal;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,11 +30,10 @@ import std.libraryUi.controller.controllerMethods.ControllerMethods;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryBuildingsProxy;
+import std.libraryUi.proxies.LibraryCustomerProxy;
 
 @Controller
 public class LibraryUiController {
-
-
 
 	@Autowired
 	private LibraryBookCaseProxy libraryCaseProxy;
@@ -45,42 +45,35 @@ public class LibraryUiController {
 	private LibraryBookLoansProxy libraryBookLoansProxy;
 
 	@Autowired
+	private LibraryCustomerProxy customer;
+
+	@Autowired
 	private ControllerMethods methods;
 
 	@GetMapping(value = "/")
-	public ModelAndView home(ModelAndView model, Principal principal, Locale timezone) {
+	public ModelAndView home(ModelAndView model, Principal principal, Locale timezone, HttpServletRequest request,
+			HttpSession session) {
 		model.setViewName("home");
-
+		if (request.getHeader("isKnown").equals("true")) {
+			session.setAttribute("logged", "true");
+		}
 		return model;
 	}
 
 	@GetMapping(value = "/loanTracking")
-	public ModelAndView welcome(ModelAndView model, Principal principal, HttpServletRequest request
-			 ) {
+	public ModelAndView welcome(ModelAndView model, Principal principal, HttpServletRequest request) {
 		model.setViewName("loanTracking");
-		/*if(request.getHeader("token") !=null) {
-		/*	UsernamePasswordAuthenticationToken authReq
-			 = new UsernamePasswordAuthenticationToken("mail", "pass");*/
-		/*	Authentication auth = new UsernamePasswordAuthenticationToken("mail", "pass");
-			SecurityContext sc = SecurityContextHolder.getContext();
-			sc.setAuthentication(auth);
-			System.out.println("security Context setted");
-		}*/
-		// HttpSession session = request.getSession();
-		// System.out.println(session.getAttribute("code"));
-		// if (methods.isUserAuthenticated()) {
-		System.out.println("token = " + request.getHeader("token"));
-		List<LoanInfoBean> list = libraryBookLoansProxy.loansList("mail"/* principal.getName() */);
-		model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
-		model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
+		List<LoanInfoBean> list = new ArrayList<LoanInfoBean>();
+		if (request.getHeader("token") != null) {
+			list = libraryBookLoansProxy
+					.loansList(customer.getCustomerUserName(request.getHeader("token"))/* principal.getName() */);
+			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
+			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
+
+		}
+
 		System.out.println("backtoLibraryUi api");
 		// }
-
-
-
-
-
-
 
 		return model;
 	}
@@ -97,13 +90,12 @@ public class LibraryUiController {
 	}
 
 	@GetMapping(value = "/booksList")
-	public ModelAndView allBook(ModelAndView model, Principal principal) {
+	public ModelAndView allBook(ModelAndView model, HttpServletRequest request, HttpSession session) {
 		model.setViewName("booksList");
 		model.addObject("list", libraryCaseProxy.books());
 		model.addObject("buildings", libraryBuildingsProxy.getBuildings());
 		model.addObject("kinds", libraryCaseProxy.kinds());
 		model.addObject("selectedBuilding", 0);
-
 		return model;
 	}
 

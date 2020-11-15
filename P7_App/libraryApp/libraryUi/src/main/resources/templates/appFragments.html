@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <script th:src="@{/resources//JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
@@ -57,7 +58,7 @@
 					<h2 class="sub-title">Liste des livres</h2>		
 				</div>
 				<div class="col-lg-2 text-right">
-					<div th:replace="appFragments :: sideNave_link_log"></div>
+					
 				</div>			
 			</div>		
 		</div>
@@ -92,10 +93,10 @@
 	</div>
 	
 	<div th:fragment="sideNave_link_log"> 					
-		<p th:if = "${#authentication.name == 'anonymousUser'}">
+		<p th:if = "${session.logged != 'true'}">
 			<a th:id="logBtn" href="/login">Connexion</a>
 		</p>
-		<p th:unless = "${#authentication.name == 'anonymousUser'}">
+		<p th:unless = "${session.logged != 'true'}">
 			<a th:id="unlogBtn" href="/logout">Déconnexion</a>
 		</p>
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>	
