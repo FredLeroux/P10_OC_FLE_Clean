@@ -1,4 +1,4 @@
-package std.libraryCustomers.entities;
+package std.LibraryScheduledBatchAndMailing.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +14,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Customer {
+public class CustomerBatch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -45,7 +46,7 @@ public class Customer {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "library_role_fk")
-	private LibraryRole role;
+	private LibraryRoleBatch role;
 
 
 }

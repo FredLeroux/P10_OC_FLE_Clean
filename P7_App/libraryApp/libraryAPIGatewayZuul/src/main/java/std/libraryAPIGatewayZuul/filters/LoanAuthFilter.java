@@ -53,6 +53,8 @@ public class LoanAuthFilter extends ZuulFilter {
 	public Object run() throws ZuulException {
 		generalAuth.isKnown();
 		loanAuth.authTokenManagement("loanTracking","token", 60, true);
+		loanAuth.authTokenManagement("postPone","token", 60, true);
+
 		return null;
 	}
 

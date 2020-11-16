@@ -31,7 +31,7 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "/letsGo").permitAll();
-		http.authorizeRequests().antMatchers("/authToken").hasAnyAuthority("TYPE_admin", "TYPE_user")
+		http.authorizeRequests().antMatchers("/authToken","/postPone").hasAnyAuthority("TYPE_admin", "TYPE_user")
 		.and().headers().frameOptions().sameOrigin()
 		.and().formLogin().loginPage("/login")
 		.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");

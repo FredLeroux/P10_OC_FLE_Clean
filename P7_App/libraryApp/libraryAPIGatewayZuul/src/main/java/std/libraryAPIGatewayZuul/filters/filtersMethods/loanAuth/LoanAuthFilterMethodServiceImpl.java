@@ -27,10 +27,15 @@ public class LoanAuthFilterMethodServiceImpl extends ZuulHeadModifier implements
 	@Override
 	public void authTokenManagement(String urlRegex,String headerName, Integer size, Boolean isSymbolAccepted) {
 		if (isUserAuthenticated()) {
-			if (isRequestContains(urlRegex)) {				
+			if (isRequestContains(urlRegex)) {
 				String token = token(size, isSymbolAccepted);
-				customer.authToken(userName(), token);
-				addToHeader(headerName, token);
+				customer.authToken(userName(), "token");
+				addToHeader(headerName, "token");
+				if(urlRegex.equals("postPone")) {
+					System.out.println("auth post pone");
+				}else {
+					System.out.println("auth loantracking");
+				}
 			}
 		}
 
@@ -41,7 +46,7 @@ public class LoanAuthFilterMethodServiceImpl extends ZuulHeadModifier implements
 	private String token(Integer size, Boolean isSymbolAccepted) {
 		return new CodeGenerator(size, isSymbolAccepted).toString();
 	}
-	
+
 	private String userName() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}

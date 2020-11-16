@@ -26,7 +26,7 @@ public class LibraryScheduledBatchAndMailingApplication {
 	@Scheduled(fixedRate = 30000)
 	public void scheduling() {
 		LocalDateTime date = LocalDateTime.now();
-		System.out.println("shedule time = " + date.getHour() +":"+date.getMinute());
-		mail.sendSimpleMessage("me", "yop", "blabla");
+		System.out.println("shedule time = " + date.getHour() +":"+date.getMinute()+":"+date.getSecond());
+		mail.getCustomerInformedOnLate();
 	}
 }

@@ -61,17 +61,18 @@ public class LibraryUiController {
 	}
 
 	@GetMapping(value = "/loanTracking")
-	public ModelAndView welcome(ModelAndView model, Principal principal, HttpServletRequest request) {
+	public ModelAndView welcome(ModelAndView model, HttpServletRequest request) {
 		model.setViewName("loanTracking");
-		List<LoanInfoBean> list = new ArrayList<LoanInfoBean>();
+
 		if (request.getHeader("token") != null) {
-			list = libraryBookLoansProxy
-					.loansList(customer.getCustomerUserName(request.getHeader("token"))/* principal.getName() */);
-			model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
-			model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
+			String userName = customer.getCustomerUserName(request.getHeader("token"));
+			if (userName != null) {
+				List<LoanInfoBean> list	 = libraryBookLoansProxy.loansList(userName);
+				model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
+				model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
 
+			}
 		}
-
 		System.out.println("backtoLibraryUi api");
 		// }
 
@@ -79,9 +80,19 @@ public class LibraryUiController {
 	}
 
 	@PostMapping(value = "/postPone")
-	public ModelAndView postPone(ModelAndView model, Integer loanId, Principal principal) {
-		methods.postPoneLoan(loanId, principal.getName(), 4, ChronoUnit.WEEKS);
-		return new ModelAndView("redirect:/loanTracking");
+	public ModelAndView postPone(ModelAndView model, Integer loanId, HttpServletRequest request) {
+		System.out.println("postPone");
+		model.setViewName("loanTracking");
+		if (request.getHeader("token") != null) {
+			String userName = customer.getCustomerUserName(request.getHeader("token"));
+			if (userName != null) {
+				methods.postPoneLoan(loanId, userName, 4, ChronoUnit.WEEKS);
+				List<LoanInfoBean> list = libraryBookLoansProxy.loansList(userName);
+				model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
+				model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
+			}
+		}
+		return model;
 	}
 
 	@GetMapping(value = "/login")
