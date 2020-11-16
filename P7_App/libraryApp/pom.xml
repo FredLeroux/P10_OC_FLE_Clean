@@ -49,6 +49,7 @@
 		<module>libraryCustomers</module>
 		<module>libraryLoan</module>
 		<module>libraryAPIGatewayZuul</module>
+		<module>LibraryScheduledBatchAndMailing</module>
 		<module>libraryEureka</module>
 		<module>libraryUi</module>
 	</modules>
