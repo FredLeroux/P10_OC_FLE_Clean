@@ -1,6 +1,5 @@
 package std.libraryUi.controller.controllerMethods;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -11,18 +10,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.dto.UiLoanDateAndBooksList;
 import std.libraryUi.dto.UiLoanInfoDTO;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
+import std.libraryUi.proxies.LibraryCustomerProxy;
 
 @Service
 public class ControllerMethods {
@@ -30,6 +31,8 @@ public class ControllerMethods {
 	@Autowired
 	LibraryBookLoansProxy libraryBookLoansProxy;
 
+	@Autowired
+	private LibraryCustomerProxy libraryCustomerProxy;
 
 	public Boolean isUserAuthenticated() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +43,35 @@ public class ControllerMethods {
 		}
 	}
 
-	public List<UiLoanInfoDTO> loanInfoDTOList(List<LoanInfoBean> list, String language) {
+	public void addSortedLoansListAndDatePickerLoansInfoToModel(ModelAndView model, String listModelAttrName,
+			String datepickerInfoModelAttrName, HttpServletRequest request, String headerName, String language) {
+		if (isHeaderPresent(request, headerName)) {
+			String userName = userNameByToken(token(request, headerName));
+			if (userName != null) {
+				List<LoanInfoBean> list = loansList(userName);
+				model.addObject(listModelAttrName, loanInfoDTOList(list, language));
+				model.addObject(datepickerInfoModelAttrName, loanInfoToDatepicker(list));
+			}
+		}
+	}
+
+	private List<LoanInfoBean> loansList(String userName) {
+		return libraryBookLoansProxy.loansList(userName);
+	}
+
+	private String token(HttpServletRequest request, String headerName) {
+		return request.getHeader(headerName);
+	}
+
+	private Boolean isHeaderPresent(HttpServletRequest request, String headerName) {
+		return request.getHeader(headerName) != null;
+	}
+
+	private String userNameByToken(String token) {
+		return libraryCustomerProxy.getCustomerUserName(token);
+	}
+
+	private List<UiLoanInfoDTO> loanInfoDTOList(List<LoanInfoBean> list, String language) {
 		dateSortedList(list);
 		return list.stream().map(O -> loanInfoDTOMapper(O, language)).collect(Collectors.toList());
 	}
@@ -68,8 +99,6 @@ public class ControllerMethods {
 		list.forEach(O -> dateWithAssociatedBooks(lH, O));
 		return new ArrayList<>(lH.values());
 	}
-
-
 
 	private void dateWithAssociatedBooks(LinkedHashMap<String, UiLoanDateAndBooksList> lH, LoanInfoBean loanInfoBean) {
 		String key = loanInfoBean.getReturnDate();

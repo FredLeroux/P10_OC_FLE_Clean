@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.netflix.zuul.context.RequestContext;
-
 import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
 import std.libraryAPIGatewayZuul.security.codeGenerator.CodeGenerator;
 import std.libraryAPIGatewayZuul.security.proxies.LibraryCustomerProxy;

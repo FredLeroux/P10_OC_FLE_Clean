@@ -1,9 +1,6 @@
 package std.libraryUi.proxies;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
@@ -11,7 +8,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import std.libraryUi.beans.LoanInfoBean;
 

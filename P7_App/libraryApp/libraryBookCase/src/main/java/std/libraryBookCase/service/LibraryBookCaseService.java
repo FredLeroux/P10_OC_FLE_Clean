@@ -2,11 +2,8 @@ package std.libraryBookCase.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
-import std.libraryBookCase.entities.LibraryBook;
 
 
 public interface LibraryBookCaseService {

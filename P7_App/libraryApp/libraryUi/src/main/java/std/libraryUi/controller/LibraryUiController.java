@@ -1,8 +1,6 @@
 package std.libraryUi.controller;
 
 import java.security.Principal;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,11 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.controller.controllerMethods.ControllerMethods;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
-import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryBuildingsProxy;
-import std.libraryUi.proxies.LibraryCustomerProxy;
 
 @Controller
 public class LibraryUiController {
@@ -41,11 +31,6 @@ public class LibraryUiController {
 	@Autowired
 	private LibraryBuildingsProxy libraryBuildingsProxy;
 
-	@Autowired
-	private LibraryBookLoansProxy libraryBookLoansProxy;
-
-	@Autowired
-	private LibraryCustomerProxy customer;
 
 	@Autowired
 	private ControllerMethods methods;
@@ -63,35 +48,14 @@ public class LibraryUiController {
 	@GetMapping(value = "/loanTracking")
 	public ModelAndView welcome(ModelAndView model, HttpServletRequest request) {
 		model.setViewName("loanTracking");
-
-		if (request.getHeader("token") != null) {
-			String userName = customer.getCustomerUserName(request.getHeader("token"));
-			if (userName != null) {
-				List<LoanInfoBean> list	 = libraryBookLoansProxy.loansList(userName);
-				model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
-				model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
-
-			}
-		}
-		System.out.println("backtoLibraryUi api");
-		// }
-
+		listAndDatepickerInfo(model, request);
 		return model;
 	}
 
 	@PostMapping(value = "/postPone")
 	public ModelAndView postPone(ModelAndView model, Integer loanId, HttpServletRequest request) {
-		System.out.println("postPone");
 		model.setViewName("loanTracking");
-		if (request.getHeader("token") != null) {
-			String userName = customer.getCustomerUserName(request.getHeader("token"));
-			if (userName != null) {
-				methods.postPoneLoan(loanId, userName, 4, ChronoUnit.WEEKS);
-				List<LoanInfoBean> list = libraryBookLoansProxy.loansList(userName);
-				model.addObject("list", /* new ArrayList<String>() */methods.loanInfoDTOList(list, "fr"));
-				model.addObject("datepickerInfo", methods.loanInfoToDatepicker(list));
-			}
-		}
+		listAndDatepickerInfo(model, request);
 		return model;
 	}
 
@@ -136,12 +100,10 @@ public class LibraryUiController {
 		return "bookListTable";
 	}
 
-	@GetMapping(value = "/getLoan")
-	public ModelAndView loanInfo(ModelAndView model) {
-		model.setViewName("loan");
-		// model.addObject("list",
-		// methods.loanInfoDTOList(libraryBookLoansProxy.loansList(),"fr"));
-		return model;
+
+	private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
+		methods.addSortedLoansListAndDatePickerLoansInfoToModel(model, "list", "datepickerInfo", request, "token",
+				"fr");
 	}
 
 }
