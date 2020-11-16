@@ -1,5 +1,7 @@
 package std.libraryBookLoans.dto;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ public class CustomerLoanDTO {
 	private Boolean customerAccountNonExpired;
 	private Boolean customerCredentialNonExpired;
 	private Boolean customerAccountNonLocked;
+	private String customerAuthToken;
 	private LibraryRoleLoanDTO role;
 
 }
