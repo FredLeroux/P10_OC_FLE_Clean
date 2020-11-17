@@ -1,6 +1,7 @@
 package std.libraryUi.controller;
 
 import java.security.Principal;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,7 +32,6 @@ public class LibraryUiController {
 	@Autowired
 	private LibraryBuildingsProxy libraryBuildingsProxy;
 
-
 	@Autowired
 	private ControllerMethods methods;
 
@@ -55,6 +55,7 @@ public class LibraryUiController {
 	@PostMapping(value = "/postPone")
 	public ModelAndView postPone(ModelAndView model, Integer loanId, HttpServletRequest request) {
 		model.setViewName("loanTracking");
+		methods.postPoneLoan(request, "token", loanId, 4, ChronoUnit.WEEKS);
 		listAndDatepickerInfo(model, request);
 		return model;
 	}
@@ -99,7 +100,6 @@ public class LibraryUiController {
 		model.addAttribute("list", libraryCaseProxy.books());
 		return "bookListTable";
 	}
-
 
 	private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
 		methods.addSortedLoansListAndDatePickerLoansInfoToModel(model, "list", "datepickerInfo", request, "token",

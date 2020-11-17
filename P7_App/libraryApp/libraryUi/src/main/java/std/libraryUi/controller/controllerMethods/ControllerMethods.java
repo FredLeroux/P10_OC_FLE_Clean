@@ -55,6 +55,16 @@ public class ControllerMethods {
 		}
 	}
 
+	public void postPoneLoan(HttpServletRequest request, String headerName, Integer loanId, Integer unitNumber,
+			ChronoUnit unit) {
+		if (isHeaderPresent(request, headerName)) {
+			String userName = userNameByToken(token(request, headerName));
+			if (userName != null) {
+				libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
+			}
+		}
+	}
+
 	private List<LoanInfoBean> loansList(String userName) {
 		return libraryBookLoansProxy.loansList(userName);
 	}
@@ -81,9 +91,7 @@ public class ControllerMethods {
 				.compareTo(parseStringToDate(O2.getReturnDate())));
 	}
 
-	public void postPoneLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit) {
-		libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
-	}
+
 
 	/**
 	 *

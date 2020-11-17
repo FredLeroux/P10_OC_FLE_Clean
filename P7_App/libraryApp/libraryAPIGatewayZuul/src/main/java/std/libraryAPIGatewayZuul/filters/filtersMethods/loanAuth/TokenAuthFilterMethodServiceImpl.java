@@ -9,7 +9,7 @@ import std.libraryAPIGatewayZuul.security.codeGenerator.CodeGenerator;
 import std.libraryAPIGatewayZuul.security.proxies.LibraryCustomerProxy;
 
 @Service
-public class LoanAuthFilterMethodServiceImpl extends ZuulHeadModifier implements LoanAuthFilterMethodService {
+public class TokenAuthFilterMethodServiceImpl extends ZuulHeadModifier implements TokenAuthFilterMethodService {
 
 	@Autowired
 	private LibraryCustomerProxy customer;
@@ -27,13 +27,8 @@ public class LoanAuthFilterMethodServiceImpl extends ZuulHeadModifier implements
 		if (isUserAuthenticated()) {
 			if (isRequestContains(urlRegex)) {
 				String token = token(size, isSymbolAccepted);
-				customer.authToken(userName(), "token");
-				addToHeader(headerName, "token");
-				if(urlRegex.equals("postPone")) {
-					System.out.println("auth post pone");
-				}else {
-					System.out.println("auth loantracking");
-				}
+				customer.authToken(userName(), token);
+				addToHeader(headerName, token);				
 			}
 		}
 

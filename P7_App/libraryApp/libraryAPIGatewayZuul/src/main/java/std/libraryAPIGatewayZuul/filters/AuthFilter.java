@@ -9,13 +9,13 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.exception.ZuulException;
 
 import std.libraryAPIGatewayZuul.filters.filtersMethods.generalAuth.GeneralAuthMethodService;
-import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.LoanAuthFilterMethodService;
+import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.TokenAuthFilterMethodService;
 
 @Component
-public class LoanAuthFilter extends ZuulFilter {
+public class AuthFilter extends ZuulFilter {
 
 	@Autowired
-	private LoanAuthFilterMethodService loanAuth;
+	private TokenAuthFilterMethodService tokenAuth;
 
 	@Autowired
 	private GeneralAuthMethodService generalAuth;
@@ -33,9 +33,8 @@ public class LoanAuthFilter extends ZuulFilter {
 	@Override
 	public Object run() throws ZuulException {
 		generalAuth.isKnown();
-		loanAuth.authTokenManagement("loanTracking","token", 60, true);
-		loanAuth.authTokenManagement("postPone","token", 60, true);
-
+		tokenAuth.authTokenManagement("loanTracking","token", 60, true);
+		tokenAuth.authTokenManagement("postPone","token", 60, true);
 		return null;
 	}
 
