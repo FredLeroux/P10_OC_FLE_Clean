@@ -1,21 +1,21 @@
-package std.libraryBookLoans.controller.exception;
+package std.libraryBookLoans.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class LoanUnknown extends RuntimeException {
+public class LoanUnknownException extends RuntimeException {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -7680107466941052530L;
 
-	public LoanUnknown() {
+	public LoanUnknownException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoanUnknown(String message) {
+	public LoanUnknownException(String message) {
 		super(message);
 	}
 

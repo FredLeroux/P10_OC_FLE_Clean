@@ -14,6 +14,10 @@ public abstract class ZuulHeadModifier extends AuthenticationCheck{
 		return request().getRequestURI().contains(regex);
 	}
 
+	public final Boolean isRequestEquals(String regex) {
+		return request().getRequestURI().equals(regex);
+	}
+
 
 
 	private HttpServletRequest request() {

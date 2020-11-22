@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
 
-@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 @EnableFeignClients(basePackages = "std.libraryUi")
 @EnableDiscoveryClient
 public class LibraryUiApplication {

@@ -81,13 +81,10 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 	@Override
 	public void addAuth(String userName, String token) {
 		Optional<Customer> optCustomer = dao.findByCustomerEmail(userName);
-		System.out.println(optCustomer.isPresent());
 		if(optCustomer.isPresent()) {
 			Customer customer = optCustomer.get();
-			System.out.println(customer.getCustomerEmail());
-			System.out.println(token);
 			customer.setCustomerAuthToken(token);
-			dao.saveAndFlush(customer);
+			dao.save(customer);
 	}
 	}
 

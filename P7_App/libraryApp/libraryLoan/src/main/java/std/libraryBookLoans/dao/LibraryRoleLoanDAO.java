@@ -8,7 +8,7 @@ import std.libraryBookLoans.entities.LibraryRoleLoan;
 
 public interface LibraryRoleLoanDAO extends JpaRepositoryImplementation<LibraryRoleLoan, Integer>{
 
-	Optional<LibraryRoleLoan> findById(Integer id);
+	public Optional<LibraryRoleLoan> findById(Integer id);
 
 
 }

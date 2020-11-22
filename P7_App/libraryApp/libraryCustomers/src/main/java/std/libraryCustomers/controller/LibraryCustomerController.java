@@ -18,14 +18,14 @@ public class LibraryCustomerController {
 	private LibraryCustomersService serviceCustomer;
 
 	@Autowired
-	private  LibraryRolesService serviceRoles;
+	private LibraryRolesService serviceRoles;
 
 	@GetMapping("/save")
 	public void saveCustommer() {
 		CustomerSaveDTO dto = new CustomerSaveDTO();
-		//TODO Suppress
+		// TODO Suppress
 		dto.setCustomerEmail("mail");
-		//TODO Suppress
+		// TODO Suppress
 		dto.setCustomerPassword("pass");
 		dto.setCustomerEnabled(true);
 		dto.setCustomerAccountNonLocked(true);
@@ -37,7 +37,6 @@ public class LibraryCustomerController {
 
 	@GetMapping("/getCustomerLog")
 	public CustomerLogDTO getCustomer(@RequestParam(value = "username") String customerEmail) {
-		System.out.println("log");
 		CustomerLogDTO dto = serviceCustomer.findByCustomerEmail(customerEmail);
 		return dto;
 	}
@@ -48,8 +47,8 @@ public class LibraryCustomerController {
 	}
 
 	@PostMapping("/authToken")
-	public void authToken(@RequestParam(value = "userName") String userName, @RequestParam(value="token") String token) {
-		System.out.println("tokencontroller");
+	public void authToken(@RequestParam(value = "userName") String userName,
+			@RequestParam(value = "token") String token) {
 		serviceCustomer.addAuth(userName, token);
 	}
 

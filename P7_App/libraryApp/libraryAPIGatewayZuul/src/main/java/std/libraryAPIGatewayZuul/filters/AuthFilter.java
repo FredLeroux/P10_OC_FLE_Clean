@@ -32,7 +32,7 @@ public class AuthFilter extends ZuulFilter {
 
 	@Override
 	public Object run() throws ZuulException {
-		generalAuth.isKnown();
+		generalAuth.isKnown("/");
 		tokenAuth.authTokenManagement("loanTracking","token", 60, true);
 		tokenAuth.authTokenManagement("postPone","token", 60, true);
 		return null;
@@ -48,7 +48,7 @@ public class AuthFilter extends ZuulFilter {
 
 	@Override
 	public int filterOrder() {
-		return 0;
+		return 1;
 	}
 
 

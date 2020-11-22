@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryAPIGatewayZuul.security.beans.LibraryCustomerLogBean;
 
-@FeignClient(name = "gateway-zuul")
+@FeignClient(name = "libraryCustomers")
 @RibbonClient(name = "libraryCustomers")
 public interface LibraryCustomerProxy {
 
-	@GetMapping(value = "/libraryCustomers/getCustomerLog") // libraryCustomers
+	@GetMapping(value = "/getCustomerLog")
 	public Optional<LibraryCustomerLogBean> getCustomer(@RequestParam(value = "username") String customerEmail);
 
-	@PostMapping(value = "/libraryCustomers/authToken")
+	@PostMapping(value = "/authToken")
 	public void authToken(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "token") String token);
 

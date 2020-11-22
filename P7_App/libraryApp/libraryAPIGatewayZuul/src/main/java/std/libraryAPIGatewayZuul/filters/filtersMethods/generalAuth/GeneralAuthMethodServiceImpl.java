@@ -8,9 +8,10 @@ import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
 public class GeneralAuthMethodServiceImpl extends ZuulHeadModifier implements GeneralAuthMethodService {
 
 	@Override
-	public void isKnown() {
-		addToHeader("isKnown", isUserAuthenticated().toString());
-
+	public void isKnown(String urL) {
+		if (isRequestEquals(urL)) {
+			addToHeader("isKnown", isUserAuthenticated().toString());
+		}
 	}
 
 }

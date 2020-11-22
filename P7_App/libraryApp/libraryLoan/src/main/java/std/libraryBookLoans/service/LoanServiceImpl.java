@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import std.libraryBookLoans.controller.exception.LoanUnknown;
 import std.libraryBookLoans.dao.CustomerLoanDAO;
 import std.libraryBookLoans.dao.LibraryBookLoanDAO;
 import std.libraryBookLoans.dao.LibraryBuildingLoanDAO;
@@ -25,6 +26,14 @@ import std.libraryBookLoans.entities.LibraryBookLoan;
 import std.libraryBookLoans.entities.LibraryBuildingLoan;
 import std.libraryBookLoans.entities.LibraryRoleLoan;
 import std.libraryBookLoans.entities.Loan;
+import std.libraryBookLoans.exceptions.BookNotAvailableException;
+import std.libraryBookLoans.exceptions.BookNotFoundException;
+import std.libraryBookLoans.exceptions.BuildingNotFoundException;
+import std.libraryBookLoans.exceptions.ChronoUnitNotImplementedException;
+import std.libraryBookLoans.exceptions.CustomerNotFoundException;
+import std.libraryBookLoans.exceptions.LoanNotFoundException;
+import std.libraryBookLoans.exceptions.LoanUnknownException;
+import std.libraryBookLoans.exceptions.RoleNotFoundException;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -55,9 +64,9 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public void createLoan(Integer custommerId, Integer bookId, Integer unitNumber,ChronoUnit unit) {
+	public void createLoan(Integer custommerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
 		Loan loan = new Loan();
-		loanDefaultValue(loan, unitNumber,unit);
+		loanDefaultValue(loan, unitNumber, unit);
 		loan.setBook(settedLoanedBook(bookId));
 		loan.setCustomer(settedCustommerLoan(custommerId));
 		loanDAO.saveAndFlush(loan);
@@ -73,33 +82,33 @@ public class LoanServiceImpl implements LoanService {
 			loan.getBook().setAvailability(true);
 			loanDAO.saveAndFlush(loan);
 		} else {
-			throw new LoanUnknown("Erreur aucune correspondance");
+			throw new LoanUnknownException("Erreur aucune correspondance");
 		}
 	}
 
 	@Override
-	public void postponeLoan(Integer loanId, String userName, Integer unitNumber,ChronoUnit unit, ArrayList<DayOfWeek> daysOffList,
-			ArrayList<LocalDate> holidays) {
+	public void postponeLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit,
+			ArrayList<DayOfWeek> daysOffList, ArrayList<LocalDate> holidays) {
 		Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 		if (optLoan.isPresent()) {
 			Loan loan = optLoan.get();
 			loan.setReturnDate(
-					posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber,unit, daysOffList, holidays).toString());
+					posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber, unit, daysOffList, holidays)
+							.toString());
 			loan.setPostponed(true);
 			loanDAO.saveAndFlush(loan);
 		} else {
-			// TODO exception
-			throw new NullPointerException();
+			throw new LoanNotFoundException();
 		}
 
 	}
 
-	private LocalDate posponeDaysOffTakedInAccount(String date, Integer unitNumber,ChronoUnit unit, ArrayList<DayOfWeek> daysOffList,
-			ArrayList<LocalDate> holidays) {
+	private LocalDate posponeDaysOffTakedInAccount(String date, Integer unitNumber, ChronoUnit unit,
+			ArrayList<DayOfWeek> daysOffList, ArrayList<LocalDate> holidays) {
 		List<DayOfWeek> daysOff = daysOffList != null ? daysOffList : Collections.emptyList();
 		List<LocalDate> holidayList = holidays != null ? holidays : Collections.emptyList();
 		Boolean isDayOff = true;
-		LocalDate postponed = postponedDate(date, unitNumber,unit);
+		LocalDate postponed = postponedDate(date, unitNumber, unit);
 		while (isDayOff) {
 			if (daysOff.contains(postponed.getDayOfWeek()) || holidayList.contains(postponed)) {
 				postponed = postponed.plusDays(1);
@@ -110,8 +119,8 @@ public class LoanServiceImpl implements LoanService {
 		return postponed;
 	}
 
-	private void loanDefaultValue(Loan loan, Integer unitNumber,ChronoUnit unit) {
-		loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber,unit).toString());
+	private void loanDefaultValue(Loan loan, Integer unitNumber, ChronoUnit unit) {
+		loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber, unit).toString());
 		loan.setReturned(false);
 		loan.setPostponed(false);
 	}
@@ -129,12 +138,9 @@ public class LoanServiceImpl implements LoanService {
 			if (optBook.get().getAvailability()) {
 				return optBook.get();
 			}
-			// TODO exception
-			return null;
-
+			throw new BookNotAvailableException();
 		}
-		// TODO exception
-		return null;
+		throw new BookNotFoundException();
 	}
 
 	private LibraryBuildingLoan bookBuilding(Integer buildingId) {
@@ -142,8 +148,7 @@ public class LoanServiceImpl implements LoanService {
 		if (optBuilding.isPresent()) {
 			return optBuilding.get();
 		}
-		// TODO exception
-		return null;
+		throw new BuildingNotFoundException();
 	}
 
 	private CustomerLoan settedCustommerLoan(Integer id) {
@@ -157,8 +162,7 @@ public class LoanServiceImpl implements LoanService {
 		if (optCustomer.isPresent()) {
 			return optCustomer.get();
 		}
-		// TODO exception
-		return null;
+		throw new CustomerNotFoundException();
 	}
 
 	private LibraryRoleLoan roleLoan(Integer id) {
@@ -166,30 +170,29 @@ public class LoanServiceImpl implements LoanService {
 		if (optRole.isPresent()) {
 			return optRole.get();
 		}
-		// TODO exception
-		return null;
+		throw new RoleNotFoundException();
 	}
 
 	/**
 	 *
 	 * @param date
 	 * @param numberChronoOfUnit
-	 * @param unit is the ChronoUnit wished,waiting for days/weeks/months/years only
+	 * @param unit               is the ChronoUnit wished,waiting for
+	 *                           days/weeks/months/years only
 	 * @return date postponed of daysToAdd
 	 *
 	 */
-	private LocalDate postponedDate(String date, Integer numberChronoOfUnit,ChronoUnit unit) {
-		if(ChronoUnit.DAYS.equals(unit)) {
+	private LocalDate postponedDate(String date, Integer numberChronoOfUnit, ChronoUnit unit) {
+		if (ChronoUnit.DAYS.equals(unit)) {
 			return LocalDate.parse(date).plusDays(numberChronoOfUnit);
-		}else if(ChronoUnit.WEEKS.equals(unit)) {
+		} else if (ChronoUnit.WEEKS.equals(unit)) {
 			return LocalDate.parse(date).plusWeeks(numberChronoOfUnit);
-		}else if(ChronoUnit.MONTHS.equals(unit)) {
+		} else if (ChronoUnit.MONTHS.equals(unit)) {
 			return LocalDate.parse(date).plusMonths(numberChronoOfUnit);
-		}else if(ChronoUnit.YEARS.equals(unit)) {
+		} else if (ChronoUnit.YEARS.equals(unit)) {
 			return LocalDate.parse(date).plusYears(numberChronoOfUnit);
 		}
-		//TODO exception
-		return null;
+		throw new ChronoUnitNotImplementedException();
 	}
 
 	@SuppressWarnings("unchecked")
