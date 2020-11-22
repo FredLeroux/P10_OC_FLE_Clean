@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import std.libraryCustomers.entities.Customer;
 
 @Repository
-public interface LibraryCustomersDao extends JpaRepository<Customer, Integer>{
+public interface LibraryCustomersDAO extends JpaRepository<Customer, Integer>{
 
 	public Optional<Customer> findByCustomerEmail(String customerEmail);
 

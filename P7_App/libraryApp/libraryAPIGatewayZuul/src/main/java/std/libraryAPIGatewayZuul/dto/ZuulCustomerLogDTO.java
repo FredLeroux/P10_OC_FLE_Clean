@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.security.beans;
+package std.libraryAPIGatewayZuul.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LibraryCustomerLogBean {
+public class ZuulCustomerLogDTO {
 
 
 	private String customerEmail;
 	private String customerPassword;
 	private String customerAuthToken;
-	private LibraryRoleBean role;
+	private ZuulLibraryRoleDTO role;
 
 }

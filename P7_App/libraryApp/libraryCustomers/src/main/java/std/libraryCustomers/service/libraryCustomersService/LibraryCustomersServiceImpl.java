@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import std.libraryCustomers.dao.LibraryCustomersDao;
+import std.libraryCustomers.dao.LibraryCustomersDAO;
 import std.libraryCustomers.dao.LibraryRolesDAO;
 import std.libraryCustomers.dto.CustomerLogDTO;
 import std.libraryCustomers.dto.CustomerSaveDTO;
@@ -20,7 +20,7 @@ import std.libraryCustomers.entities.LibraryRole;
 public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 
 	@Autowired
-	LibraryCustomersDao dao;
+	LibraryCustomersDAO dao;
 
 	@Autowired
 	LibraryRolesDAO daoRole;

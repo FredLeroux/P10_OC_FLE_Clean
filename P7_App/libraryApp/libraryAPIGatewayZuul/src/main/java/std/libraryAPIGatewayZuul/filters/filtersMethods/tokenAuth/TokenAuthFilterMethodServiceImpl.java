@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth;
+package std.libraryAPIGatewayZuul.filters.filtersMethods.tokenAuth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 
 import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
 import std.libraryAPIGatewayZuul.security.codeGenerator.CodeGenerator;
-import std.libraryAPIGatewayZuul.security.proxies.LibraryCustomerProxy;
+
+import std.libraryAPIGatewayZuul.service.ZuulCustomerService;
 
 @Service
 public class TokenAuthFilterMethodServiceImpl extends ZuulHeadModifier implements TokenAuthFilterMethodService {
 
 	@Autowired
-	private LibraryCustomerProxy customer;
+	private ZuulCustomerService customer;
 
 	/**
 	 * @param urlRegex the url being filtered
@@ -27,8 +28,8 @@ public class TokenAuthFilterMethodServiceImpl extends ZuulHeadModifier implement
 		if (isUserAuthenticated()) {
 			if (isRequestContains(urlRegex)) {
 				String token = token(size, isSymbolAccepted);
-				customer.authToken(userName(), token);
-				addToHeader(headerName, token);				
+				customer.addAuth(userName(), token);
+				addToHeader(headerName, token);
 			}
 		}
 

@@ -9,7 +9,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.exception.ZuulException;
 
 import std.libraryAPIGatewayZuul.filters.filtersMethods.generalAuth.GeneralAuthMethodService;
-import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.TokenAuthFilterMethodService;
+import std.libraryAPIGatewayZuul.filters.filtersMethods.tokenAuth.TokenAuthFilterMethodService;
 
 @Component
 public class AuthFilter extends ZuulFilter {
