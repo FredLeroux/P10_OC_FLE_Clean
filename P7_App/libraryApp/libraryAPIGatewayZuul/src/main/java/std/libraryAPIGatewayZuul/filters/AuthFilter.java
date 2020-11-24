@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
+import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.generalAuth.GeneralAuthMethodService;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.TokenAuthFilterMethodService;
 
@@ -25,9 +27,15 @@ public class AuthFilter extends ZuulFilter {
 
 
 
+
 	@Override
 	public boolean shouldFilter() {
-		return true;
+		RequestContext context = RequestContext.getCurrentContext();
+		String request = context.getRequest().getRequestURI();
+		if(request.contains("loanTracking")||request.contains("postPone")|| request.equals("/")) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -48,6 +56,7 @@ public class AuthFilter extends ZuulFilter {
 
 	@Override
 	public int filterOrder() {
+
 		return 1;
 	}
 

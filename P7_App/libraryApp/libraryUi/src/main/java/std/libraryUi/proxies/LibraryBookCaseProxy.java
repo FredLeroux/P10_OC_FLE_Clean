@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import std.libraryUi.beans.BookKindsBean;
 import std.libraryUi.beans.BooksBean;
 
-@FeignClient(name = "gateway-zuul")
+@FeignClient(name = "libraryGateWayZuul")
 @RibbonClient(name = "libraryBookCase")
 public interface LibraryBookCaseProxy {
 

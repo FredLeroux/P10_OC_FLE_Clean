@@ -10,7 +10,7 @@ import std.libraryUi.beans.LibraryBuildingBean;
 
 
 
-@FeignClient(name = "gateway-zuul")
+@FeignClient(name = "libraryGateWayZuul")
 @RibbonClient(name = "libraryBuildings")
 public interface LibraryBuildingsProxy {
 

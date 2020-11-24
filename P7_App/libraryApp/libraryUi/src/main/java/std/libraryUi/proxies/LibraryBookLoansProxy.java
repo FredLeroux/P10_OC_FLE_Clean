@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LoanInfoBean;
 
-@FeignClient(name = "gateway-zuul")
+@FeignClient(name = "libraryGateWayZuul")
 @RibbonClient(name = "libraryBookLoans")
 public interface LibraryBookLoansProxy {
 
