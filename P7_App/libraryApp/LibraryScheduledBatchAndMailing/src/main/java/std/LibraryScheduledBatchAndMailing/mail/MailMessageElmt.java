@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Component
 @ConfigurationProperties(prefix = "mail")
-@PropertySource("mailElmt.properties")
 @Getter
 @Setter
 public class MailMessageElmt {
