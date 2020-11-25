@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Component
 @ConfigurationProperties(prefix = "mail")
-//@PropertySource("libraryScheduledBatchAndMailing-mailElmt.properties")
 @Getter
 @Setter
 public class MailMessageElmt {
