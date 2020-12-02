@@ -160,6 +160,17 @@ tr.even:hover,tr.odd:hover{
 	font-size: 1.4em;
 	}
 
+.errorMessage{
+	font-family:$body-font !important;
+	font-size:1.7em;
+	color:$color-1;
+	text-align: left;
+}
+
+.errorCode{
+	font-family:$body-font !important;
+}
+
 .title{
 	@include border-and-background;
 	color:$color-1;

@@ -14,6 +14,8 @@ import std.libraryCustomers.dto.CustomerUserNameDTO;
 import std.libraryCustomers.dto.LibraryRoleDTO;
 import std.libraryCustomers.entities.Customer;
 import std.libraryCustomers.entities.LibraryRole;
+import std.libraryCustomers.exceptions.AuthTokenNotFoundException;
+import std.libraryCustomers.exceptions.CustomerNotFoundException;
 
 
 @Service
@@ -40,7 +42,7 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 		dto.setRole(roleDTO);
 		return dto;
 		}
-		return null;
+		throw new CustomerNotFoundException();
 	}
 
 
@@ -51,7 +53,7 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 			CustomerUserNameDTO dto = mapper(customer,customerUserNameDTO);
 			return dto;
 			}
-			return null;
+			throw new AuthTokenNotFoundException();
 		}
 
 

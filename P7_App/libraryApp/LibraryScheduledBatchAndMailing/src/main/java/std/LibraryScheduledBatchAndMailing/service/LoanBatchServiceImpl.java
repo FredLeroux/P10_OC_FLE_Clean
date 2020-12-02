@@ -18,6 +18,8 @@ import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
 import std.LibraryScheduledBatchAndMailing.entities.CustomerBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LibraryBookBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LoanBatch;
+import std.LibraryScheduledBatchAndMailing.exceptions.BookNotFoundException;
+import std.LibraryScheduledBatchAndMailing.exceptions.CustomerNotFoundException;
 
 @Service
 public class LoanBatchServiceImpl implements LoanBatchService {
@@ -69,8 +71,7 @@ public class LoanBatchServiceImpl implements LoanBatchService {
 		if(optLibraryBookBatch.isPresent()) {
 			return optLibraryBookBatch.get();
 		}
-		//TODO exception
-		return null;
+		throw new BookNotFoundException();
 
 	}
 
@@ -84,8 +85,7 @@ public class LoanBatchServiceImpl implements LoanBatchService {
 		if(optCustomerBatch.isPresent()) {
 			return optCustomerBatch.get();
 		}
-			//TODO exception;
-		return null;
+		throw new CustomerNotFoundException();
 
 	}
 

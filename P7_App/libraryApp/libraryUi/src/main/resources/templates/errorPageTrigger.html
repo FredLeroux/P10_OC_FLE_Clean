@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ERROR
+<script th:inline="javascript">
+var errorCode = /*[[${errorCode}]]*/ null;
+var url = "/errorPage?errorCode="+errorCode;
+refreshPage();
+function refreshPage(){	
+	if ( window.location !== window.parent.location ) {
+			 window.parent.location.replace(url);	
+		  } else {	 
+			  window.alert(errorCode);
+			location.replace(url);
+}
+	
+}
+
+</script>
+</body>
+</html>

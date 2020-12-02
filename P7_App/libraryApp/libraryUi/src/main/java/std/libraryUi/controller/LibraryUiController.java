@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import std.libraryUi.controller.controllerMethods.ControllerMethods;
+import std.libraryUi.exceptions.UnknowErrorException;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBuildingsProxy;
 
@@ -104,6 +105,15 @@ public class LibraryUiController {
 	private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
 		methods.addSortedLoansListAndDatePickerLoansInfoToModel(model, "list", "datepickerInfo", request, "token",
 				"fr");
+	}
+
+	@GetMapping(value = "/errorPage")
+	public  ModelAndView errorPage(ModelAndView model, HttpServletRequest request) {
+		model.setViewName("errorPage");
+		String errorCode = request.getParameter("errorCode");
+		model.addObject("errorCode", errorCode);
+		return model;
+
 	}
 
 }

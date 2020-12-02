@@ -12,7 +12,7 @@ public class LoanUnknownException extends RuntimeException {
 	private static final long serialVersionUID = -7680107466941052530L;
 
 	public LoanUnknownException() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public LoanUnknownException(String message) {

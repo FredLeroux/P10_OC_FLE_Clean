@@ -12,8 +12,7 @@
 	
 <title>AppFragments</title>
 </head>
-<body>
-	
+<body>	
 	<th:block th:fragment="LibraryApp_head">	
 		<script th:src="@{/resources/JQuery/node_modules/jquery/dist/jquery.min.js}"></script>
 		<script th:src="@{/resources/JQuery/JQueryUi/jquery-ui-1.12.1/jquery-ui.js}"></script>
@@ -64,13 +63,17 @@
 		</div>
 	</div>
 	
-	
-	
-	
-	
-	
-	
-	
+	<div th:fragment="errorPage_subTitle">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<h2 class="sub-title">Erreur <span class="errorCode" th:text="${errorCode}"></span></h2>						
+				</div>
+				<div class="col-lg-2 text-right"></div>			
+			</div>		
+		</div>
+	</div>	
 	
 	<div th:fragment="backHomeButton_nav">
 		<p>
@@ -104,11 +107,6 @@
 			uiButton("#logBtn","uiElmt-sideNav-login");
 			uiButton("#unlogBtn","uiElmt-sideNav-unlogin");								
 		</script>
-				</div>
-				
-		
-	
-
-	
+	</div>	
 </body>
 </html>
