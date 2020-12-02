@@ -1,5 +1,7 @@
 package std.LibraryScheduledBatchAndMailing.mail;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +20,35 @@ public class MailSendingServiceImpl implements MailSendingService {
 
 	@Autowired
 	private LoanBatchService LoanBatchService;
-	
+
 	@Autowired
 	private MailMessageElmt messageElmt;
-	
+
 	private final String ln = "\n";
-
-
-
 
 	@Override
 	public void getCustomerInformedOnLate() {
 		List<LoanBatchMailInfoDTO> list = LoanBatchService.sortLateLoansList();
-		if(!list.isEmpty()) {
-			list.forEach(o->sendSimpleMessage(createLateMessage(o)));
+		if (!list.isEmpty()) {
+			customerBooksMap(list).forEach((k, v) -> sendSimpleMessage(createLateMessage(k, v)));
+			// list.forEach(o->sendSimpleMessage(createLateMessage(o)));
+		}
+	}
+
+	private HashMap<String, ArrayList<String>> customerBooksMap(List<LoanBatchMailInfoDTO> list) {
+		HashMap<String, ArrayList<String>> map = new HashMap<>();
+		list.forEach(o -> fillCustomerBookMap(o.getCustomer().getCustomerEmail(), o.getBook().getTitle(), map));
+		return map;
+
+	}
+
+	private void fillCustomerBookMap(String key, String value, HashMap<String, ArrayList<String>> map) {
+		if (map.containsKey(key)) {
+			map.get(key).add(value);
+		} else {
+			ArrayList<String> arrayList = new ArrayList<>();
+			arrayList.add(value);
+			map.put(key, arrayList);
 		}
 	}
 
@@ -39,9 +56,9 @@ public class MailSendingServiceImpl implements MailSendingService {
 		emailSender.send(message);
 	}
 
-	private SimpleMailMessage createLateMessage(LoanBatchMailInfoDTO dto) {
-		return createMessage(messageElmt.getFrom(), dto.getCustomer().getCustomerEmail(), messageElmt.getSubject(),
-				lateBodyMessage(dto));
+	private SimpleMailMessage createLateMessage(String customerEmail, ArrayList<String> booksTitleList) {
+		return createMessage(messageElmt.getFrom(), customerEmail, messageElmt.getSubject(),
+				lateBodyMessage(booksTitleList));
 	}
 
 	private SimpleMailMessage createMessage(String from, String to, String subject, String bodyText) {
@@ -53,23 +70,26 @@ public class MailSendingServiceImpl implements MailSendingService {
 		return message;
 	}
 
-	 private String lateBodyMessage(LoanBatchMailInfoDTO dto) {
-		 StringBuilder stb = new StringBuilder();
-		 stb.append(messageElmt.getGreeting());
-		 stb.append(ln);
-		 stb.append(messageElmt.getThebook());
-		 stb.append(dto.getBook().getTitle());
-		 stb.append(ln);
-		 stb.append(messageElmt.getLateMess());
-		 stb.append(ln);
-		 stb.append(messageElmt.getThanks());
-		 stb.append(ln);
-		 stb.append(messageElmt.getEnd());
-		 return stb.toString();
+	private String lateBodyMessage(ArrayList<String> booksTitleList) {
+		StringBuilder stb = new StringBuilder();
+		stb.append(messageElmt.getGreeting());
+		stb.append(ln);
+		stb.append(messageElmt.getThebook());
+		appendBooksTitleList(stb, booksTitleList);
+		stb.append(messageElmt.getLateMess());
+		stb.append(ln);
+		stb.append(messageElmt.getThanks());
+		stb.append(ln);
+		stb.append(messageElmt.getEnd());
+		return stb.toString();
 
-	 }
+	}
 
-
-
+	private void appendBooksTitleList(StringBuilder stb, ArrayList<String> booksTitleList) {
+		for (String str : booksTitleList) {
+			stb.append(str);
+			stb.append(ln);
+		}
+	}
 
 }
