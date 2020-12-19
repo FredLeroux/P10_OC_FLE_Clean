@@ -7,7 +7,7 @@ ETUDIANT : Frédéric Leroux
 Contenu : 
 
 	- DOSSIER: P7_App -> ensemble du code source JEE
-	- DOSSIER: P7_DB -> un dump de la DB en ".sql" & ".txt"  pour la création des roles et de la dite base modele physique de donné & diagramme de classe
+	- DOSSIER: P7_DB -> un dump de la DB en ".sql" & ".txt"  pour la création des roles et de la dite base modele physique de donné
 	- DOSSIER: P7_DOC -> modele physique de donné 
 	- DOSSIER: P7_Fake_SMTP_Server -> Fake-SMTP API
 	- DOSSIER: P7_Launch -> fichiers .bat et .sh application launcher
