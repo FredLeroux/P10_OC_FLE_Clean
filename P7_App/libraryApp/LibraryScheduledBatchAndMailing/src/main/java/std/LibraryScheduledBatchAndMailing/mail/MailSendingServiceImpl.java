@@ -31,7 +31,6 @@ public class MailSendingServiceImpl implements MailSendingService {
 		List<LoanBatchMailInfoDTO> list = LoanBatchService.sortLateLoansList();
 		if (!list.isEmpty()) {
 			customerBooksMap(list).forEach((k, v) -> sendSimpleMessage(createLateMessage(k, v)));
-			// list.forEach(o->sendSimpleMessage(createLateMessage(o)));
 		}
 	}
 

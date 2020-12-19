@@ -13,14 +13,9 @@ public class LibraryUiErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		// TODO Auto-generated method stub
-		System.out.println("method key is :       ******************************"+ methodKey);
-		// note to discriminate use if method key contains name of the method i.e if loan
-		// service return an error on getloan method use .contains getLoan to
-		// discriminate
+
 		if (response.status() == 404) {
 			if (methodKey.contains("postpone")) {
-				System.out.println("postpone 4040");
 				return new LoanNotFoundException();
 			}
 

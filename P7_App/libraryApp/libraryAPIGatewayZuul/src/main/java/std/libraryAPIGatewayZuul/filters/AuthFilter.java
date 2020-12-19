@@ -9,7 +9,6 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
-import std.libraryAPIGatewayZuul.filters.filtersMethods.ZuulHeadModifier;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.generalAuth.GeneralAuthMethodService;
 import std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth.TokenAuthFilterMethodService;
 
@@ -21,9 +20,6 @@ public class AuthFilter extends ZuulFilter {
 
 	@Autowired
 	private GeneralAuthMethodService generalAuth;
-
-
-	Logger log = LoggerFactory.getLogger(this.getClass());
 
 
 
