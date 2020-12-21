@@ -4,6 +4,14 @@ PARCOURS : Développeur d'application - Java
 PROJET 7 : Développez le nouveau système d’information de la bibliothèque d’une grande ville
 ETUDIANT : Frédéric Leroux
 
+Pre-requis:
+	java 1.8
+	Apache tomcat 9.7
+	PostgreSQL 11.3
+	FakeSMTP 2.0 (fournis)
+	EDI eclipse ou autre
+
+
 Contenu : 
 
 	- DOSSIER: P7_App -> ensemble du code source JEE
@@ -25,6 +33,9 @@ Installation :
 	
 	-ou compiler via code source 
 		P7_App
+
+URL acces: 
+	http://localhost:9005/
 
 Note: 
 
