@@ -117,4 +117,19 @@ public class LibraryUiController {
 
 	}
 
+	@PostMapping(value = "/createLoan")
+	public ModelAndView createLoan(@RequestParam(value = "customerId") Integer customerId,
+			@RequestParam(value = "bookId") Integer bookId) {
+		methods.createLoan(customerId, bookId);
+		return new ModelAndView("redirect:/loanTracking");
+	}
+
+	@PostMapping(value = "/returnLoan")
+	public ModelAndView returnLoan(@RequestParam(value = "customerId") Integer customerId,
+			@RequestParam(value = "bookId") Integer bookId) {
+		methods.returnLoan(customerId, bookId);
+		return new ModelAndView("redirect:/loanTracking");
+
+	}
+
 }

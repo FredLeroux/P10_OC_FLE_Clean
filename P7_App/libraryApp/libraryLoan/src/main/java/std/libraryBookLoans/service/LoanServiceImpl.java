@@ -74,8 +74,8 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public void returnLoan(Integer loanId, Integer customerId) {
-		Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerId(loanId, customerId));
+	public void returnLoan(Integer bookId, Integer customerId) {
+		Optional<Loan> optLoan = (loanDAO.findByBookIdAndCustomerIdAndReturnedFalse(bookId, customerId));
 		if (optLoan.isPresent()) {
 			Loan loan = optLoan.get();
 			loan.setReturned(true);
@@ -89,7 +89,7 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public void postponeLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit,
 			ArrayList<DayOfWeek> daysOffList, ArrayList<LocalDate> holidays) {
-		/*Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
+		Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 		if (optLoan.isPresent()) {
 			Loan loan = optLoan.get();
 			loan.setReturnDate(
@@ -97,9 +97,9 @@ public class LoanServiceImpl implements LoanService {
 							.toString());
 			loan.setPostponed(true);
 			loanDAO.saveAndFlush(loan);
-		} else {*/
+		} else {
 			throw new LoanNotFoundException();
-		//}
+		}
 
 	}
 
@@ -140,7 +140,7 @@ public class LoanServiceImpl implements LoanService {
 			}
 			throw new BookNotAvailableException();
 		}
-		throw new BookNotFoundException();
+		throw new BookNotFoundException("pas de livre sous" +bookId);
 	}
 
 	private LibraryBuildingLoan bookBuilding(Integer buildingId) {

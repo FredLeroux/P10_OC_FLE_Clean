@@ -65,6 +65,14 @@ public class ControllerMethods {
 		}
 	}
 
+	public void createLoan(Integer customerId, Integer bookId) {
+		libraryBookLoansProxy.createLoan(customerId, bookId, 4, ChronoUnit.WEEKS);
+	}
+
+	public void returnLoan(Integer customerId, Integer bookId) {
+		libraryBookLoansProxy.returnLoan(customerId, bookId);
+	}
+
 	private List<LoanInfoBean> loansList(String userName) {
 		return libraryBookLoansProxy.loansList(userName);
 	}
@@ -90,8 +98,6 @@ public class ControllerMethods {
 		list.sort((LoanInfoBean O1, LoanInfoBean O2) -> parseStringToDate(O1.getReturnDate())
 				.compareTo(parseStringToDate(O2.getReturnDate())));
 	}
-
-
 
 	/**
 	 *

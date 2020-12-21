@@ -23,10 +23,8 @@ public class LibraryScheduledBatchAndMailingApplication {
 		SpringApplication.run(LibraryScheduledBatchAndMailingApplication.class, args);
 	}
 
-	@Scheduled(fixedRate = 30000)
+	@Scheduled(fixedRate = 3600000)
 	public void scheduling() {
-		LocalDateTime date = LocalDateTime.now();
-		System.out.println("shedule time = " + date.getHour() +":"+date.getMinute()+":"+date.getSecond());
 		mail.getCustomerInformedOnLate();
 	}
 }
