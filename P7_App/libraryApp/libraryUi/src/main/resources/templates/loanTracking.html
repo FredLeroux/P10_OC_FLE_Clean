@@ -41,7 +41,7 @@
 						<span th:text="${loan.localizedFullDate}"></span>	
 						<br>					
 					</td>					
-					<td th:if= "${loan.postponed ==false}" class="text-left align-bottom">
+					<td th:if= "${loan.postponed ==false and loan.daysLeft >= 0}" class="text-left align-bottom">
 						<form  th:action="@{/postPone}" method="post">
 							<input type = "hidden" th:value="${loan.id}" name="loanId">
 							<span><sup>xxx</sup></span>
@@ -49,11 +49,16 @@
 							<span><sup>xxx</sup></span>
 						</form>						
 					</td>
-					<td th:if= "${loan.postponed ==true}" class="text-left align-bottom">
+					<td th:if= "${loan.postponed ==true and loan.daysLeft >= 0}" class="text-left align-bottom">
 					<span><sup>xxx</sup></span>
 					<span >Report déja appliqué</span>	
 					<span><sup>xxx</sup></span>
-					</td>							
+					</td>
+					<td th:if= "${loan.daysLeft < 0}" class="text-left align-bottom">
+					<span><sup>xxx</sup></span>
+					<span ><b>Urgent rapporter le livre</b></span>	
+					<span><sup>xxx</sup></span>
+					</td>								
 				</tr>				
 			</table>
 		</div>
