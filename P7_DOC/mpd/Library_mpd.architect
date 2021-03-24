@@ -173,18 +173,82 @@
     </index>
    </folder>
   </table>
+  <table id="TAB43" populated="true" UUID="27474251-5266-4dc5-9217-4095efb00674" name="library_book_reservations" objectType="TABLE" physicalName="library_book_reservations" >
+   <remarks></remarks>
+   <folder id="FOLTAB431" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL44" populated="true" UUID="2413de7a-3b9a-4cc3-a9d2-8685972d0953" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="3" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL45" populated="true" UUID="5f3ee5e3-0cf3-4e2d-bf6a-c23ef4c700c7" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_notification_date_seq" defaultValue="" name="notification_date" nullable="0" physicalName="notification_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL46" populated="true" UUID="ed68e60d-571c-43dc-babd-d9a4ff476e40" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_canceled_status_seq" defaultValue="" name="canceled_status" nullable="0" physicalName="canceled_status" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+     <remarks></remarks>
+    </column>
+    <column id="COL47" populated="true" UUID="b1a021b0-a9b8-4877-adef-829a2b881b1e" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_priority_seq" defaultValue="" name="priority" nullable="0" physicalName="priority" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL48" populated="true" UUID="4c38c06f-d3d4-45c0-b7b2-6324c41f89d3" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_library_book_fk_seq" defaultValue="" name="library_book_fk" nullable="0" physicalName="library_book_fk" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL49" populated="true" UUID="84c8fe47-9670-40a6-8d72-d14c32be7cd3" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_library_customer_fk_seq" defaultValue="" name="library_customer_fk" nullable="0" physicalName="library_customer_fk" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB433" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB432" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB434" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX50" populated="true" UUID="68ad1e8c-1ffa-46ee-a0ad-c3ed086d733a" clustered="false" name="library_book_reservations_pk" physicalName="library_book_reservations_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC51" populated="true" UUID="22113b73-8358-4a60-9b5c-213bf566082e" ascendingOrDescending="UNSPECIFIED" column-ref="COL44" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB52" populated="true" UUID="0511ce67-99a6-4723-827e-b1c23071436c" name="library_book_reservation_number" objectType="TABLE" physicalName="library_book_reservation_number" >
+   <remarks></remarks>
+   <folder id="FOLTAB521" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL53" populated="true" UUID="e2002fed-cd8a-4573-abb3-710b0ea52bb0" autoIncrement="false" autoIncrementSequenceName="library_book_reservation_number_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL54" populated="true" UUID="9243dfbc-e6f5-48e5-895c-bae6b189c560" autoIncrement="false" autoIncrementSequenceName="library_book_reservation_number_number_of_reservation_seq" defaultValue="" name="number_of_reservation" nullable="0" physicalName="number_of_reservation" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL55" populated="true" UUID="fb830184-322b-4b7d-87c2-17408becd2f4" autoIncrement="false" autoIncrementSequenceName="library_book_reservation_number_library_book_fk_seq" defaultValue="" name="library_book_fk" nullable="0" physicalName="library_book_fk" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB523" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB522" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB524" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX56" populated="true" UUID="86a67fb7-f775-4d30-bbba-ca1d8755c7bd" clustered="false" name="library_book_reservation_number_pk" physicalName="library_book_reservation_number_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC57" populated="true" UUID="5ad78d34-092a-46bf-a58d-322445d25b0d" ascendingOrDescending="UNSPECIFIED" column-ref="COL53" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
   <relationships>
-   <relationship id="REL43" populated="true" UUID="91549a81-9998-4301-ad92-6b92f3242bcb" deferrability="7" deleteRule="3" fk-table-ref="TAB8" fkCardinality="7" identifying="true" name="library_building_books_fk" physicalName="library_building_books_fk" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP44" populated="true" UUID="a5008678-d75e-43d9-b930-ba05a65dc4f4" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL4" />
+   <relationship id="REL58" populated="true" UUID="91549a81-9998-4301-ad92-6b92f3242bcb" deferrability="7" deleteRule="3" fk-table-ref="TAB8" fkCardinality="7" identifying="true" name="library_building_books_fk" physicalName="library_building_books_fk" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP59" populated="true" UUID="a5008678-d75e-43d9-b930-ba05a65dc4f4" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL4" />
    </relationship>
-   <relationship id="REL45" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_Borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP46" populated="true" UUID="c5c34f14-dbae-4511-ac90-6fcb9a4f2434" fk-column-ref="COL22" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
+   <relationship id="REL60" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_Borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP61" populated="true" UUID="c5c34f14-dbae-4511-ac90-6fcb9a4f2434" fk-column-ref="COL22" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
-   <relationship id="REL47" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="Custommer_Borrowed_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP48" populated="true" UUID="e5f0b7bc-bd11-4d70-aed0-7f56575efdef" fk-column-ref="COL23" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL27" />
+   <relationship id="REL62" populated="true" UUID="ba2adde3-397a-4034-b674-42f6df3a720a" deferrability="7" deleteRule="3" fk-table-ref="TAB43" fkCardinality="7" identifying="true" name="library_books_library_book_reservation_fk" physicalName="library_books_library_book_reservation_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP63" populated="true" UUID="ecc9c66a-8102-4c1f-98e7-5feb29eccc7b" fk-column-ref="COL48" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
-   <relationship id="REL49" populated="true" UUID="de3d3133-55de-4d5b-9c1f-c154665703cd" deferrability="7" deleteRule="3" fk-table-ref="TAB26" fkCardinality="7" identifying="true" name="library_role_customer_fk" physicalName="library_role_customer_fk" pk-table-ref="TAB38" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP50" populated="true" UUID="da5a2952-6202-494a-b4a8-c7e2aedc906d" fk-column-ref="COL34" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL39" />
+   <relationship id="REL64" populated="true" UUID="7b60bc11-9b34-4bea-8dcf-a7ae87b263b0" deferrability="7" deleteRule="3" fk-table-ref="TAB52" fkCardinality="7" identifying="true" name="library_books_library_book_researvation_number_fk" physicalName="library_books_library_book_researvation_number_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP65" populated="true" UUID="8925735c-87da-4c7f-bf93-de66c7e95b20" fk-column-ref="COL55" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
+   </relationship>
+   <relationship id="REL66" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="Custommer_Borrowed_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP67" populated="true" UUID="e5f0b7bc-bd11-4d70-aed0-7f56575efdef" fk-column-ref="COL23" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL27" />
+   </relationship>
+   <relationship id="REL68" populated="true" UUID="a0af4e32-63a7-497e-9a4c-588ec1dee0e8" deferrability="7" deleteRule="3" fk-table-ref="TAB43" fkCardinality="7" identifying="true" name="library_customers_library_book_reservation_fk" physicalName="library_customers_library_book_reservation_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP69" populated="true" UUID="dad53a5f-aa44-46d9-8e4e-69467bd5d97e" fk-column-ref="COL49" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL27" />
+   </relationship>
+   <relationship id="REL70" populated="true" UUID="de3d3133-55de-4d5b-9c1f-c154665703cd" deferrability="7" deleteRule="3" fk-table-ref="TAB26" fkCardinality="7" identifying="true" name="library_role_customer_fk" physicalName="library_role_customer_fk" pk-table-ref="TAB38" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP71" populated="true" UUID="da5a2952-6202-494a-b4a8-c7e2aedc906d" fk-column-ref="COL34" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL39" />
    </relationship>
   </relationships>
  </target-database>
@@ -196,16 +260,21 @@
   <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  </compare-dm-settings>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.189207115002721" viewportX="0" viewportY="25" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB3" x="462" y="218" bgColor="0xc8dccc" fgColor="0x5229a3" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB8" x="794" y="333" bgColor="0xc8dccc" fgColor="0x5229a3" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB17" x="454" y="554" bgColor="0xc8dccc" fgColor="0x5229a3" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="974" y="673" bgColor="0xdfedce" fgColor="0x5229a3" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB38" x="1251" y="537" bgColor="0xdfedce" fgColor="0x5229a3" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL43" pkConnection="0.9337748344370861" fkConnection="0.8053097345132744" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="36"/>
-  <table-link relationship-ref="REL45" pkConnection="0.09565217391304348" fkConnection="0.7964601769911505" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="20"/>
-  <table-link relationship-ref="REL47" pkConnection="0.2535211267605634" fkConnection="0.9203539823008849" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL49" pkConnection="0.2222222222222222" fkConnection="0.8941176470588236" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="20"/>
+  <table-pane table-ref="TAB43" x="1082" y="174" bgColor="0xeec994" fgColor="0x0000cc" rounded="true" dashed="false"/>
+  <table-pane table-ref="TAB52" x="745" y="92" bgColor="0xfbdabb" fgColor="0x0000cc" rounded="true" dashed="false"/>
+  <table-link relationship-ref="REL58" pkConnection="0.9337748344370861" fkConnection="0.8053097345132744" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="36"/>
+  <table-link relationship-ref="REL60" pkConnection="0.09565217391304348" fkConnection="0.7964601769911505" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="20"/>
+  <table-link relationship-ref="REL66" pkConnection="0.2535211267605634" fkConnection="0.9203539823008849" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL70" pkConnection="0.2222222222222222" fkConnection="0.8941176470588236" rLineColor="0x984ea3" pkLabelText="" fkLabelText="" orientation="20"/>
+  <table-link relationship-ref="REL62" pkConnection="0.9260869565217391" fkConnection="0.7787610619469026" rLineColor="0xff7f00" pkLabelText="" fkLabelText="" orientation="40"/>
+  <table-link relationship-ref="REL68" pkConnection="0.6466431095406361" fkConnection="0.05339805825242718" rLineColor="0xff7f00" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL64" pkConnection="0.4482758620689655" fkConnection="0.06278026905829596" rLineColor="0xff7f00" pkLabelText="" fkLabelText="" orientation="72"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">

@@ -177,10 +177,10 @@
    <relationship id="REL43" populated="true" UUID="91549a81-9998-4301-ad92-6b92f3242bcb" deferrability="7" deleteRule="3" fk-table-ref="TAB8" fkCardinality="7" identifying="true" name="library_building_books_fk" physicalName="library_building_books_fk" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP44" populated="true" UUID="a5008678-d75e-43d9-b930-ba05a65dc4f4" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL4" />
    </relationship>
-   <relationship id="REL45" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+   <relationship id="REL45" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_Borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP46" populated="true" UUID="c5c34f14-dbae-4511-ac90-6fcb9a4f2434" fk-column-ref="COL22" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
-   <relationship id="REL47" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="custommer_borrowed_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
+   <relationship id="REL47" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB17" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="Custommer_Borrowed_fk" pk-table-ref="TAB26" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP48" populated="true" UUID="e5f0b7bc-bd11-4d70-aed0-7f56575efdef" fk-column-ref="COL23" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL27" />
    </relationship>
    <relationship id="REL49" populated="true" UUID="de3d3133-55de-4d5b-9c1f-c154665703cd" deferrability="7" deleteRule="3" fk-table-ref="TAB26" fkCardinality="7" identifying="true" name="library_role_customer_fk" physicalName="library_role_customer_fk" pk-table-ref="TAB38" pkCardinality="2" updateRule="3" >
