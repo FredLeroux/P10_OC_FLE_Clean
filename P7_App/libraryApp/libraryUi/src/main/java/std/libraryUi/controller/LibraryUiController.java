@@ -8,8 +8,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -28,108 +26,111 @@ import std.libraryUi.proxies.LibraryBuildingsProxy;
 @Controller
 public class LibraryUiController {
 
-	@Autowired
-	private LibraryBookCaseProxy libraryCaseProxy;
+    private final static Integer MAX_RESERVATION_NUMBER = 2;
 
-	@Autowired
-	private LibraryBuildingsProxy libraryBuildingsProxy;
+    @Autowired
+    private LibraryBookCaseProxy libraryCaseProxy;
 
-	@Autowired
-	private ControllerMethods methods;
+    @Autowired
+    private LibraryBuildingsProxy libraryBuildingsProxy;
 
-	@GetMapping(value = "/")
-	public ModelAndView home(ModelAndView model, Principal principal, Locale timezone, HttpServletRequest request,
-			HttpSession session) {
-		model.setViewName("home");
-		if (request.getHeader("isKnown").equals("true")) {
-			session.setAttribute("logged", "true");
-		}
-		return model;
+    @Autowired
+    private ControllerMethods methods;
+
+    @GetMapping(value = "/")
+    public ModelAndView home(ModelAndView model, Principal principal, Locale timezone, HttpServletRequest request,
+	    HttpSession session) {
+	model.setViewName("home");
+	if (request.getHeader("isKnown").equals("true")) {
+	    session.setAttribute("logged", "true");
 	}
+	return model;
+    }
 
-	@GetMapping(value = "/loanTracking")
-	public ModelAndView welcome(ModelAndView model, HttpServletRequest request) {
-		model.setViewName("loanTracking");
-		listAndDatepickerInfo(model, request);
-		return model;
+    @GetMapping(value = "/loanTracking")
+    public ModelAndView welcome(ModelAndView model, HttpServletRequest request) {
+	model.setViewName("loanTracking");
+	listAndDatepickerInfo(model, request);
+	return model;
+    }
+
+    @PostMapping(value = "/postPone")
+    public ModelAndView postPone(ModelAndView model, Integer loanId, HttpServletRequest request) {
+	model.setViewName("loanTracking");
+	methods.postPoneLoan(request, "token", loanId, 4, ChronoUnit.WEEKS);
+	listAndDatepickerInfo(model, request);
+	return model;
+    }
+
+    @GetMapping(value = "/login")
+    public ModelAndView login() {
+	return new ModelAndView("login");
+    }
+
+    @GetMapping(value = "/booksList")
+    public ModelAndView allBook(ModelAndView model, HttpServletRequest request, HttpSession session) {
+	model.setViewName("booksList");
+	model.addObject("list", libraryCaseProxy.books(MAX_RESERVATION_NUMBER));
+	model.addObject("buildings", libraryBuildingsProxy.getBuildings());
+	model.addObject("kinds", libraryCaseProxy.kinds());
+	model.addObject("selectedBuilding", 0);
+	return model;
+    }
+
+    @GetMapping(value = "/bookListFiltering")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public @ResponseBody void filtering() {
+    }
+
+    @GetMapping(value = "/booksListFiltered")
+    public String filter(Model model, @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	    @RequestParam(name = "kinds") List<String> kinds) {
+	if (libraryBuilding == 0 && kinds.size() == 0) {
+	    model.addAttribute("list", libraryCaseProxy.books(MAX_RESERVATION_NUMBER));
+	} else if (libraryBuilding == 0 && kinds.size() != 0) {
+	    model.addAttribute("list", libraryCaseProxy.booksKindsFiltered(kinds, MAX_RESERVATION_NUMBER));
+	} else if (libraryBuilding != 0 && kinds.size() == 0) {
+	    model.addAttribute("list", libraryCaseProxy.booksBuildingFiltered(libraryBuilding, MAX_RESERVATION_NUMBER));
+	} else if (libraryBuilding != 0 && kinds.size() != 0) {
+	    model.addAttribute("list",
+		    libraryCaseProxy.booksBuildingAndKindsFiltered(libraryBuilding, kinds, MAX_RESERVATION_NUMBER));
 	}
+	return "bookListTable";
+    }
 
-	@PostMapping(value = "/postPone")
-	public ModelAndView postPone(ModelAndView model, Integer loanId, HttpServletRequest request) {
-		model.setViewName("loanTracking");
-		methods.postPoneLoan(request, "token", loanId, 4, ChronoUnit.WEEKS);
-		listAndDatepickerInfo(model, request);
-		return model;
-	}
+    @GetMapping(value = "/bookListTable")
+    public String table(Model model) {
+	model.addAttribute("list", libraryCaseProxy.books(MAX_RESERVATION_NUMBER));
+	return "bookListTable";
+    }
 
-	@GetMapping(value = "/login")
-	public ModelAndView login() {
-		return new ModelAndView("login");
-	}
+    private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
+	methods.addSortedLoansListAndDatePickerLoansInfoToModel(model, "list", "datepickerInfo", request, "token",
+		"fr");
+    }
 
-	@GetMapping(value = "/booksList")
-	public ModelAndView allBook(ModelAndView model, HttpServletRequest request, HttpSession session) {
-		model.setViewName("booksList");
-		model.addObject("list", libraryCaseProxy.books());
-		model.addObject("buildings", libraryBuildingsProxy.getBuildings());
-		model.addObject("kinds", libraryCaseProxy.kinds());
-		model.addObject("selectedBuilding", 0);
-		return model;
-	}
+    @GetMapping(value = "/errorPage")
+    public ModelAndView errorPage(ModelAndView model, HttpServletRequest request) {
+	model.setViewName("errorPage");
+	String errorCode = request.getParameter("errorCode");
+	model.addObject("errorCode", errorCode);
+	return model;
 
-	@GetMapping(value = "/bookListFiltering")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public @ResponseBody void filtering() {
-	}
+    }
 
-	@GetMapping(value = "/booksListFiltered")
-	public String filter(Model model, @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
-			@RequestParam(name = "kinds") List<String> kinds) {
-		if (libraryBuilding == 0 && kinds.size() == 0) {
-			model.addAttribute("list", libraryCaseProxy.books());
-		} else if (libraryBuilding == 0 && kinds.size() != 0) {
-			model.addAttribute("list", libraryCaseProxy.booksKindsFiltered(kinds));
-		} else if (libraryBuilding != 0 && kinds.size() == 0) {
-			model.addAttribute("list", libraryCaseProxy.booksBuildingFiltered(libraryBuilding));
-		} else if (libraryBuilding != 0 && kinds.size() != 0) {
-			model.addAttribute("list", libraryCaseProxy.booksBuildingAndKindsFiltered(libraryBuilding, kinds));
-		}
-		return "bookListTable";
-	}
+    @PostMapping(value = "/createLoan")
+    public ModelAndView createLoan(@RequestParam(value = "customerId") Integer customerId,
+	    @RequestParam(value = "bookId") Integer bookId) {
+	methods.createLoan(customerId, bookId);
+	return new ModelAndView("redirect:/loanTracking");
+    }
 
-	@GetMapping(value = "/bookListTable")
-	public String table(Model model) {
-		model.addAttribute("list", libraryCaseProxy.books());
-		return "bookListTable";
-	}
+    @PostMapping(value = "/returnLoan")
+    public ModelAndView returnLoan(@RequestParam(value = "customerId") Integer customerId,
+	    @RequestParam(value = "bookId") Integer bookId) {
+	methods.returnLoan(customerId, bookId);
+	return new ModelAndView("redirect:/loanTracking");
 
-	private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
-		methods.addSortedLoansListAndDatePickerLoansInfoToModel(model, "list", "datepickerInfo", request, "token",
-				"fr");
-	}
-
-	@GetMapping(value = "/errorPage")
-	public ModelAndView errorPage(ModelAndView model, HttpServletRequest request) {
-		model.setViewName("errorPage");
-		String errorCode = request.getParameter("errorCode");
-		model.addObject("errorCode", errorCode);
-		return model;
-
-	}
-
-	@PostMapping(value = "/createLoan")
-	public ModelAndView createLoan(@RequestParam(value = "customerId") Integer customerId,
-			@RequestParam(value = "bookId") Integer bookId) {
-		methods.createLoan(customerId, bookId);
-		return new ModelAndView("redirect:/loanTracking");
-	}
-
-	@PostMapping(value = "/returnLoan")
-	public ModelAndView returnLoan(@RequestParam(value = "customerId") Integer customerId,
-			@RequestParam(value = "bookId") Integer bookId) {
-		methods.returnLoan(customerId, bookId);
-		return new ModelAndView("redirect:/loanTracking");
-
-	}
+    }
 
 }

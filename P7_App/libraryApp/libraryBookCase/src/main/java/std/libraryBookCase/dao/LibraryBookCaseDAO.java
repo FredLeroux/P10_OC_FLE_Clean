@@ -10,7 +10,7 @@ import std.libraryBookCase.entities.LibraryBook;
 @Repository
 public interface LibraryBookCaseDAO extends JpaRepository<LibraryBook, Integer> {
 
-	public List<LibraryBook>  findByAvailabilityTrue();
+	public List<LibraryBook>  findAll();
 
 	public List<LibraryBook> findByLibraryBuildingIdAndAvailabilityTrue(Integer id);
 

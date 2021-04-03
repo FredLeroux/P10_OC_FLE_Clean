@@ -14,24 +14,24 @@ import std.libraryUi.beans.BooksBean;
 @RibbonClient(name = "libraryBookCase")
 public interface LibraryBookCaseProxy {
 
-	@GetMapping(value = "/libraryBookCase/books")///libraryBookCase
-	public List<BooksBean> books();
+    @GetMapping(value = "/libraryBookCase/books") /// libraryBookCase
+    public List<BooksBean> books(@RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
 
-	@GetMapping(value = "/libraryBookCase/kinds")
-	public List<BookKindsBean> kinds();
+    @GetMapping(value = "/libraryBookCase/kinds")
+    public List<BookKindsBean> kinds();
 
-	@GetMapping(value = "/libraryBookCase/buildingFiltered")
-	public List<BooksBean> booksBuildingFiltered(
-			@RequestParam(name = "libraryBuilding") Integer libraryBuilding);
+    @GetMapping(value = "/libraryBookCase/buildingFiltered")
+    public List<BooksBean> booksBuildingFiltered(@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
 
-	@GetMapping(value ="/libraryBookCase/kindsFiltered")
-	public List<BooksBean>booksKindsFiltered(
-			@RequestParam(name = "kinds") List<String> kinds);
+    @GetMapping(value = "/libraryBookCase/kindsFiltered")
+    public List<BooksBean> booksKindsFiltered(@RequestParam(name = "kinds") List<String> kinds,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
 
-	@GetMapping(value = "/libraryBookCase/buildingAndKindsFiltered")
-	public List<BooksBean> booksBuildingAndKindsFiltered(
-			@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
-			@RequestParam(name = "kinds") List<String> kinds);
-
+    @GetMapping(value = "/libraryBookCase/buildingAndKindsFiltered")
+    public List<BooksBean> booksBuildingAndKindsFiltered(
+	    @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	    @RequestParam(name = "kinds") List<String> kinds,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
 
 }

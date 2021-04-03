@@ -2,20 +2,20 @@ package std.libraryBookCase.service;
 
 import java.util.List;
 
-import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
-
 
 public interface LibraryBookCaseService {
 
-	public List<LibraryBooksAndQuantityDTO> getAllBooks();
+    public List<LibraryBookAndQuantityDTO> getAllBooks(Integer maxReservationNumber);
 
-	public List<LibraryBooksKindsDTO> getKindsList();
+    public List<LibraryBooksKindsDTO> getKindsList();
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id);
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByBuilding(Integer id, Integer maxReservationNumber);
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds);
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds, Integer maxReservationNumber);
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id,List<String> kinds);
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds,
+	    Integer maxReservationNumber);
 
 }
