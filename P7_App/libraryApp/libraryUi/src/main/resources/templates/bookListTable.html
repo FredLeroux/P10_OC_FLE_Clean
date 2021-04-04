@@ -44,7 +44,7 @@
 						<a th:href="@{'/doreservation?title='
 						+${book.title}+'&building='+${book.libraryBuildingName}}">
 							0 ,faire une réservation</a>
-					</span>
+					</span> 
 					<span th:if = "${book.number <0}" th:text="'0 ,Aucune disponibilité'" ></span>	
 				</td>
 			</tr>
