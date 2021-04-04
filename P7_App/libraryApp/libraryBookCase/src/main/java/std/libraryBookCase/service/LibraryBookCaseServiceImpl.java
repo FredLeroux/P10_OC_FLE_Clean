@@ -33,19 +33,18 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
 
     @Override
     public List<LibraryBookAndQuantityDTO> getBooksFilteredByBuilding(Integer id, Integer maxReservationNumber) {
-	return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingIdAndAvailabilityTrue(id)),
-		maxReservationNumber);
+	return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingId(id)), maxReservationNumber);
     }
 
     @Override
     public List<LibraryBookAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds, Integer maxReservationNumber) {
-	return booksAndQuantityList(booksDTOList(dao.findByKindInAndAvailabilityTrue(kinds)), maxReservationNumber);
+	return booksAndQuantityList(booksDTOList(dao.findByKindIn(kinds)), maxReservationNumber);
     }
 
     @Override
     public List<LibraryBookAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds,
 	    Integer maxReservationNumber) {
-	return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingIdAndKindInAndAvailabilityTrue(id, kinds)),
+	return booksAndQuantityList(booksDTOList(dao.findByLibraryBuildingIdAndKindIn(id, kinds)),
 		maxReservationNumber);
     }
 

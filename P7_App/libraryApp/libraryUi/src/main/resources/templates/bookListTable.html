@@ -38,7 +38,15 @@
 				<td th:text="${book.title}"></td>
 				<td th:text="${book.author}"></td>
 				<td th:text="${book.libraryBuildingName}"></td>
-				<td th:text="${book.number}"></td>
+				<td >
+					<span th:if = "${book.number > 0}" th:text="${book.number}"></span>
+					<span th:if = "${book.number == 0}" >
+						<a th:href="@{'/doreservation?title='
+						+${book.title}+'&building='+${book.libraryBuildingName}}">
+							0 ,faire une réservation</a>
+					</span>
+					<span th:if = "${book.number <0}" th:text="'0 ,Aucune disponibilité'" ></span>	
+				</td>
 			</tr>
 		</tbody>
 	</table>

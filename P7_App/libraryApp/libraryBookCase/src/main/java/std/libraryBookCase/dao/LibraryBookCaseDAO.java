@@ -10,12 +10,13 @@ import std.libraryBookCase.entities.LibraryBook;
 @Repository
 public interface LibraryBookCaseDAO extends JpaRepository<LibraryBook, Integer> {
 
-	public List<LibraryBook>  findAll();
+    @Override
+    public List<LibraryBook> findAll();
 
-	public List<LibraryBook> findByLibraryBuildingIdAndAvailabilityTrue(Integer id);
+    public List<LibraryBook> findByLibraryBuildingId(Integer id);
 
-	public List<LibraryBook> findByKindInAndAvailabilityTrue(List<String> kinds);
+    public List<LibraryBook> findByKindIn(List<String> kinds);
 
-	public List<LibraryBook> findByLibraryBuildingIdAndKindInAndAvailabilityTrue(Integer id,List<String> kinds);
+    public List<LibraryBook> findByLibraryBuildingIdAndKindIn(Integer id, List<String> kinds);
 
 }
