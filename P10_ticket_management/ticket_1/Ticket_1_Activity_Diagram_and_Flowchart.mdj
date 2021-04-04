@@ -7258,6 +7258,7 @@
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
 											"name": "Front-End set and display datatable books list",
+											"documentation": "Detailled functionality to display Jquery DataTable using  displayable books list stored in session",
 											"ownedViews": [
 												{
 													"_type": "FCTerminatorView",
@@ -7278,7 +7279,7 @@
 															"fillColor": "#008400",
 															"font": "Arial;15;0",
 															"left": 114,
-															"top": 74,
+															"top": 98,
 															"width": 84,
 															"height": 15,
 															"text": "Start",
@@ -7288,7 +7289,7 @@
 													"fillColor": "#008400",
 													"font": "Arial;15;0",
 													"left": 104,
-													"top": 64,
+													"top": 88,
 													"width": 104,
 													"height": 40,
 													"nameLabel": {
@@ -7314,10 +7315,10 @@
 															"fillColor": "#000000",
 															"fontColor": "#ffffff",
 															"font": "Arial;15;0",
-															"left": 340,
-															"top": 74,
+															"left": 613,
+															"top": 50,
 															"width": 143,
-															"height": 15,
+															"height": 30,
 															"text": "Displayable books list",
 															"wordWrap": true
 														}
@@ -7325,8 +7326,8 @@
 													"fillColor": "#000000",
 													"fontColor": "#ffffff",
 													"font": "Arial;15;0",
-													"left": 303,
-													"top": 64,
+													"left": 576,
+													"top": 40,
 													"width": 217,
 													"height": 57,
 													"nameLabel": {
@@ -7623,9 +7624,9 @@
 															"font": "Arial;15;0",
 															"left": 142,
 															"top": 882,
-															"width": 215.11962890625,
-															"height": 45,
-															"text": "DataTable available_examplaries_numbers = Nb_1 ",
+															"width": 289,
+															"height": 30,
+															"text": "Table available_examplaries_numbers = Nb_1 ",
 															"wordWrap": true
 														}
 													],
@@ -7633,8 +7634,8 @@
 													"font": "Arial;15;0",
 													"left": 132,
 													"top": 872,
-													"width": 235.11962890625,
-													"height": 72,
+													"width": 309,
+													"height": 50,
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqIPDjA="
 													}
@@ -7732,51 +7733,6 @@
 													"points": "132:907;88:907;88:336;311:336",
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqITShA="
-													}
-												},
-												{
-													"_type": "FCFlowView",
-													"_id": "AAAAAAF4fgYjcqIUWoY=",
-													"_parent": {
-														"$ref": "AAAAAAF4fgYjcqH7bhg="
-													},
-													"model": {
-														"$ref": "AAAAAAF4fgYjc6I6fNo="
-													},
-													"subViews": [
-														{
-															"_type": "EdgeLabelView",
-															"_id": "AAAAAAF4fgYjcqIVwZE=",
-															"_parent": {
-																"$ref": "AAAAAAF4fgYjcqIUWoY="
-															},
-															"model": {
-																"$ref": "AAAAAAF4fgYjc6I6fNo="
-															},
-															"visible": false,
-															"font": "Arial;13;0",
-															"left": 255,
-															"top": 68,
-															"height": 13,
-															"alpha": 1.5707963267948966,
-															"distance": 15,
-															"hostEdge": {
-																"$ref": "AAAAAAF4fgYjcqIUWoY="
-															},
-															"edgePosition": 1
-														}
-													],
-													"font": "Arial;15;0",
-													"head": {
-														"$ref": "AAAAAAF4fgYjcqH+KhM="
-													},
-													"tail": {
-														"$ref": "AAAAAAF4fgYjcqH8sl4="
-													},
-													"lineStyle": 2,
-													"points": "207:89;303:89",
-													"nameLabel": {
-														"$ref": "AAAAAAF4fgYjcqIVwZE="
 													}
 												},
 												{
@@ -7884,9 +7840,9 @@
 															"font": "Arial;15;0",
 															"left": 142,
 															"top": 996,
-															"width": 215.11962890625,
-															"height": 45,
-															"text": "DataTable available_examplaries_numbers = \"Reservation available message\"",
+															"width": 425.9326171875,
+															"height": 30,
+															"text": "Table available_examplaries_numbers = \"Reservation available message\"",
 															"wordWrap": true
 														}
 													],
@@ -7894,8 +7850,8 @@
 													"font": "Arial;15;0",
 													"left": 132,
 													"top": 986,
-													"width": 235.11962890625,
-													"height": 80,
+													"width": 445.9326171875,
+													"height": 50,
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqId6eA="
 													}
@@ -7967,12 +7923,12 @@
 															"lineColor": "#00ad00",
 															"fontColor": "#00ad00",
 															"font": "Arial;15;0",
-															"left": 550,
-															"top": 998,
+															"left": 663,
+															"top": 984,
 															"width": 24.47021484375,
 															"height": 15,
-															"alpha": -0.18919904175062507,
-															"distance": 95.70788891204319,
+															"alpha": 4.189985321081984,
+															"distance": 38.07886552931954,
 															"hostEdge": {
 																"$ref": "AAAAAAF4fgYjcqIgOMg="
 															},
@@ -7990,7 +7946,7 @@
 														"$ref": "AAAAAAF4fgYjcqIYpwA="
 													},
 													"lineStyle": 2,
-													"points": "656:952;656:1024;366:1024",
+													"points": "656:952;656:1024;577:1024",
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqIh3FY="
 													}
@@ -8014,19 +7970,20 @@
 															"fillColor": "#568eff",
 															"font": "Arial;15;0",
 															"left": 142,
-															"top": 1110,
-															"width": 196,
-															"height": 75,
-															"text": "Datatable add on this line onclick GetRequest reservation page action with selected_book_title as parameter",
+															"top": 1114,
+															"width": 425.9326171875,
+															"height": 30,
+															"text": "Table add on this message Href : \"/reservation?title=selected_book_title&building=building_name\"",
 															"wordWrap": true
 														}
 													],
 													"fillColor": "#568eff",
 													"font": "Arial;15;0",
 													"left": 132,
-													"top": 1100,
-													"width": 216,
-													"height": 95,
+													"top": 1104,
+													"width": 445.9326171875,
+													"height": 50,
+													"autoResize": true,
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqIjZWI="
 													}
@@ -8053,7 +8010,7 @@
 															"visible": false,
 															"font": "Arial;13;0",
 															"left": 257,
-															"top": 1075,
+															"top": 1062,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 15,
@@ -8071,7 +8028,7 @@
 														"$ref": "AAAAAAF4fgYjcqIcslQ="
 													},
 													"lineStyle": 2,
-													"points": "243:1065;243:1100",
+													"points": "243:1035;243:1104",
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqIlwMU="
 													}
@@ -8096,9 +8053,9 @@
 															"font": "Arial;15;0",
 															"left": 142,
 															"top": 1224,
-															"width": 215.11962890625,
-															"height": 45,
-															"text": "DataTable available_examplaries_numbers = \"No reservation available message\"",
+															"width": 425,
+															"height": 30,
+															"text": "Table available_examplaries_numbers = \"No reservation available message\"",
 															"wordWrap": true
 														}
 													],
@@ -8106,8 +8063,8 @@
 													"font": "Arial;15;0",
 													"left": 132,
 													"top": 1214,
-													"width": 235.11962890625,
-													"height": 80,
+													"width": 445,
+													"height": 50,
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqInjA4="
 													}
@@ -8201,7 +8158,7 @@
 														"$ref": "AAAAAAF4fgYjcqIYpwA="
 													},
 													"lineStyle": 2,
-													"points": "736:920;784:920;784:1248;366:1248",
+													"points": "736:920;784:920;784:1248;576:1248",
 													"nameLabel": {
 														"$ref": "AAAAAAF4fgYjcqIrq64="
 													}
@@ -8228,7 +8185,7 @@
 															"top": 434,
 															"width": 196,
 															"height": 15,
-															"text": "Display DataTable",
+															"text": "Display Table",
 															"wordWrap": true
 														}
 													],
@@ -8489,7 +8446,7 @@
 															"top": 178,
 															"width": 197,
 															"height": 15,
-															"text": "Create DataTable",
+															"text": "Create Table",
 															"wordWrap": true
 														}
 													],
@@ -8501,51 +8458,6 @@
 													"height": 72,
 													"nameLabel": {
 														"$ref": "AAAAAAF4hS3ppyoSv38="
-													}
-												},
-												{
-													"_type": "FCFlowView",
-													"_id": "AAAAAAF4hS6GPyohMmQ=",
-													"_parent": {
-														"$ref": "AAAAAAF4fgYjcqH7bhg="
-													},
-													"model": {
-														"$ref": "AAAAAAF4hS6GPiofVgU="
-													},
-													"subViews": [
-														{
-															"_type": "EdgeLabelView",
-															"_id": "AAAAAAF4hS6GPyoi8mw=",
-															"_parent": {
-																"$ref": "AAAAAAF4hS6GPyohMmQ="
-															},
-															"model": {
-																"$ref": "AAAAAAF4hS6GPiofVgU="
-															},
-															"visible": false,
-															"font": "Arial;15;0",
-															"left": 427,
-															"top": 136,
-															"height": 15,
-															"alpha": 1.5707963267948966,
-															"distance": 15,
-															"hostEdge": {
-																"$ref": "AAAAAAF4hS6GPyohMmQ="
-															},
-															"edgePosition": 1
-														}
-													],
-													"font": "Arial;15;0",
-													"head": {
-														"$ref": "AAAAAAF4hS3ppyoRvQM="
-													},
-													"tail": {
-														"$ref": "AAAAAAF4fgYjcqH+KhM="
-													},
-													"lineStyle": 2,
-													"points": "413:120;413:168",
-													"nameLabel": {
-														"$ref": "AAAAAAF4hS6GPyoi8mw="
 													}
 												},
 												{
@@ -8592,6 +8504,96 @@
 													"nameLabel": {
 														"$ref": "AAAAAAF4hS6QkSor+rY="
 													}
+												},
+												{
+													"_type": "FCFlowView",
+													"_id": "AAAAAAF4m/KndwzSIsk=",
+													"_parent": {
+														"$ref": "AAAAAAF4fgYjcqH7bhg="
+													},
+													"model": {
+														"$ref": "AAAAAAF4m/KndwzQl3Q="
+													},
+													"subViews": [
+														{
+															"_type": "EdgeLabelView",
+															"_id": "AAAAAAF4m/KndwzTGKU=",
+															"_parent": {
+																"$ref": "AAAAAAF4m/KndwzSIsk="
+															},
+															"model": {
+																"$ref": "AAAAAAF4m/KndwzQl3Q="
+															},
+															"visible": false,
+															"font": "Arial;15;0",
+															"left": 438,
+															"top": 95,
+															"height": 15,
+															"alpha": 1.5707963267948966,
+															"distance": 15,
+															"hostEdge": {
+																"$ref": "AAAAAAF4m/KndwzSIsk="
+															},
+															"edgePosition": 1
+														}
+													],
+													"font": "Arial;15;0",
+													"head": {
+														"$ref": "AAAAAAF4hS3ppyoRvQM="
+													},
+													"tail": {
+														"$ref": "AAAAAAF4fgYjcqH8sl4="
+													},
+													"lineStyle": 2,
+													"points": "207:103;424:103;424:168",
+													"nameLabel": {
+														"$ref": "AAAAAAF4m/KndwzTGKU="
+													}
+												},
+												{
+													"_type": "FCFlowView",
+													"_id": "AAAAAAF4m/LEtAzclik=",
+													"_parent": {
+														"$ref": "AAAAAAF4fgYjcqH7bhg="
+													},
+													"model": {
+														"$ref": "AAAAAAF4m/LEtAzaDKU="
+													},
+													"subViews": [
+														{
+															"_type": "EdgeLabelView",
+															"_id": "AAAAAAF4m/LEtAzdZP8=",
+															"_parent": {
+																"$ref": "AAAAAAF4m/LEtAzclik="
+															},
+															"model": {
+																"$ref": "AAAAAAF4m/LEtAzaDKU="
+															},
+															"visible": false,
+															"font": "Arial;15;0",
+															"left": 654,
+															"top": 320,
+															"height": 15,
+															"alpha": 1.5707963267948966,
+															"distance": 15,
+															"hostEdge": {
+																"$ref": "AAAAAAF4m/LEtAzclik="
+															},
+															"edgePosition": 1
+														}
+													],
+													"font": "Arial;15;0",
+													"head": {
+														"$ref": "AAAAAAF4fgYjcqIAHsE="
+													},
+													"tail": {
+														"$ref": "AAAAAAF4fgYjcqH+KhM="
+													},
+													"lineStyle": 2,
+													"points": "655:96;655:312;527:312",
+													"nameLabel": {
+														"$ref": "AAAAAAF4m/LEtAzdZP8="
+													}
 												}
 											]
 										},
@@ -8605,7 +8607,7 @@
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
-													"_id": "AAAAAAF4fgYjc6I6fNo=",
+													"_id": "AAAAAAF4m/KndwzQl3Q=",
 													"_parent": {
 														"$ref": "AAAAAAF4fgYjc6I5J4s="
 													},
@@ -8613,7 +8615,7 @@
 														"$ref": "AAAAAAF4fgYjc6I5J4s="
 													},
 													"target": {
-														"$ref": "AAAAAAF4fgYjc6I7e30="
+														"$ref": "AAAAAAF4hS3ppyoP2Mw="
 													}
 												}
 											]
@@ -8628,7 +8630,7 @@
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
-													"_id": "AAAAAAF4hS6GPiofVgU=",
+													"_id": "AAAAAAF4m/LEtAzaDKU=",
 													"_parent": {
 														"$ref": "AAAAAAF4fgYjc6I7e30="
 													},
@@ -8636,7 +8638,7 @@
 														"$ref": "AAAAAAF4fgYjc6I7e30="
 													},
 													"target": {
-														"$ref": "AAAAAAF4hS3ppyoP2Mw="
+														"$ref": "AAAAAAF4fgYjc6I92n0="
 													}
 												}
 											]
@@ -8777,7 +8779,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "DataTable available_examplaries_numbers = Nb_1 ",
+											"name": "Table available_examplaries_numbers = Nb_1 ",
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
@@ -8838,7 +8840,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "DataTable available_examplaries_numbers = \"Reservation available message\"",
+											"name": "Table available_examplaries_numbers = \"Reservation available message\"",
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
@@ -8874,7 +8876,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "Datatable add on this line onclick GetRequest reservation page action with selected_book_title as parameter",
+											"name": "Table add on this message Href : \"/reservation?title=selected_book_title&building=building_name\"",
 											"documentation": "Datatable add on this line onclick GetRequest reservation page action with book title as parameter"
 										},
 										{
@@ -8883,7 +8885,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "DataTable available_examplaries_numbers = \"No reservation available message\"",
+											"name": "Table available_examplaries_numbers = \"No reservation available message\"",
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
@@ -8906,7 +8908,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "Display DataTable",
+											"name": "Display Table",
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
@@ -8952,7 +8954,7 @@
 											"_parent": {
 												"$ref": "AAAAAAF4fgYjcqH6l+E="
 											},
-											"name": "Create DataTable",
+											"name": "Create Table",
 											"ownedElements": [
 												{
 													"_type": "FCFlow",
@@ -8970,7 +8972,7 @@
 											]
 										}
 									],
-									"documentation": "Detailled functionality to display Jquery DataTable using  displayable books list stored in session"
+									"documentation": "Microservice libraryUI\nressource bookListTable.html\nUse Thymeleaf condition  on  created table"
 								}
 							]
 						},
@@ -29682,7 +29684,7 @@
 															"left": 170,
 															"top": 794,
 															"width": 172,
-															"height": 75,
+															"height": 60,
 															"text": "Stream on reservations list filter book_id and where today - notification_date > max  notification time ",
 															"wordWrap": true
 														}
