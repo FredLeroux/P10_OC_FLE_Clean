@@ -1,9 +1,8 @@
 package std.libraryUi.controller;
 
-import java.security.Principal;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import std.libraryUi.beans.ReservableBookExamplaryDatedBean;
 import std.libraryUi.controller.controllerMethods.ControllerMethods;
+import std.libraryUi.exceptions.EmptyListException;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBuildingsProxy;
 
@@ -38,11 +39,11 @@ public class LibraryUiController {
     private ControllerMethods methods;
 
     @GetMapping(value = "/")
-    public ModelAndView home(ModelAndView model, Principal principal, Locale timezone, HttpServletRequest request,
-	    HttpSession session) {
+    public ModelAndView home(ModelAndView model, HttpServletRequest request, HttpSession session) {
 	model.setViewName("home");
 	if (request.getHeader("isKnown").equals("true")) {
 	    session.setAttribute("logged", "true");
+	    session.setAttribute("resa", "true");
 	}
 	return model;
     }
@@ -84,7 +85,7 @@ public class LibraryUiController {
 
     @GetMapping(value = "/booksListFiltered")
     public String filter(Model model, @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
-	    @RequestParam(name = "kinds") List<String> kinds) {
+	    @RequestParam(name = "kinds") List<String> kinds, HttpServletRequest request, HttpSession session) {
 	if (libraryBuilding == 0 && kinds.size() == 0) {
 	    model.addAttribute("list", libraryCaseProxy.books(MAX_RESERVATION_NUMBER));
 	} else if (libraryBuilding == 0 && kinds.size() != 0) {
@@ -95,13 +96,22 @@ public class LibraryUiController {
 	    model.addAttribute("list",
 		    libraryCaseProxy.booksBuildingAndKindsFiltered(libraryBuilding, kinds, MAX_RESERVATION_NUMBER));
 	}
+	bookListTableSessionAttribut(request, session);
 	return "bookListTable";
     }
 
     @GetMapping(value = "/bookListTable")
-    public String table(Model model) {
+    public String table(Model model, HttpServletRequest request, HttpSession session) {
 	model.addAttribute("list", libraryCaseProxy.books(MAX_RESERVATION_NUMBER));
+	bookListTableSessionAttribut(request, session);
 	return "bookListTable";
+    }
+
+    private void bookListTableSessionAttribut(HttpServletRequest request, HttpSession session) {
+	if (request.getHeader("isKnown").equals("true")) {
+	    session.setAttribute("logged", "true");
+	    session.setAttribute("resa", "true");
+	}
     }
 
     private void listAndDatepickerInfo(ModelAndView model, HttpServletRequest request) {
@@ -109,13 +119,24 @@ public class LibraryUiController {
 		"fr");
     }
 
-    @GetMapping(value = "/errorPage")
-    public ModelAndView errorPage(ModelAndView model, HttpServletRequest request) {
-	model.setViewName("errorPage");
-	String errorCode = request.getParameter("errorCode");
-	model.addObject("errorCode", errorCode);
+    @GetMapping(value = "/doReservation")
+    public ModelAndView doReservation(ModelAndView model, HttpServletRequest request) {
+	model.setViewName("doReservation");
+	String title = request.getParameter("title");
+	String buildingName = request.getParameter("building");
+	List<ReservableBookExamplaryDatedBean> list = new ArrayList<>();
+	try {
+	    list = methods.getReservableExamplaryBeans(title, buildingName, 2, 4, ChronoUnit.WEEKS, "fr");
+	} catch (Exception e) {
+	    throw new EmptyListException();
+	}
+	if (list.isEmpty()) {
+	    throw new EmptyListException("Examplaries List is empty");
+	}
+	model.addObject("title", title);
+	model.addObject("building", buildingName);
+	model.addObject("examplariesList", list);
 	return model;
-
     }
 
     @PostMapping(value = "/createLoan")
@@ -130,6 +151,15 @@ public class LibraryUiController {
 	    @RequestParam(value = "bookId") Integer bookId) {
 	methods.returnLoan(customerId, bookId);
 	return new ModelAndView("redirect:/loanTracking");
+
+    }
+
+    @GetMapping(value = "/errorPage")
+    public ModelAndView errorPage(ModelAndView model, HttpServletRequest request) {
+	model.setViewName("errorPage");
+	String errorCode = request.getParameter("errorCode");
+	model.addObject("errorCode", errorCode);
+	return model;
 
     }
 

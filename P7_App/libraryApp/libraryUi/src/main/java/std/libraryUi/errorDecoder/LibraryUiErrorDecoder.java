@@ -11,22 +11,21 @@ import std.libraryUi.exceptions.UnknowErrorException;;
 @Component
 public class LibraryUiErrorDecoder implements ErrorDecoder {
 
-	@Override
-	public Exception decode(String methodKey, Response response) {
+    @Override
+    public Exception decode(String methodKey, Response response) {
 
-		if (response.status() == 404) {
-			if (methodKey.contains("postpone")) {
-				return new LoanNotFoundException();
-			}
+	if (response.status() == 404) {
+	    if (methodKey.contains("postpone")) {
+		return new LoanNotFoundException();
+	    }
 
-		}
-		if (response.status() == 501) {
-			if (methodKey.contains("postpone")) {
-				return new ChronoUnitNotImplementedException();
-			}
-		}
-		System.out.println("unknown");
-		throw new UnknowErrorException();
 	}
+	if (response.status() == 501) {
+	    if (methodKey.contains("postpone")) {
+		return new ChronoUnitNotImplementedException();
+	    }
+	}
+	throw new UnknowErrorException();
+    }
 
 }

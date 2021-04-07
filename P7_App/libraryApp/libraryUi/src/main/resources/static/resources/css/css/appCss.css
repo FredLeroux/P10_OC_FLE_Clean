@@ -201,6 +201,11 @@ tr.even:hover, tr.odd:hover {
   font-size: 1.2em;
 }
 
+.reservationExamplariesList {
+  font-family: body-font;
+  font-size: 1.2em;
+}
+
 .datepicker-tooltip {
   white-space: pre-wrap;
   padding-right: 10px;
@@ -228,6 +233,13 @@ tr.even:hover, tr.odd:hover {
   color: midnightblue;
   background-color: #ebe9de;
   cursor: default;
+}
+
+.doReservationTitleAndBuilding {
+  color: black;
+  text-align: center;
+  font-family: menu-font;
+  font-size: 2em;
 }
 
 /*# sourceMappingURL=appCss.css.map */

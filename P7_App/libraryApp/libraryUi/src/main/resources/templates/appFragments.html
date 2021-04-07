@@ -63,6 +63,34 @@
 		</div>
 	</div>
 	
+	<div th:fragment="doReservation_subTitle">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<h2 class="sub-title">Faire une réservation</h2>		
+				</div>
+				<div class="col-lg-2 text-right">
+					
+				</div>			
+			</div>		
+		</div>
+	</div>
+	<div th:fragment="doReservation_bookAndBuilding">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-12">
+					<div class="doReservationTitleAndBuilding">Titre: <span th:text="${title}"></span></div>
+				</div>
+			</div>
+			<div class="row content">
+				<div class="col-lg-12 doReservationTitleAndBuilding">Bibliothèque: 
+					<span th:text="${building}"></span></div>
+				</div>
+			</div>				
+		</div>
+	
+	
 	<div th:fragment="errorPage_subTitle">
 		<div class="container-fluid">
 			<div class="row content">
@@ -77,7 +105,7 @@
 	
 	<div th:fragment="backHomeButton_nav">
 		<p>
-			<a th:id="backHomeButton" th:href="@{/}">Retour Acceuil</a>				
+			<a th:id="backHomeButton" th:href="@{/}">Retour acceuil</a>				
 		</p> 
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>
 		<script type="text/javascript">
@@ -102,6 +130,7 @@
 		<p th:unless = "${session.logged != 'true'}">
 			<a th:id="unlogBtn" href="/logout">Déconnexion</a>
 		</p>
+		<span th:text = "${session.logged}"></span>
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>	
 		<script type="text/javascript">
 			uiButton("#logBtn","uiElmt-sideNav-login");

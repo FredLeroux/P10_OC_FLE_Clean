@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.BookKindsBean;
 import std.libraryUi.beans.BooksBean;
+import std.libraryUi.beans.ReservableBookExamplaryBean;
 
 @FeignClient(name = "libraryGateWayZuul")
 @RibbonClient(name = "libraryBookCase")
 public interface LibraryBookCaseProxy {
 
-    @GetMapping(value = "/libraryBookCase/books") /// libraryBookCase
+    @GetMapping(value = "/libraryBookCase/books")
     public List<BooksBean> books(@RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
 
     @GetMapping(value = "/libraryBookCase/kinds")
@@ -33,5 +34,10 @@ public interface LibraryBookCaseProxy {
 	    @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
 	    @RequestParam(name = "kinds") List<String> kinds,
 	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber);
+
+    @GetMapping(value = "/libraryBookCase/reservableBookExamplaries")
+    public List<ReservableBookExamplaryBean> getReservableBooks(@RequestParam(name = "title") String title,
+	    @RequestParam(name = "buildingName") String buildingName,
+	    @RequestParam(name = "maxOfReservation") Integer maxOfReservation);
 
 }

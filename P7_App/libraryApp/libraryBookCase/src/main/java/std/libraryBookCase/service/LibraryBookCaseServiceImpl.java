@@ -13,6 +13,7 @@ import std.libraryBookCase.dao.LibraryBookCaseDAO;
 import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
 import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 import std.libraryBookCase.entities.LibraryBook;
 
 @Service
@@ -25,6 +26,7 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     private LibraryBookDTO bookDTO = new LibraryBookDTO();
     private LibraryBooksKindsDTO booksKindsDTO = new LibraryBooksKindsDTO();
     private LibraryBookAndQuantityDTO booksAndQuantityDTO = new LibraryBookAndQuantityDTO();
+    private LibraryReservableBookExamplary reservableBook = new LibraryReservableBookExamplary();
 
     @Override
     public List<LibraryBookAndQuantityDTO> getAllBooks(Integer maxReservationNumber) {
@@ -155,15 +157,6 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
 	return books.getLibraryBuildingName().equals(booksDTO.getLibraryBuilding().getName());
     }
 
-    private LibraryBookAndQuantityDTO createBooksAndNumberDTO(LibraryBookDTO book) {
-	return new LibraryBookAndQuantityDTO(book.getId(), book.getKind(), book.getTitle(), book.getAuthor(),
-		book.getLibraryBuilding().getName(), 1);
-    }
-
-    private void incrementBooksAndNumberDTONumber(LibraryBookAndQuantityDTO book) {
-	book.setNumber(book.getNumber() + 1);
-    }
-
     @Override
     public List<LibraryBooksKindsDTO> getKindsList() {
 	return booksKindsDTOList(dao.findAll());
@@ -175,6 +168,20 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
 
     private LibraryBooksKindsDTO convertBooksToKindsDTO(LibraryBook book) {
 	return modelMapper.map(book, booksKindsDTO.getClass());
+    }
+
+    @Override
+    public List<LibraryReservableBookExamplary> getReservableBooks(String title, String buildingName,
+	    Integer maxOfReservation) {
+	List<LibraryReservableBookExamplary> list = new ArrayList<>();
+	list = dao
+		.findByTitleAndLibraryBuildingNameAndNumberOfReservationsLessThan(title, buildingName, maxOfReservation)
+		.stream().map(o -> convertBookToLibraryReservableBook(o)).collect(Collectors.toList());
+	return list;
+    }
+
+    private LibraryReservableBookExamplary convertBookToLibraryReservableBook(LibraryBook book) {
+	return modelMapper.map(book, reservableBook.getClass());
     }
 
 }

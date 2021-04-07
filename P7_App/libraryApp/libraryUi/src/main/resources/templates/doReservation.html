@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
+<title>Faire une reservation</title>
+</head>
+<body>
+<header> 
+		<div th:replace="appFragments :: LibraryApp_header"></div>
+		<div th:replace="appFragments :: doReservation_subTitle"></div>				
+		
+	</header>
+<div th:replace="appFragments :: doReservation_bookAndBuilding"></div>
+	<div class="container-fluid text-center">
+	<div class="row content">
+ 		<div class="col-lg-2 sidenav text-left">
+ 		<p th:replace="appFragments :: sideNave_link_bookList"></p>
+ 		<p th:replace="appFragments :: backHomeButton_nav"></p>
+  		</div>
+ 		<div class="col-md-12 col-lg-8 ">
+			<table class="table table-borderless table-sm reservationExamplariesList">
+				<thead>
+					<tr>
+						<th>Référence de l'examplaire</th>
+						<th>Date de retour la plus proche</th>
+						<th>Date de retour la plus éloignée</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each ="examplary:${examplariesList}" >
+						<td th:text = "${examplary.reference}"></td>
+						<td th:text = "${examplary.closestReturnDate}"></td>
+						<td th:if= "${examplary.farrestReturnDate == 'none'}">
+						<span th:text = "'idem plus proche'"></span>
+						</td>
+						<td th:unless= "${examplary.farrestReturnDate == 'none'}">
+						<span th:text = "${examplary.farrestReturnDate}"></span>
+						</td>
+						<td>
+							<a th:href = "@{'/reserveBook?bookRef='+${examplary.reference}}">
+								Réserver cet examplaire
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			
+			</table>
+ 		</div>
+	</div>
+	</div>
+	
+</body>
+</html>

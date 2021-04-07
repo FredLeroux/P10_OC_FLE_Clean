@@ -4,6 +4,7 @@ import java.util.List;
 
 import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 
 public interface LibraryBookCaseService {
 
@@ -18,4 +19,6 @@ public interface LibraryBookCaseService {
     public List<LibraryBookAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds,
 	    Integer maxReservationNumber);
 
+    public List<LibraryReservableBookExamplary> getReservableBooks(String title, String buildingName,
+	    Integer maxOfReservation);
 }
