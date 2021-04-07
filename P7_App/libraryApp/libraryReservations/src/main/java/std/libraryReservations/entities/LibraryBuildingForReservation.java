@@ -1,4 +1,4 @@
-package std.libraryBookLoans.entities;
+package std.libraryReservations.entities;
 
 import java.io.Serializable;
 
@@ -15,20 +15,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "library_roles", schema = "libraryum")
+@Table(name = "library_building", schema = "libraryum")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class LibraryRoleLoan implements Serializable {
+public class LibraryBuildingForReservation implements Serializable {
 
-    private static final long serialVersionUID = -9068201568653054991L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "role_type")
-    private String roleType;
+    @Column(name = "name")
+    private String name;
 
 }
