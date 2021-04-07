@@ -1727,7 +1727,7 @@
 											"top": 474,
 											"width": 166,
 											"height": 15,
-											"text": "Select book to reserve"
+											"text": "Book reservation"
 										},
 										{
 											"_type": "LabelView",
@@ -1812,17 +1812,19 @@
 									"model": {
 										"$ref": "AAAAAAF4hLVNAiGYVYE="
 									},
-									"visible": false,
+									"fontColor": "#005b00",
 									"font": "Arial;15;0",
-									"left": 446,
-									"top": 410,
+									"left": 304,
+									"top": 399,
+									"width": 149.24560546875,
 									"height": 15,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
+									"alpha": -1.7717508307845864,
+									"distance": 55.10898293381942,
 									"hostEdge": {
 										"$ref": "AAAAAAF4hLVNAiGZle4="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "Reserve book"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -3141,6 +3143,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF4gkeG8hkuSi0="
 					},
+					"name": "Reserve book",
 					"source": {
 						"$ref": "AAAAAAF4gxQ2nhmfPnM="
 					},
@@ -7318,7 +7321,7 @@
 															"left": 613,
 															"top": 50,
 															"width": 143,
-															"height": 30,
+															"height": 15,
 															"text": "Displayable books list",
 															"wordWrap": true
 														}
@@ -7625,7 +7628,7 @@
 															"left": 142,
 															"top": 882,
 															"width": 289,
-															"height": 30,
+															"height": 15,
 															"text": "Table available_examplaries_numbers = Nb_1 ",
 															"wordWrap": true
 														}
@@ -16248,7 +16251,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF4g34Juh1kv6s="
 							},
-							"name": "Select book to reserve",
+							"name": "Book reservation",
 							"ownedElements": [
 								{
 									"_type": "FCFlowchart",
