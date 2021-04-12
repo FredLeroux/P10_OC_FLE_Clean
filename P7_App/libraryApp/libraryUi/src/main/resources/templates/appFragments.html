@@ -130,7 +130,6 @@
 		<p th:unless = "${session.logged != 'true'}">
 			<a th:id="unlogBtn" href="/logout">Déconnexion</a>
 		</p>
-		<span th:text = "${session.logged}"></span>
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>	
 		<script type="text/javascript">
 			uiButton("#logBtn","uiElmt-sideNav-login");

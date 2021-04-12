@@ -10,7 +10,7 @@ CREATE SEQUENCE "LIBRARY"."libraryum"."library_book_reservations_id_seq";
 
 CREATE TABLE "LIBRARY"."libraryum"."library_book_reservations" (
                 "id" INTEGER NOT NULL DEFAULT nextval('"LIBRARY"."libraryum"."library_book_reservations_id_seq"'),
-                "notification_date" VARCHAR NOT NULL,
+                "notification_date" VARCHAR ,
                 "canceled_status" BOOLEAN NOT NULL,
                 "priority" INTEGER NOT NULL,
                 "library_book_fk" INTEGER NOT NULL,
