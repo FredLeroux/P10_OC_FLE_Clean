@@ -14,6 +14,7 @@ function uiButton(selector, cssClass) {
 	};
 }
 
+
 /**
 Will set selector as JQuery Ui checkbox radio and if a cssClass is present will this one apply to it.
 Note: if selector is "class", i.e. using ".classAttrName" then function

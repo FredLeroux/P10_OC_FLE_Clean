@@ -1,5 +1,7 @@
 package std.libraryReservations.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,16 +26,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Reservation {
+public class Reservation implements Serializable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8249256567923017851L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "notification_date")
     private String notificationDate;
-    @Column(name = "notification_date")
+    @Column(name = "canceled_status")
     private Boolean canceledStatus;
-    @Column(name = "notification_date")
+    @Column(name = "priority")
     private Integer priority;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)

@@ -25,6 +25,18 @@ function ajaxCallFilterAndUpdateIframe(callFilter, iFrameName, srcURL) {
 	})
 }
 
+
+
+function closeModal(modalId){
+	$('#'+modalId).hide()
+}
+
+function navReplaceURL(url){
+	location.replace(url)
+}
+
+
+
 function buildInUrlSimpleParameter(url, parameterName, value) {
 	return addParameterNameToUrl(url, parameterName).concat(value);
 }
@@ -94,6 +106,8 @@ function selectValue(selector, value) {
 function jqueryName(elmtName){
 	return "#".concat(elmtName);
 }
+
+
 
 
 

@@ -13,8 +13,11 @@ import std.libraryBookCase.dao.LibraryBookCaseDAO;
 import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
 import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.dto.LibraryBuildingForBookDTO;
 import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 import std.libraryBookCase.entities.LibraryBook;
+import std.libraryBookCase.entities.LibraryBuilding;
+import std.libraryBookCase.exceptions.BookNotFoundException;
 
 @Service
 public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
@@ -27,6 +30,7 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     private LibraryBooksKindsDTO booksKindsDTO = new LibraryBooksKindsDTO();
     private LibraryBookAndQuantityDTO booksAndQuantityDTO = new LibraryBookAndQuantityDTO();
     private LibraryReservableBookExamplary reservableBook = new LibraryReservableBookExamplary();
+    private LibraryBuildingForBookDTO libraryBuildingForBookDTO = new LibraryBuildingForBookDTO();
 
     @Override
     public List<LibraryBookAndQuantityDTO> getAllBooks(Integer maxReservationNumber) {
@@ -182,6 +186,27 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
 
     private LibraryReservableBookExamplary convertBookToLibraryReservableBook(LibraryBook book) {
 	return modelMapper.map(book, reservableBook.getClass());
+    }
+
+    @Override
+    public LibraryBookDTO getBookById(Integer id) {
+	if (dao.findById(id).isPresent()) {
+	    LibraryBook optLibraryBook = dao.findById(id).get();
+	    LibraryBuilding building = optLibraryBook.getLibraryBuilding();
+	    LibraryBookDTO dto = convertBookToDTO(optLibraryBook);
+	    LibraryBuildingForBookDTO buildingDTO = convertBuildingToDTO(building);
+	    dto.setLibraryBuilding(buildingDTO);
+	    return dto;
+	}
+	throw new BookNotFoundException();
+    }
+
+    private LibraryBookDTO convertBookToDTO(LibraryBook entity) {
+	return modelMapper.map(entity, bookDTO.getClass());
+    }
+
+    private LibraryBuildingForBookDTO convertBuildingToDTO(LibraryBuilding entity) {
+	return modelMapper.map(entity, libraryBuildingForBookDTO.getClass());
     }
 
 }

@@ -40,4 +40,7 @@ public interface LibraryBookCaseProxy {
 	    @RequestParam(name = "buildingName") String buildingName,
 	    @RequestParam(name = "maxOfReservation") Integer maxOfReservation);
 
+    @GetMapping(value = "/libraryBookCase/getBookByReference")
+    public BooksBean getBookById(@RequestParam(name = "reference") Integer id);
+
 }

@@ -31,6 +31,7 @@ $background-ui:rgb(246, 245, 244);
 $body-font:body-font;
 $color-1:rgb(101, 75, 36);
 $color-2:rgb(0,0,0);
+$color-3:rgb(255, 255, 255);
 $dataTable-even: rgb(243, 242, 241);
 $dataTable-odd:rgb(255, 255, 255);
 $dataTable-tr-hover-background: rgb(107, 87, 54);
@@ -50,6 +51,7 @@ $datepicker-tooltip-border-color:rgb(25,25,112);
 $datepicker-tooltip-background-color:rgb(234, 232, 221);
 $datepicker-tooltip-font: body-font;
 $warn-color: rgb(185, 49, 0);
+
 
 @mixin date-highlight-common{
 	border-color:$datepicker-date-active-border-color !important;
@@ -271,6 +273,31 @@ tr.even:hover,tr.odd:hover{
 	font-family:$menu-font;
 	font-size: 2em;
 }
+
+.modalLink{
+	@include nav-elemt-basis;
+	color:$color-1;
+}
+
+.modalLink:hover{
+	color:$color-3;
+	text-decoration: none;
+}
+
+.modal-content{
+	background-color: black;
+}
+
+.modal-title{
+	font-family:$menu-font;
+	color: $color-1;
+	font-size: 2em;
+	text-align: center;
+
+}
+
+
+
 
 
 

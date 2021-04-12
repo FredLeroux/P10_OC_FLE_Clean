@@ -42,7 +42,7 @@
 					<span th:if = "${book.number == 0 and session.resa ==null}" 
 									th:text="'0 ,connectez-vous pour faire une réservation'"></span>
 					<span th:if = "${book.number == 0 and session.resa =='true'}" >
-						<a th:target="_top" th:href="@{'/doReservation?title='
+						<a th:target="_top" th:onclick="" th:href="@{'/doReservation?title='
 									+${book.title}+'&building='+${book.libraryBuildingName}}">
 							0 ,faire une réservation</a>
 					</span>  

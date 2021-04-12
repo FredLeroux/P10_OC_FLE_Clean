@@ -38,12 +38,15 @@ public class LibraryUiController {
     @Autowired
     private ControllerMethods methods;
 
-    @GetMapping(value = "/")
+    private Boolean userLogged = null;
+
+    @GetMapping(value = { "/", "home" })
     public ModelAndView home(ModelAndView model, HttpServletRequest request, HttpSession session) {
 	model.setViewName("home");
 	if (request.getHeader("isKnown").equals("true")) {
 	    session.setAttribute("logged", "true");
-	    session.setAttribute("resa", "true");
+	} else {
+
 	}
 	return model;
     }
@@ -160,6 +163,21 @@ public class LibraryUiController {
 	String errorCode = request.getParameter("errorCode");
 	model.addObject("errorCode", errorCode);
 	return model;
+
+    }
+
+    @PostMapping(value = "/reserveBook")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public @ResponseBody Boolean reserveBook(ModelAndView model, Integer bookRef, HttpServletRequest request) {
+	System.out.println("bookref=" + bookRef);
+	System.out.println("reserve in");
+
+	try {
+	    methods.createReservation(request, "token", bookRef);
+	} catch (Exception e) {
+	    return false;
+	}
+	return true;
 
     }
 

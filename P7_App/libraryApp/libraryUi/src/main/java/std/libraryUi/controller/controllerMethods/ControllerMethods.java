@@ -25,6 +25,7 @@ import std.libraryUi.dto.UiLoanInfoDTO;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryCustomerProxy;
+import std.libraryUi.proxies.LibraryReservationsProxy;
 
 @Service
 public class ControllerMethods {
@@ -37,6 +38,9 @@ public class ControllerMethods {
 
     @Autowired
     private LibraryBookCaseProxy libraryBookCaseProxy;
+
+    @Autowired
+    private LibraryReservationsProxy libraryReservationsProxy;
 
     public void addSortedLoansListAndDatePickerLoansInfoToModel(ModelAndView model, String listModelAttrName,
 	    String datepickerInfoModelAttrName, HttpServletRequest request, String headerName, String language) {
@@ -177,6 +181,22 @@ public class ControllerMethods {
     private String localizedFullDate(LocalDate date, String language) {
 	Locale locale = new Locale(language);
 	return date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale));
+    }
+
+    public void createReservation(HttpServletRequest request, String headerName, Integer bookId) {
+	System.out.println(isHeaderPresent(request, headerName));
+	if (isHeaderPresent(request, headerName)) {
+	    String userName = userNameByToken(token(request, headerName));
+	    if (userName != null) {
+		System.out.println("zuul header");
+		System.out.println(bookId);
+		libraryReservationsProxy.createReservation(bookId, userName);
+		System.out.println("customer");
+	    }
+
+	    ;
+	}
+	System.out.println("reserve out");
     }
 
 }

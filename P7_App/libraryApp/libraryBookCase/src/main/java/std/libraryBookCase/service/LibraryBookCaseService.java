@@ -3,10 +3,13 @@ package std.libraryBookCase.service;
 import java.util.List;
 
 import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
 import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 
 public interface LibraryBookCaseService {
+
+    public LibraryBookDTO getBookById(Integer id);
 
     public List<LibraryBookAndQuantityDTO> getAllBooks(Integer maxReservationNumber);
 

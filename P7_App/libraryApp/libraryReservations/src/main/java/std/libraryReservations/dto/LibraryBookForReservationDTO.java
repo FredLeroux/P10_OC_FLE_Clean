@@ -1,7 +1,6 @@
-package std.libraryBookCase.dto;
+package std.libraryReservations.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,15 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-public class LibraryBookDTO {
+public class LibraryBookForReservationDTO {
 
     private Integer id;
     private String kind;
     private String title;
     private String author;
     private Boolean availability;
-    private Integer numberOfReservations;
-    private LibraryBuildingForBookDTO libraryBuilding;
-
+    private LibraryBuildingForReservationDTO libraryBuilding;
 }
