@@ -90,6 +90,7 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public void postponeLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit,
 	    ArrayList<DayOfWeek> daysOffList, ArrayList<LocalDate> holidays) {
+
 	Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 	if (optLoan.isPresent()) {
 	    Loan loan = optLoan.get();
@@ -99,6 +100,7 @@ public class LoanServiceImpl implements LoanService {
 	    loan.setPostponed(true);
 	    loanDAO.saveAndFlush(loan);
 	} else {
+
 	    throw new LoanNotFoundException();
 	}
 

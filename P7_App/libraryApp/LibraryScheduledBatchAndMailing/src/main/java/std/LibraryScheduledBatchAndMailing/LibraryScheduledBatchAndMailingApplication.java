@@ -1,7 +1,5 @@
 package std.LibraryScheduledBatchAndMailing;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,15 +14,15 @@ import std.LibraryScheduledBatchAndMailing.mail.MailSendingService;
 @EnableScheduling
 public class LibraryScheduledBatchAndMailingApplication {
 
-	@Autowired
-	MailSendingService mail;
+    @Autowired
+    MailSendingService mail;
 
-	public static void main(String[] args) {
-		SpringApplication.run(LibraryScheduledBatchAndMailingApplication.class, args);
-	}
+    public static void main(String[] args) {
+	SpringApplication.run(LibraryScheduledBatchAndMailingApplication.class, args);
+    }
 
-	@Scheduled(fixedRate = 3600000)
-	public void scheduling() {
-		mail.getCustomerInformedOnLate();
-	}
+    @Scheduled(fixedRate = 60000)
+    public void scheduling() {
+	mail.getCustomerInformedOnLate();
+    }
 }

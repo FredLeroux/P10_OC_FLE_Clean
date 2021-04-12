@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
 import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 import std.libraryBookCase.service.LibraryBookCaseService;
@@ -59,4 +60,8 @@ public class LibraryBookCaseController {
 	return libraryBookCaseService.getReservableBooks(title, buildingName, maxOfReservation);
     }
 
+    @GetMapping(value = "/getBookByReference")
+    public LibraryBookDTO getBookById(@RequestParam(name = "reference") Integer id) {
+	return libraryBookCaseService.getBookById(id);
+    }
 }
