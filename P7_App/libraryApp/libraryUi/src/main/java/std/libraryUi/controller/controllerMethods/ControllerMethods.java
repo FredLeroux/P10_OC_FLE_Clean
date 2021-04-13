@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import std.libraryUi.beans.LibraryReservationBean;
 import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.beans.ReservableBookExamplaryBean;
 import std.libraryUi.beans.ReservableBookExamplaryDatedBean;
 import std.libraryUi.beans.ReservableBookLinkedLoanBean;
 import std.libraryUi.dto.UiLoanDateAndBooksList;
 import std.libraryUi.dto.UiLoanInfoDTO;
+import std.libraryUi.dto.UiReservationDTO;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryCustomerProxy;
@@ -78,14 +80,6 @@ public class ControllerMethods {
 
     private String token(HttpServletRequest request, String headerName) {
 	return request.getHeader(headerName);
-    }
-
-    private Boolean isHeaderPresent(HttpServletRequest request, String headerName) {
-	return request.getHeader(headerName) != null;
-    }
-
-    private String userNameByToken(String token) {
-	return libraryCustomerProxy.getCustomerUserName(token);
     }
 
     private List<UiLoanInfoDTO> loanInfoDTOList(List<LoanInfoBean> list, String language) {
@@ -169,6 +163,55 @@ public class ControllerMethods {
 	return list;
     }
 
+    public void createReservation(HttpServletRequest request, String headerName, Integer bookId) {
+	if (isHeaderPresent(request, headerName)) {
+	    String userName = userNameByToken(token(request, headerName));
+	    if (userName != null) {
+		libraryReservationsProxy.createReservation(bookId, userName);
+	    }
+	}
+    }
+
+    public void customerReservations(ModelAndView model, HttpServletRequest request, String headerName) {
+	String reservationsListName = "reservationsList";
+	List<UiReservationDTO> reservations = null;
+	if (isHeaderPresent(request, headerName)) {
+	    String userName = userNameByToken(token(request, headerName));
+	    if (userName != null) {
+		reservations = libraryReservationsProxy.customerReservations(userName).stream()
+			.map(o -> mapReservationToDTO(o)).collect(Collectors.toList());
+		if (reservations.isEmpty()) {
+		    reservations = null;
+		}
+	    } else {
+		reservations = null;
+	    }
+	    model.addObject(reservationsListName, reservations);
+	}
+
+    }
+
+    private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean) {
+	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBuildingName(),
+		null);
+	if (bean.getNotificationDate() != null) {
+	    dto.setNotificationDate(localizedFullDate(parseStringToDate(bean.getNotificationDate()), "fr"));
+	}
+	return dto;
+    }
+
+    public void cancelReservation(Integer reservationReference) {
+	libraryReservationsProxy.cancelReservation(reservationReference);
+    }
+
+    private Boolean isHeaderPresent(HttpServletRequest request, String headerName) {
+	return request.getHeader(headerName) != null;
+    }
+
+    private String userNameByToken(String token) {
+	return libraryCustomerProxy.getCustomerUserName(token);
+    }
+
     /**
      *
      * @param localDate default format expected : yyyy-mm-dd
@@ -181,22 +224,6 @@ public class ControllerMethods {
     private String localizedFullDate(LocalDate date, String language) {
 	Locale locale = new Locale(language);
 	return date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale));
-    }
-
-    public void createReservation(HttpServletRequest request, String headerName, Integer bookId) {
-	System.out.println(isHeaderPresent(request, headerName));
-	if (isHeaderPresent(request, headerName)) {
-	    String userName = userNameByToken(token(request, headerName));
-	    if (userName != null) {
-		System.out.println("zuul header");
-		System.out.println(bookId);
-		libraryReservationsProxy.createReservation(bookId, userName);
-		System.out.println("customer");
-	    }
-
-	    ;
-	}
-	System.out.println("reserve out");
     }
 
 }

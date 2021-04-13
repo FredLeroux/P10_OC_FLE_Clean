@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
+<title>Liste des réservations</title>
+</head>
+<body>
+<div class="col-md-12 col-lg-8 ">
+			<div class="container-fluid text-center" th:if="${reservationsList==null}">
+			<br>
+				<span class="reservationSummary" >Aucune réservations en cours</span>
+			<br>
+			<br>
+			<br>
+			<br>
+			</div>
+			<div th:if="${reservationsList!=null}">
+			<table class="table table-borderless table-sm reservationsList">
+				<thead>
+					<tr>
+						<th>Référence</th>
+						<th>Titre</th>
+						<th>Bibliothèque</th>
+						<th>Date de notification</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each ="reservation:${reservationsList}" >
+						<td th:text = "${reservation.reference}"></td>
+						<td th:text = "${reservation.title}"></td>
+						<td th:text = "${reservation.building}"></td>
+						<td th:if= "${reservation.notificationDate == null}">
+						<span th:text = "'Toujours indisponible'"></span>
+						</td>
+						<td th:unless= "${reservation.notificationDate == null}">
+						<span th:text = "${reservation.notificationDate}"></span>
+						</td>
+						<td>
+							<form  th:action="@{/cancelReservation}" method="post">
+							<input type = "hidden" th:value="${reservation.reference}" name="reservationReference">							
+							<input class="cancelReservationAsk"  type="submit" value="Annuler la réservation" >								
+						</form>					
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		
+</body>
+</html>

@@ -10,4 +10,8 @@ public interface LibraryReservationService {
 
     public void createReservation(Integer bookId, String customerEmail);
 
+    public List<ReservationDTO> getAllCustomerReservations(String customerEmail);
+
+    public void cancelReservation(Integer reservationId);
+
 }

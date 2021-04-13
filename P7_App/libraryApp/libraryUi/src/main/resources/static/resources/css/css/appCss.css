@@ -198,10 +198,15 @@ tr.even:hover, tr.odd:hover {
 
 .loanSummary {
   font-family: body-font;
-  font-size: 1.2em;
 }
 
-.reservationExamplariesList {
+.reservationSummary {
+  font-family: body-font;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.reservationExamplariesList, .reservationsList, .reservationSummary {
   font-family: body-font;
   font-size: 1.2em;
 }
@@ -216,7 +221,7 @@ tr.even:hover, tr.odd:hover {
   color: midnightblue !important;
 }
 
-.postPoneAsk {
+.postPoneAsk, .cancelReservationAsk, .reservationAsk {
   border: none;
   background-color: none;
   background: none;
@@ -224,9 +229,31 @@ tr.even:hover, tr.odd:hover {
   padding: 0;
 }
 
+.reservationAsk {
+  color: olivedrab;
+}
+
+.cancelReservationAsk {
+  color: #b93100;
+}
+
 .postPoneAsk:hover {
   text-decoration: underline;
   color: midnightblue;
+}
+
+.cancelReservationAsk:hover {
+  text-decoration: underline;
+  color: #b93100;
+}
+
+.reservationAsk:hover {
+  text-decoration: underline;
+  color: #654b24;
+}
+
+.loanSummaryRows {
+  font-size: 1.55vw;
 }
 
 .loanSummaryRows:hover {
@@ -235,7 +262,7 @@ tr.even:hover, tr.odd:hover {
   cursor: default;
 }
 
-.doReservationTitleAndBuilding {
+.doReservationTitleAndBuilding, .reservationsSummary {
   color: black;
   text-align: center;
   font-family: menu-font;
@@ -266,6 +293,18 @@ tr.even:hover, tr.odd:hover {
   color: #654b24;
   font-size: 2em;
   text-align: center;
+}
+
+.link {
+  color: olivedrab !important;
+}
+
+.link:hover {
+  color: white !important;
+}
+
+.warn {
+  color: maroon;
 }
 
 /*# sourceMappingURL=appCss.css.map */

@@ -76,6 +76,21 @@
 			</div>		
 		</div>
 	</div>
+	
+	<div th:fragment="ongoingReservations_subTitle">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<h2 class="sub-title">Suivi des réservations</h2>		
+				</div>
+				<div class="col-lg-2 text-right">
+					<div th:replace="appFragments :: sideNave_link_log"></div>
+				</div>			
+			</div>		
+		</div>
+	</div>
+	
 	<div th:fragment="doReservation_bookAndBuilding">
 		<div class="container-fluid">
 			<div class="row content">
@@ -89,6 +104,16 @@
 				</div>
 			</div>				
 		</div>
+		
+	<div th:fragment="reservations_summary">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-12">
+					<div class="reservationsSummary">Réservations en cours</div>
+				</div>
+			</div>	
+		</div>
+	</div>
 	
 	
 	<div th:fragment="errorPage_subTitle">
@@ -135,6 +160,16 @@
 			uiButton("#logBtn","uiElmt-sideNav-login");
 			uiButton("#unlogBtn","uiElmt-sideNav-unlogin");								
 		</script>
+	</div>
+	
+	<div th:fragment="ongoingReservations_nav">
+		<p>
+			<a th:id="ongoingReservations" th:href="@{/onGoingReservations}">Mes réservations</a>				
+		</p> 
+		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>
+		<script type="text/javascript">
+			uiButton("#ongoingReservations","uiElmt-sideNav-link");				
+		</script>	  	
 	</div>	
 	
 	<div th:fragment = "modal_back_link">
@@ -146,7 +181,7 @@
 	 </div>
 	 
 	 <div th:fragment = "modal_back_reservation">
-		<a class="modalLink" href="/onGoingReservation" >Résevations en cours</a>
+		<a class="modalLink" href="/onGoingReservations" >Résevations en cours</a>
 	 </div>
 	
 	<div th:fragment = "modal_links">

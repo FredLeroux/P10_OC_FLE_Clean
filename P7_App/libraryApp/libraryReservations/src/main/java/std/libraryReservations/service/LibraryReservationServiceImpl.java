@@ -111,12 +111,42 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	return list.stream().filter(o -> o.getCustomer().getId() == customerId).collect(Collectors.toList()).isEmpty();
     }
 
-    private ReservationDTO reservationToReservationDTO(Reservation reservation) {
-	return (ReservationDTO) mapper(reservation, reservationDTO);
+    @Override
+    public List<ReservationDTO> getAllCustomerReservations(String customerEmail) {
+	return libraryReservationDAO.findByCustomerCustomerEmailAndCanceledStatusFalse(customerEmail).stream()
+		.map(o -> mapReservationToDTO(o)).collect(Collectors.toList());
+    }
+
+    private ReservationDTO mapReservationToDTO(Reservation ent) {
+	ReservationDTO dto = new ReservationDTO();
+	dto = reservationToReservationDTO(ent);
+	dto.setBuildingName(ent.getBook().getLibraryBuilding().getName());
+	return dto;
+    }
+
+    @Override
+    public void cancelReservation(Integer reservationId) {
+	if (libraryReservationDAO.findById(reservationId).isPresent()) {
+	    Reservation reservation = libraryReservationDAO.findById(reservationId).get();
+	    reservation.setCanceledStatus(true);
+	    LibraryBookForReservation book = reservation.getBook();
+	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
+	    if (book.getNumberOfReservations() < 0) {
+		book.setNumberOfReservations(0);
+	    }
+	    libraryReservationDAO.saveAndFlush(reservation);
+	    libraryReservationsBookDAO.saveAndFlush(book);
+	} else {
+	    throw new NotFoundException("Reservation service : reservation to cancel not found");
+	}
     }
 
     private Reservation reservationDTOToReservation(CreateReservationDTO dto) {
 	return (Reservation) mapper(dto, reservation);
+    }
+
+    private ReservationDTO reservationToReservationDTO(Reservation reservation) {
+	return (ReservationDTO) mapper(reservation, reservationDTO);
     }
 
     private LibraryBookForReservation bookDTOToEntity(LibraryBookForReservationDTO dto) {

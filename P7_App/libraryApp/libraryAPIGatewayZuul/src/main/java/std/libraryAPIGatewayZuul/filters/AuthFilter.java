@@ -24,8 +24,9 @@ public class AuthFilter extends ZuulFilter {
 	RequestContext context = RequestContext.getCurrentContext();
 	String request = context.getRequest().getRequestURI();
 	if (request.contains("loanTracking") || request.contains("postPone") || request.equals("/")
-		|| request.contains("/home") || request.contains("/bookListTable")
-		|| request.contains("/booksListFiltered") || request.contains("/reserveBook")) {
+		|| request.contains("/home") || request.contains("/booksList") || request.contains("/bookListTable")
+		|| request.contains("/booksListFiltered") || request.contains("/reserveBook")
+		|| request.contains("/onGoingReservations") || request.contains("/myReservationsList")) {
 	    return true;
 	}
 	return false;
@@ -36,11 +37,14 @@ public class AuthFilter extends ZuulFilter {
 	generalAuth.isKnown("/");
 	generalAuth.isKnown("/home");
 	generalAuth.isKnown("/reserveBook");
+	generalAuth.isKnown("/booksList");
 	generalAuth.isKnown("/bookListTable");
 	generalAuth.isKnown("/booksListFiltered");
+	generalAuth.isKnown("/onGoingReservations");
 	tokenAuth.authTokenManagement("loanTracking", "token", 60, true);
 	tokenAuth.authTokenManagement("postPone", "token", 60, true);
 	tokenAuth.authTokenManagement("reserveBook", "token", 60, true);
+	tokenAuth.authTokenManagement("myReservationsList", "token", 60, true);
 	return null;
     }
 

@@ -1,4 +1,4 @@
-package std.libraryUi.beans;
+package std.libraryUi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BooksBean {
+public class UiReservationDTO {
 
-    private Integer id;
-    private String kind;
+    private Integer reference;
     private String title;
-    private String author;
-    private String libraryBuildingName;
-    private Integer number;
+    private String building;
+    private String notificationDate;
 
 }

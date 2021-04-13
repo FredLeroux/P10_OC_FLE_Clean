@@ -67,7 +67,7 @@
      <remarks></remarks>
     </column>
     <column id="COL14" populated="true" UUID="d818eb32-c5ca-4174-ba6b-18bba93ef409" autoIncrement="false" autoIncrementSequenceName="library_books_number_of_reservations_seq" defaultValue="" name="number_of_reservations" nullable="1" physicalName="number_of_reservations" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks>Column added as part of Issue #5 Ticket_1 </remarks>
+     <remarks>Column added as part of Issue #5 Ticket_1</remarks>
     </column>
     <column id="COL15" populated="true" UUID="ea486ad4-0b58-41d8-aab4-38ac0649ff7f" autoIncrement="false" autoIncrementSequenceName="library_books_library_building_fk_seq" defaultValue="" name="library_building_fk" nullable="0" physicalName="library_building_fk" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
@@ -182,7 +182,7 @@
     <column id="COL45" populated="true" UUID="2413de7a-3b9a-4cc3-a9d2-8685972d0953" autoIncrement="true" autoIncrementSequenceName="library_book_reservations_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="3" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL46" populated="true" UUID="5f3ee5e3-0cf3-4e2d-bf6a-c23ef4c700c7" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_notification_date_seq" defaultValue="" name="notification_date" nullable="0" physicalName="notification_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL46" populated="true" UUID="5f3ee5e3-0cf3-4e2d-bf6a-c23ef4c700c7" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_notification_date_seq" defaultValue="" name="notification_date" nullable="1" physicalName="notification_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL47" populated="true" UUID="ed68e60d-571c-43dc-babd-d9a4ff476e40" autoIncrement="false" autoIncrementSequenceName="library_book_reservations_canceled_status_seq" defaultValue="" name="canceled_status" nullable="0" physicalName="canceled_status" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
@@ -212,13 +212,13 @@
    <relationship id="REL53" populated="true" UUID="91549a81-9998-4301-ad92-6b92f3242bcb" deferrability="7" deleteRule="3" fk-table-ref="TAB8" fkCardinality="7" identifying="true" name="library_building_books_fk" physicalName="library_building_books_fk" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP54" populated="true" UUID="a5008678-d75e-43d9-b930-ba05a65dc4f4" fk-column-ref="COL15" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL4" />
    </relationship>
-   <relationship id="REL55" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
+   <relationship id="REL55" populated="true" UUID="7114b2fb-484f-43b9-9ac2-636360aaebba" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="true" name="books_Borrowed_fk" physicalName="books_Borrowed_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP56" populated="true" UUID="c5c34f14-dbae-4511-ac90-6fcb9a4f2434" fk-column-ref="COL23" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
    <relationship id="REL57" populated="true" UUID="ba2adde3-397a-4034-b674-42f6df3a720a" deferrability="7" deleteRule="3" fk-table-ref="TAB44" fkCardinality="7" identifying="true" name="library_books_library_book_reservation_fk" physicalName="library_books_library_book_reservation_fk" pk-table-ref="TAB8" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP58" populated="true" UUID="ecc9c66a-8102-4c1f-98e7-5feb29eccc7b" fk-column-ref="COL49" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL9" />
    </relationship>
-   <relationship id="REL59" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="custommer_borrowed_fk" pk-table-ref="TAB27" pkCardinality="2" updateRule="3" >
+   <relationship id="REL59" populated="true" UUID="9d55590a-21ff-4ef2-9e67-d5fb939f8bad" deferrability="7" deleteRule="3" fk-table-ref="TAB18" fkCardinality="7" identifying="true" name="Custommer_Borrowed_fk" physicalName="Custommer_Borrowed_fk" pk-table-ref="TAB27" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP60" populated="true" UUID="e5f0b7bc-bd11-4d70-aed0-7f56575efdef" fk-column-ref="COL24" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL28" />
    </relationship>
    <relationship id="REL61" populated="true" UUID="a0af4e32-63a7-497e-9a4c-588ec1dee0e8" deferrability="7" deleteRule="3" fk-table-ref="TAB44" fkCardinality="7" identifying="true" name="library_customers_library_book_reservation_fk" physicalName="library_customers_library_book_reservation_fk" pk-table-ref="TAB27" pkCardinality="2" updateRule="3" >

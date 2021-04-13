@@ -38,15 +38,11 @@ public class LibraryUiController {
     @Autowired
     private ControllerMethods methods;
 
-    private Boolean userLogged = null;
-
     @GetMapping(value = { "/", "home" })
     public ModelAndView home(ModelAndView model, HttpServletRequest request, HttpSession session) {
 	model.setViewName("home");
 	if (request.getHeader("isKnown").equals("true")) {
 	    session.setAttribute("logged", "true");
-	} else {
-
 	}
 	return model;
     }
@@ -78,6 +74,9 @@ public class LibraryUiController {
 	model.addObject("buildings", libraryBuildingsProxy.getBuildings());
 	model.addObject("kinds", libraryCaseProxy.kinds());
 	model.addObject("selectedBuilding", 0);
+	if (request.getHeader("isKnown").equals("true")) {
+	    session.setAttribute("logged", "true");
+	}
 	return model;
     }
 
@@ -169,9 +168,6 @@ public class LibraryUiController {
     @PostMapping(value = "/reserveBook")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public @ResponseBody Boolean reserveBook(ModelAndView model, Integer bookRef, HttpServletRequest request) {
-	System.out.println("bookref=" + bookRef);
-	System.out.println("reserve in");
-
 	try {
 	    methods.createReservation(request, "token", bookRef);
 	} catch (Exception e) {
@@ -179,6 +175,30 @@ public class LibraryUiController {
 	}
 	return true;
 
+    }
+
+    @GetMapping(value = "/onGoingReservations")
+    public ModelAndView onGoingReservation(ModelAndView model, HttpServletRequest request, HttpSession session) {
+	model.setViewName("onGoingReservations");
+	if (request.getHeader("isKnown").equals("true")) {
+	    session.setAttribute("logged", "true");
+	}
+	return model;
+    }
+
+    @GetMapping(value = "/myReservationsList")
+    public ModelAndView myReservationsList(ModelAndView model, HttpServletRequest request) {
+	model.setViewName("reservationsList");
+	methods.customerReservations(model, request, "token");
+	return model;
+    }
+
+    @PostMapping(value = "/cancelReservation")
+    public ModelAndView cancelReservation(ModelAndView model, HttpServletRequest request,
+	    Integer reservationReference) {
+	model.setViewName("reservationsList");
+	methods.cancelReservation(reservationReference);
+	return model;
     }
 
 }

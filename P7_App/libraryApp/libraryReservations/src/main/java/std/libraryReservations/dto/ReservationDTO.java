@@ -17,6 +17,7 @@ public class ReservationDTO {
     private String notificationDate;
     private Boolean canceledStatus;
     private Integer priority;
+    private String BuildingName;
     private LibraryBookForReservation book;
     private LibraryCustomerForReservation customer;
 }

@@ -4,13 +4,6 @@
 <meta charset="UTF-8">
 <th:block th:replace="appFragments :: LibraryApp_head"></th:block>
 <script th:src="@{/resources/JS/reserveBookJQuery.js}"></script>
-
-
-
-
-
-
-
 <title>Faire une reservation</title>
 </head>
 <body>
@@ -49,7 +42,7 @@
 							<form  th:action="@{/reserveBook}" method="post">
 								<input id="examplaryRef" type = "hidden" th:value="${examplary.reference}" name="bookRef">
 							
-								<input class="postPoneAsk"  type="button" onclick="reserveBook('bookRef','examplaryRef')" value="Réserver cet examplaire" >					
+								<input class="reservationAsk"  type="button" onclick="reserveBook('bookRef','examplaryRef')" value="Réserver cet examplaire" >					
 							
 							</form>						
 						</td>

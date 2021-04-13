@@ -16,6 +16,6 @@ public interface LibraryReservationDAO extends JpaRepository<Reservation, Intege
 
     public List<Reservation> findByBookTitleAndCanceledStatusFalse(String booktitle);
 
-    List<Reservation> findByCustomerId(Integer CustomerId);
+    public List<Reservation> findByCustomerCustomerEmailAndCanceledStatusFalse(String customerEmail);
 
 }
