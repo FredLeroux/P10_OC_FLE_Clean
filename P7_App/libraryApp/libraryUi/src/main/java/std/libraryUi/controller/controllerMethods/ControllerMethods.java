@@ -90,14 +90,10 @@ public class ControllerMethods {
     }
 
     private void sendNotification(Integer bookId) {
-	System.out.println("enter");
 	UiNotificationReservationDTO dto = libraryReservationsProxy.customerToNotified(bookId, PRIORITY_VALUE);
-	System.out.println(dto.getCustomerEmail());
 	if (dto != null) {
-	    System.out.println(dto.getCustomerEmail() + dto.getBookTitle() + dto.getBuilding());
 	    libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailable(dto.getCustomerEmail(),
 		    dto.getBookTitle(), dto.getBuilding());
-	    System.out.println("done");
 	}
     }
 

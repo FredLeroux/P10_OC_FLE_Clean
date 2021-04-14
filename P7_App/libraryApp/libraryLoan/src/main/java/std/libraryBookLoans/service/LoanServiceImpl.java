@@ -84,7 +84,6 @@ public class LoanServiceImpl implements LoanService {
 	    ChronoUnit unit) {
 	LibraryReservationForLoan reservation = reservation(reservationId);
 	if (isRigthCustomer(customerId, reservation)) {
-	    System.out.println("here");
 	    createAndSaveLoan(customerId, reservation.getBook(), unitNumber, unit);
 	    reservation.setCanceledStatus(true);
 	    reservationDAO.saveAndFlush(reservation);
@@ -107,7 +106,6 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private Boolean isRigthCustomer(Integer customerId, LibraryReservationForLoan reservation) {
-	System.out.println(customerId + "==" + reservation.getCustomer().getId());
 	return customerId == reservation.getCustomer().getId();
     }
 
@@ -218,7 +216,6 @@ public class LoanServiceImpl implements LoanService {
 
     private LibraryBookLoan book(Integer bookId) {
 	if (bookDAO.findById(bookId).isPresent()) {
-	    System.out.println("bookidd=" + bookId);
 	    return bookDAO.findById(bookId).get();
 	} else {
 	    throw new BookNotFoundException("pas de livre sous" + bookId);

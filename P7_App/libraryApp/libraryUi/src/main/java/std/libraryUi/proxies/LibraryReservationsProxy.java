@@ -26,7 +26,7 @@ public interface LibraryReservationsProxy {
     @PostMapping(value = "/libraryReservations/cancelReservation")
     public void cancelReservation(@RequestParam(value = "reservationId") Integer reservationId);
 
-    @GetMapping(value = "/customerToNotified")
+    @GetMapping(value = "/libraryReservations/customerToNotified")
     public UiNotificationReservationDTO customerToNotified(@RequestParam(value = "bookId") Integer bookId,
 	    @RequestParam(value = "priority") Integer priority);
 

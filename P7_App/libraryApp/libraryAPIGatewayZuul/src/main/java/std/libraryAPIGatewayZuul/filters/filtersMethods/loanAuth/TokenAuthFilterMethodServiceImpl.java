@@ -24,13 +24,11 @@ public class TokenAuthFilterMethodServiceImpl extends ZuulHeadModifier implement
      */
     @Override
     public void authTokenManagement(String urlRegex, String headerName, Integer size, Boolean isSymbolAccepted) {
-	System.out.println("isUserAuthenticated() =" + isUserAuthenticated() + "/" + urlRegex);
 	if (isUserAuthenticated()) {
 	    if (isRequestContains(urlRegex)) {
 		String token = token(size, isSymbolAccepted);
 		customer.authToken(userName(), token);
 		addToHeader(headerName, token);
-		System.out.println("headeradded");
 	    }
 	}
 

@@ -17,7 +17,6 @@ public class LibraryScheduledBatchAndMailingController {
     public void sendNotificationBookAvailable(@RequestParam(value = "customerEmail") String customerEmail,
 	    @RequestParam(value = "bookTitle") String bookTitle,
 	    @RequestParam(value = "buildingName") String buildingName) {
-	System.out.println("in");
 	service.sendNotificationBookAvailable(customerEmail, bookTitle, buildingName);
     }
 
