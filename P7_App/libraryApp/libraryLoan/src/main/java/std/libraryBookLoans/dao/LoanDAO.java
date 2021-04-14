@@ -15,6 +15,8 @@ public interface LoanDAO extends JpaRepositoryImplementation<Loan, Integer> {
 
     public Optional<Loan> findByBookIdAndCustomerIdAndReturnedFalse(Integer bookId, Integer customerId);
 
+    public Optional<Loan> findByBookTitleAndCustomerIdAndReturnedFalse(String bookTitle, Integer customerId);
+
     public List<Loan> findByCustomerIdAndReturnedFalse(Integer id);
 
     public List<Loan> findByReturnedFalseAndBookIdIn(List<Integer> bookId);

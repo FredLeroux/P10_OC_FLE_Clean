@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import std.libraryBookLoans.dao.CustomerLoanDAO;
 import std.libraryBookLoans.dao.LibraryBookLoanDAO;
 import std.libraryBookLoans.dao.LibraryBuildingLoanDAO;
+import std.libraryBookLoans.dao.LibraryReservationForLoanDAO;
 import std.libraryBookLoans.dao.LibraryRoleLoanDAO;
 import std.libraryBookLoans.dao.LoanDAO;
 import std.libraryBookLoans.dto.LoanInfoDTO;
@@ -24,6 +25,7 @@ import std.libraryBookLoans.dto.ReservableBookLinkedLoanDTO;
 import std.libraryBookLoans.entities.CustomerLoan;
 import std.libraryBookLoans.entities.LibraryBookLoan;
 import std.libraryBookLoans.entities.LibraryBuildingLoan;
+import std.libraryBookLoans.entities.LibraryReservationForLoan;
 import std.libraryBookLoans.entities.LibraryRoleLoan;
 import std.libraryBookLoans.entities.Loan;
 import std.libraryBookLoans.exceptions.BookNotAvailableException;
@@ -33,6 +35,7 @@ import std.libraryBookLoans.exceptions.ChronoUnitNotImplementedException;
 import std.libraryBookLoans.exceptions.CustomerNotFoundException;
 import std.libraryBookLoans.exceptions.LoanNotFoundException;
 import std.libraryBookLoans.exceptions.LoanUnknownException;
+import std.libraryBookLoans.exceptions.ReservationNotFoundException;
 import std.libraryBookLoans.exceptions.RoleNotFoundException;
 
 @Service
@@ -42,16 +45,19 @@ public class LoanServiceImpl implements LoanService {
     LoanDAO loanDAO;
 
     @Autowired
-    CustomerLoanDAO cust;
+    CustomerLoanDAO customerDAO;
 
     @Autowired
-    LibraryRoleLoanDAO role;
+    LibraryRoleLoanDAO roleDAO;
 
     @Autowired
-    LibraryBookLoanDAO book;
+    LibraryBookLoanDAO bookDAO;
 
     @Autowired
-    LibraryBuildingLoanDAO building;
+    LibraryBuildingLoanDAO buildingDAO;
+
+    @Autowired
+    LibraryReservationForLoanDAO reservationDAO;
 
     private ModelMapper mapper = new ModelMapper();
     private LoanInfoDTO loanInfoDTO = new LoanInfoDTO();
@@ -59,19 +65,71 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<LoanInfoDTO> customerLoans(String authUserName) {
-	Integer customerId = cust.findOneByCustomerEmail(authUserName).get().getId();
+	Integer customerId = customerDAO.findOneByCustomerEmail(authUserName).get().getId();
 	List<Loan> list = loanDAO.findByCustomerIdAndReturnedFalse(customerId);
 	return list.stream().map(O -> mapping(O, loanInfoDTO)).collect(Collectors.toList());
     }
 
     @Override
-    public void createLoan(Integer custommerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
+    public void createLoan(Integer customerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
+	if (!isBookReserved(customerId, bookId)) {
+	    createAndSaveLoan(customerId, bookId, unitNumber, unit);
+	} else {
+	    throw new BookNotAvailableException("Loan service : book reserved or customer alreadyloaned it");
+	}
+    }
+
+    @Override
+    public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber,
+	    ChronoUnit unit) {
+	LibraryReservationForLoan reservation = reservation(reservationId);
+	if (isRigthCustomer(customerId, reservation)) {
+	    System.out.println("here");
+	    createAndSaveLoan(customerId, reservation.getBook(), unitNumber, unit);
+	    reservation.setCanceledStatus(true);
+	    reservationDAO.saveAndFlush(reservation);
+	    LibraryBookLoan book = book(reservation.getBook().getId());
+	    setBookNumberOfreservation(book);
+	    bookDAO.saveAndFlush(book);
+	} else {
+	    throw new BookNotAvailableException("Loan service: customer not corresponding to the one on reservation ");
+	}
+
+    }
+
+    private LibraryReservationForLoan reservation(Integer reservationId) {
+	if (reservationDAO.findByIdAndCanceledStatusFalse(reservationId).isPresent()) {
+	    return reservationDAO.findById(reservationId).get();
+	} else {
+	    throw new ReservationNotFoundException("Reservation ref = [" + reservationId + "] not found.");
+	}
+    }
+
+    private Boolean isRigthCustomer(Integer customerId, LibraryReservationForLoan reservation) {
+	System.out.println(customerId + "==" + reservation.getCustomer().getId());
+	return customerId == reservation.getCustomer().getId();
+    }
+
+    private void setBookNumberOfreservation(LibraryBookLoan book) {
+	if (book.getNumberOfReservations() != 0) {
+	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
+	}
+    }
+
+    private void createAndSaveLoan(Integer customerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
 	Loan loan = new Loan();
 	loanDefaultValue(loan, unitNumber, unit);
-	loan.setBook(settedLoanedBook(bookId));
-	loan.setCustomer(settedCustommerLoan(custommerId));
+	loan.setBook(settedLoanedBook(bookId, customerId));
+	loan.setCustomer(settedCustommerLoan(customerId));
 	loanDAO.saveAndFlush(loan);
+    }
 
+    private void createAndSaveLoan(Integer customerId, LibraryBookLoan book, Integer unitNumber, ChronoUnit unit) {
+	Loan loan = new Loan();
+	loanDefaultValue(loan, unitNumber, unit);
+	loan.setBook(book);
+	loan.setCustomer(settedCustommerLoan(customerId));
+	loanDAO.saveAndFlush(loan);
     }
 
     @Override
@@ -128,40 +186,48 @@ public class LoanServiceImpl implements LoanService {
 	loan.setPostponed(false);
     }
 
-    private LibraryBookLoan settedLoanedBook(Integer bookId) {
-	LibraryBookLoan settedBook = loanedBook(bookId);
+    private LibraryBookLoan settedLoanedBook(Integer bookId, Integer customerId) {
+	LibraryBookLoan settedBook = loanedBook(bookId, customerId);
 	settedBook.setLibraryBuilding(bookBuilding(settedBook.getLibraryBuilding().getId()));
 	settedBook.setAvailability(false);
 	return settedBook;
     }
 
-    private LibraryBookLoan loanedBook(Integer bookId) {
-	Optional<LibraryBookLoan> optBook = book.findById(bookId);
-	if (optBook.isPresent()) {
-	    if (optBook.get().getAvailability()) {
-		return optBook.get();
-	    }
-	    throw new BookNotAvailableException();
+    private LibraryBookLoan loanedBook(Integer bookId, Integer customerId) {
+	LibraryBookLoan book = book(bookId);
+	if (book.getAvailability() && !isTitleAlreadyLoaned(customerId, book.getTitle())) {
+	    return book;
+	} else {
+	    throw new BookNotAvailableException("Book not available");
 	}
-	throw new BookNotFoundException("pas de livre sous" + bookId);
+
+    }
+
+    private LibraryBookLoan book(Integer bookId) {
+	if (bookDAO.findById(bookId).isPresent()) {
+	    System.out.println("bookidd=" + bookId);
+	    return bookDAO.findById(bookId).get();
+	} else {
+	    throw new BookNotFoundException("pas de livre sous" + bookId);
+	}
     }
 
     private LibraryBuildingLoan bookBuilding(Integer buildingId) {
-	Optional<LibraryBuildingLoan> optBuilding = building.findById(buildingId);
+	Optional<LibraryBuildingLoan> optBuilding = buildingDAO.findById(buildingId);
 	if (optBuilding.isPresent()) {
 	    return optBuilding.get();
 	}
 	throw new BuildingNotFoundException();
     }
 
-    private CustomerLoan settedCustommerLoan(Integer id) {
-	CustomerLoan customerLoan = customerLoan(id);
+    private CustomerLoan settedCustommerLoan(Integer customerId) {
+	CustomerLoan customerLoan = customerLoan(customerId);
 	customerLoan.setRole(roleLoan(customerLoan.getRole().getId()));
 	return customerLoan;
     }
 
-    private CustomerLoan customerLoan(Integer id) {
-	Optional<CustomerLoan> optCustomer = cust.findById(id);
+    private CustomerLoan customerLoan(Integer customerId) {
+	Optional<CustomerLoan> optCustomer = customerDAO.findById(customerId);
 	if (optCustomer.isPresent()) {
 	    return optCustomer.get();
 	}
@@ -169,7 +235,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private LibraryRoleLoan roleLoan(Integer id) {
-	Optional<LibraryRoleLoan> optRole = role.findById(id);
+	Optional<LibraryRoleLoan> optRole = roleDAO.findById(id);
 	if (optRole.isPresent()) {
 	    return optRole.get();
 	}
@@ -234,6 +300,15 @@ public class LoanServiceImpl implements LoanService {
 	    return LocalDate.parse(date).plusYears(numberChronoOfUnit);
 	}
 	throw new ChronoUnitNotImplementedException();
+    }
+
+    private Boolean isBookReserved(Integer customerId, Integer bookId) {
+	return reservationDAO.findByBookIdAndCustomerIdAndCanceledStatusFalse(bookId, customerId).isPresent();
+    }
+
+    private Boolean isTitleAlreadyLoaned(Integer customerId, String bookTitle) {
+	return loanDAO.findByBookTitleAndCustomerIdAndReturnedFalse(bookTitle, customerId).isPresent();
+
     }
 
 }

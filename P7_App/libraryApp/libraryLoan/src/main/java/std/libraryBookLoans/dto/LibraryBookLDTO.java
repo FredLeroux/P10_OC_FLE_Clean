@@ -1,5 +1,5 @@
 package std.libraryBookLoans.dto;
 
-public class LibraryLoanBookDTO {
+public class LibraryBookLDTO {
 
 }

@@ -5,9 +5,11 @@ import org.springframework.stereotype.Component;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import std.libraryUi.errorDecoder.exceptions.AlreadyReservedByCustomerException;
+import std.libraryUi.errorDecoder.exceptions.BookNotAvailableException;
 import std.libraryUi.errorDecoder.exceptions.ChronoUnitNotImplementedException;
 import std.libraryUi.errorDecoder.exceptions.LoanNotFoundException;
 import std.libraryUi.errorDecoder.exceptions.NotFoundException;
+import std.libraryUi.errorDecoder.exceptions.ReservationNotFoundException;
 import std.libraryUi.exceptions.UnknowErrorException;;
 
 @Component
@@ -29,6 +31,18 @@ public class LibraryUiErrorDecoder implements ErrorDecoder {
 	if (response.status() == 409) {
 	    if (methodKey.contains("createReservation")) {
 		return new AlreadyReservedByCustomerException();
+	    }
+	}
+
+	if (response.status() == 409) {
+	    if (methodKey.contains("createLoan")) {
+		return new BookNotAvailableException();
+	    }
+	}
+
+	if (response.status() == 404) {
+	    if (methodKey.contains("createLoanFromReservation")) {
+		return new ReservationNotFoundException("Reservation service reservation not found");
 	    }
 	}
 

@@ -70,6 +70,10 @@ public class ControllerMethods {
 	libraryBookLoansProxy.createLoan(customerId, bookId, 4, ChronoUnit.WEEKS);
     }
 
+    public void createLoanFromReservation(Integer customerId, Integer reservationId) {
+	libraryBookLoansProxy.createLoanFromReservation(reservationId, customerId, 4, ChronoUnit.WEEKS);
+    }
+
     public void returnLoan(Integer customerId, Integer bookId) {
 	libraryBookLoansProxy.returnLoan(customerId, bookId);
     }

@@ -21,37 +21,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "library_books", schema = "libraryum")
-@NoArgsConstructor
+@Table(name = "library_book_reservations", schema = "libraryum")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class LibraryBookLoan implements Serializable {
+public class LibraryReservationForLoan implements Serializable {
 
-    private static final long serialVersionUID = 7123011051900300385L;
-
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8249256567923017851L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "kind")
-    private String kind;
-
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "author")
-    private String author;
-
-    @Column(name = "availability")
-    private Boolean availability;
-
-    @Column(name = "number_of_reservations")
-    private Integer numberOfReservations;
-
+    @Column(name = "notification_date")
+    private String notificationDate;
+    @Column(name = "canceled_status")
+    private Boolean canceledStatus;
+    @Column(name = "priority")
+    private Integer priority;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @JoinColumn(name = "library_building_fk")
-    private LibraryBuildingLoan libraryBuilding;
+    @JoinColumn(name = "library_book_fk")
+    private LibraryBookLoan book;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn(name = "library_customer_fk")
+    private CustomerLoan customer;
 
 }

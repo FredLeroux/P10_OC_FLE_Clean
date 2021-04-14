@@ -53,6 +53,14 @@ public class LibraryBookLoansController {
 	loan.createLoan(customerId, bookId, unitNumber, unit);
     }
 
+    @PostMapping(value = "/createLoanFromReservation")
+    public void createLoanFromReservation(@RequestParam(value = "reservationId") Integer reservationId,
+	    @RequestParam(value = "customerId") Integer customerId,
+	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") ChronoUnit unit) {
+	loan.createLoanFromReservation(reservationId, customerId, unitNumber, unit);
+
+    }
+
     @PostMapping(value = "/returnLoan")
     public void createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId) {

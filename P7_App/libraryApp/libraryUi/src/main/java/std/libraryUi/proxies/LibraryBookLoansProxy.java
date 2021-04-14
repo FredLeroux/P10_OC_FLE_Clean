@@ -43,6 +43,11 @@ public interface LibraryBookLoansProxy {
 	    @RequestParam(value = "bookId") Integer bookId, @RequestParam(value = "unitNumber") Integer unitNumber,
 	    @RequestParam(value = "unit") ChronoUnit unit);
 
+    @PostMapping(value = "/libraryBookLoans/createLoanFromReservation")
+    public void createLoanFromReservation(@RequestParam(value = "reservationId") Integer reservationId,
+	    @RequestParam(value = "customerId") Integer customerId,
+	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") ChronoUnit unit);
+
     @PostMapping(value = "/libraryBookLoans/returnLoan")
     public void returnLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId);

@@ -130,7 +130,9 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     }
 
     private List<LibraryBookDTO> specificBookListNotAvailableBooks(List<LibraryBookDTO> specificBookList) {
-	return specificBookList.stream().filter(o -> o.getAvailability() == false).collect(Collectors.toList());
+	return specificBookList.stream()
+		.filter(o -> o.getAvailability() == false || parseNumberOfreservation(o.getNumberOfReservations()) > 0)
+		.collect(Collectors.toList());
     }
 
     private Integer specificBookListSize(List<LibraryBookDTO> specificBookList) {

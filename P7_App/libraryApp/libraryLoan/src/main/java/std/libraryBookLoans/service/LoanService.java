@@ -54,4 +54,7 @@ public interface LoanService {
     public List<ReservableBookExamplaryDatedDTO> reservableBookExamplaryDTOs(List<Integer> bookIdList,
 	    Integer numberChronoOfUnit, ChronoUnit unit);
 
+    public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber,
+	    ChronoUnit unit);
+
 }

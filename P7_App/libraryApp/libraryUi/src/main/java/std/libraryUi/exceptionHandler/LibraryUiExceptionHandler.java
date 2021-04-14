@@ -9,8 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sun.jersey.api.NotFoundException;
 
 import std.libraryUi.errorDecoder.exceptions.AlreadyReservedByCustomerException;
+import std.libraryUi.errorDecoder.exceptions.BookNotAvailableException;
 import std.libraryUi.errorDecoder.exceptions.ChronoUnitNotImplementedException;
 import std.libraryUi.errorDecoder.exceptions.LoanNotFoundException;
+import std.libraryUi.errorDecoder.exceptions.ReservationNotFoundException;
 import std.libraryUi.exceptions.UnknowErrorException;
 
 @RestControllerAdvice
@@ -51,6 +53,22 @@ public class LibraryUiExceptionHandler {
     @ExceptionHandler(value = NotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView notFoundError() {
+	ModelAndView model = new ModelAndView("/errorPageTrigger");
+	model.addObject("errorCode", HttpStatus.NOT_FOUND.value());
+	return model;
+    }
+
+    @ExceptionHandler(value = BookNotAvailableException.class)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    public ModelAndView bookNotAvailabler() {
+	ModelAndView model = new ModelAndView("/errorPageTrigger");
+	model.addObject("errorCode", HttpStatus.CONFLICT.value());
+	return model;
+    }
+
+    @ExceptionHandler(value = ReservationNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ModelAndView ReservationNotFoundError() {
 	ModelAndView model = new ModelAndView("/errorPageTrigger");
 	model.addObject("errorCode", HttpStatus.NOT_FOUND.value());
 	return model;

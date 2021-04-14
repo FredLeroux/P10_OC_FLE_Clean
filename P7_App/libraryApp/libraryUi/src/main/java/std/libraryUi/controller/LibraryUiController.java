@@ -145,14 +145,22 @@ public class LibraryUiController {
     public ModelAndView createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId) {
 	methods.createLoan(customerId, bookId);
-	return new ModelAndView("redirect:/loanTracking");
+	return new ModelAndView("confirmationPage");
+    }
+
+    @PostMapping(value = "/createLoanFromReservation")
+    public ModelAndView createLoanFromReservation(@RequestParam(value = "customerId") Integer customerId,
+	    @RequestParam(value = "reservationId") Integer reservationId) {
+	methods.createLoanFromReservation(customerId, reservationId);
+	System.out.println("done and well done");
+	return new ModelAndView("confirmationPage");
     }
 
     @PostMapping(value = "/returnLoan")
     public ModelAndView returnLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId) {
 	methods.returnLoan(customerId, bookId);
-	return new ModelAndView("redirect:/loanTracking");
+	return new ModelAndView("confirmationPage");
 
     }
 
