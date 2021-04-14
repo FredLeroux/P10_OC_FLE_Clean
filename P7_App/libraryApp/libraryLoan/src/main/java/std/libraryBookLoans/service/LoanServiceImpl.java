@@ -91,6 +91,7 @@ public class LoanServiceImpl implements LoanService {
 	    LibraryBookLoan book = book(reservation.getBook().getId());
 	    setBookNumberOfreservation(book);
 	    bookDAO.saveAndFlush(book);
+	    updateReservationsPriority(book.getId());
 	} else {
 	    throw new BookNotAvailableException("Loan service: customer not corresponding to the one on reservation ");
 	}
@@ -114,6 +115,18 @@ public class LoanServiceImpl implements LoanService {
 	if (book.getNumberOfReservations() != 0) {
 	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
 	}
+    }
+
+    private void updateReservationsPriority(Integer bookId) {
+	if (!reservationDAO.findByBookIdAndCanceledStatusFalse(bookId).isEmpty()) {
+	    reservationDAO.saveAll(reservationDAO.findByBookIdAndCanceledStatusFalse(bookId).stream()
+		    .map(o -> updatePriority(o)).collect(Collectors.toList()));
+	}
+    }
+
+    private LibraryReservationForLoan updatePriority(LibraryReservationForLoan reservation) {
+	reservation.setPriority(reservation.getPriority() - 1);
+	return reservation;
     }
 
     private void createAndSaveLoan(Integer customerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {

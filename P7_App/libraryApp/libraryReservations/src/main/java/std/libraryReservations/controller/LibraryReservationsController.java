@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import std.libraryReservations.dto.NotificationReservationDTO;
 import std.libraryReservations.dto.ReservationDTO;
 import std.libraryReservations.service.LibraryReservationService;
 
@@ -31,5 +32,11 @@ public class LibraryReservationsController {
     @PostMapping(value = "/cancelReservation")
     public void cancelReservation(@RequestParam(value = "reservationId") Integer reservationId) {
 	service.cancelReservation(reservationId);
+    }
+
+    @GetMapping(value = "/customerToNotified")
+    public NotificationReservationDTO customerToNotified(@RequestParam(value = "bookId") Integer bookId,
+	    @RequestParam(value = "priority") Integer priority) {
+	return service.customerToNotified(bookId, priority);
     }
 }

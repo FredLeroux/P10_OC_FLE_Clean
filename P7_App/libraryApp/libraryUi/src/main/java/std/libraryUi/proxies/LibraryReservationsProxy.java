@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import std.libraryUi.beans.LibraryReservationBean;
+import std.libraryUi.dto.UiNotificationReservationDTO;
 
 @FeignClient(name = "libraryGateWayZuul")
 @RibbonClient(name = "libraryReservations")
@@ -24,5 +25,9 @@ public interface LibraryReservationsProxy {
 
     @PostMapping(value = "/libraryReservations/cancelReservation")
     public void cancelReservation(@RequestParam(value = "reservationId") Integer reservationId);
+
+    @GetMapping(value = "/customerToNotified")
+    public UiNotificationReservationDTO customerToNotified(@RequestParam(value = "bookId") Integer bookId,
+	    @RequestParam(value = "priority") Integer priority);
 
 }

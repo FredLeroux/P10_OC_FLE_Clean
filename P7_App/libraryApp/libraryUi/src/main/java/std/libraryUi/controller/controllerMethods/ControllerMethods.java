@@ -23,11 +23,13 @@ import std.libraryUi.beans.ReservableBookExamplaryDatedBean;
 import std.libraryUi.beans.ReservableBookLinkedLoanBean;
 import std.libraryUi.dto.UiLoanDateAndBooksList;
 import std.libraryUi.dto.UiLoanInfoDTO;
+import std.libraryUi.dto.UiNotificationReservationDTO;
 import std.libraryUi.dto.UiReservationDTO;
 import std.libraryUi.proxies.LibraryBookCaseProxy;
 import std.libraryUi.proxies.LibraryBookLoansProxy;
 import std.libraryUi.proxies.LibraryCustomerProxy;
 import std.libraryUi.proxies.LibraryReservationsProxy;
+import std.libraryUi.proxies.LibraryScheduledBatchAndMailingProxy;
 
 @Service
 public class ControllerMethods {
@@ -43,6 +45,14 @@ public class ControllerMethods {
 
     @Autowired
     private LibraryReservationsProxy libraryReservationsProxy;
+
+    @Autowired
+    private LibraryScheduledBatchAndMailingProxy libraryScheduledBatchAndMailingProxy;
+
+    /**
+     * the minimum integer value to be prioritized
+     */
+    private static final Integer PRIORITY_VALUE = 1;
 
     public void addSortedLoansListAndDatePickerLoansInfoToModel(ModelAndView model, String listModelAttrName,
 	    String datepickerInfoModelAttrName, HttpServletRequest request, String headerName, String language) {
@@ -76,6 +86,19 @@ public class ControllerMethods {
 
     public void returnLoan(Integer customerId, Integer bookId) {
 	libraryBookLoansProxy.returnLoan(customerId, bookId);
+	sendNotification(bookId);
+    }
+
+    private void sendNotification(Integer bookId) {
+	System.out.println("enter");
+	UiNotificationReservationDTO dto = libraryReservationsProxy.customerToNotified(bookId, PRIORITY_VALUE);
+	System.out.println(dto.getCustomerEmail());
+	if (dto != null) {
+	    System.out.println(dto.getCustomerEmail() + dto.getBookTitle() + dto.getBuilding());
+	    libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailable(dto.getCustomerEmail(),
+		    dto.getBookTitle(), dto.getBuilding());
+	    System.out.println("done");
+	}
     }
 
     private List<LoanInfoBean> loansList(String userName) {

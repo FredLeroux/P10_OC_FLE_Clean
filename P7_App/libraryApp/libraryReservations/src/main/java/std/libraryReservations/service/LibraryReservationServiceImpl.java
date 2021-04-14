@@ -2,6 +2,7 @@ package std.libraryReservations.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import std.libraryReservations.dto.LibraryBookForReservationDTO;
 import std.libraryReservations.dto.LibraryBuildingForReservationDTO;
 import std.libraryReservations.dto.LibraryCustomerForReservationDTO;
 import std.libraryReservations.dto.LibraryRoleForReservationDTO;
+import std.libraryReservations.dto.NotificationReservationDTO;
 import std.libraryReservations.dto.ReservationDTO;
 import std.libraryReservations.entities.LibraryBookForReservation;
 import std.libraryReservations.entities.LibraryBuildingForReservation;
@@ -183,6 +185,17 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     private Object mapper(Object source, Object destination) {
 	return modelMapper.map(source, destination.getClass());
+    }
+
+    @Override
+    public NotificationReservationDTO customerToNotified(Integer bookId, Integer priority) {
+	Optional<Reservation> reservation = libraryReservationDAO.findByBookIdAndPriorityAndCanceledStatusFalse(bookId,
+		priority);
+	if (reservation.isPresent()) {
+	    return new NotificationReservationDTO(reservation.get().getCustomer().getCustomerEmail(),
+		    reservation.get().getBook().getTitle(), reservation.get().getBook().getLibraryBuilding().getName());
+	}
+	return null;
     }
 
 }

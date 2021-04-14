@@ -14,6 +14,8 @@ public interface LibraryReservationDAO extends JpaRepository<Reservation, Intege
     @Override
     public Optional<Reservation> findById(Integer id);
 
+    public Optional<Reservation> findByBookIdAndPriorityAndCanceledStatusFalse(Integer bookId, Integer priority);
+
     public List<Reservation> findByBookTitleAndCanceledStatusFalse(String booktitle);
 
     public List<Reservation> findByCustomerCustomerEmailAndCanceledStatusFalse(String customerEmail);

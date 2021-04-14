@@ -10,14 +10,6 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "mail")
 @Getter
 @Setter
-public class MailMessageElmt {
-
-	private String from;
-	private String subject;
-	private String greeting;
-	private String thebook;
-	private String lateMess;
-	private String thanks;
-	private String end;
+public class MailLateMessageElmt extends MailComponents {
 
 }

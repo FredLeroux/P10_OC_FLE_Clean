@@ -15,14 +15,14 @@ import std.LibraryScheduledBatchAndMailing.mail.MailSendingService;
 public class LibraryScheduledBatchAndMailingApplication {
 
     @Autowired
-    MailSendingService mail;
+    MailSendingService service;
 
     public static void main(String[] args) {
 	SpringApplication.run(LibraryScheduledBatchAndMailingApplication.class, args);
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 3600000)
     public void scheduling() {
-	mail.getCustomerInformedOnLate();
+	service.getCustomerInformedOnLate();
     }
 }
