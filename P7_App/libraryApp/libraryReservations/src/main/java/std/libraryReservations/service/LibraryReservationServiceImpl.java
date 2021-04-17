@@ -193,7 +193,8 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 		priority);
 	if (reservation.isPresent()) {
 	    return new NotificationReservationDTO(reservation.get().getCustomer().getCustomerEmail(),
-		    reservation.get().getBook().getTitle(), reservation.get().getBook().getLibraryBuilding().getName());
+		    reservation.get().getBook().getTitle(), reservation.get().getBook().getLibraryBuilding().getName(),
+		    reservation.get().getId());
 	}
 	return null;
     }

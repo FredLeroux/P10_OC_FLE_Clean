@@ -1,4 +1,4 @@
-package std.LibraryScheduledBatchAndMailing.mail;
+package std.LibraryScheduledBatchAndMailing.mailMessagesComponents;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -13,5 +13,6 @@ import lombok.Setter;
 public class NotificationBookAvailableMessageElmt extends MailComponents {
 
     private String time;
+    private String ref;
 
 }

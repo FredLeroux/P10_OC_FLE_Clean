@@ -16,8 +16,9 @@ public class LibraryScheduledBatchAndMailingController {
     @PostMapping(value = "/sendNotificationBookAvailable")
     public void sendNotificationBookAvailable(@RequestParam(value = "customerEmail") String customerEmail,
 	    @RequestParam(value = "bookTitle") String bookTitle,
-	    @RequestParam(value = "buildingName") String buildingName) {
-	service.sendNotificationBookAvailable(customerEmail, bookTitle, buildingName);
+	    @RequestParam(value = "buildingName") String buildingName,
+	    @RequestParam(value = "reference") Integer reference) {
+	service.sendNotificationBookAvailable(customerEmail, bookTitle, buildingName, reference);
     }
 
 }

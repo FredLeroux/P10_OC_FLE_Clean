@@ -10,7 +10,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
-import std.LibraryScheduledBatchAndMailing.service.LoanBatchService;
+import std.LibraryScheduledBatchAndMailing.entities.ReservationBatch;
+import std.LibraryScheduledBatchAndMailing.mailMessagesComponents.MailLateMessageElmt;
+import std.LibraryScheduledBatchAndMailing.mailMessagesComponents.NotificationBookAvailableMessageElmt;
+import std.LibraryScheduledBatchAndMailing.mailMessagesComponents.NotificationCancelReservationMessageElmt;
+import std.LibraryScheduledBatchAndMailing.service.BatchService;
 
 @Service
 public class MailSendingServiceImpl implements MailSendingService {
@@ -19,7 +23,7 @@ public class MailSendingServiceImpl implements MailSendingService {
     private JavaMailSender emailSender;
 
     @Autowired
-    private LoanBatchService LoanBatchService;
+    private BatchService batchService;
 
     @Autowired
     private MailLateMessageElmt lateMessage;
@@ -27,11 +31,14 @@ public class MailSendingServiceImpl implements MailSendingService {
     @Autowired
     private NotificationBookAvailableMessageElmt notifAvailableBook;
 
+    @Autowired
+    private NotificationCancelReservationMessageElmt notifCancelReservation;
+
     private final String ln = "\n";
 
     @Override
     public void getCustomerInformedOnLate() {
-	List<LoanBatchMailInfoDTO> list = LoanBatchService.sortLateLoansList();
+	List<LoanBatchMailInfoDTO> list = batchService.sortLateLoansList();
 	if (!list.isEmpty()) {
 	    customerBooksMap(list).forEach((k, v) -> sendSimpleMessage(createLateMessage(k, v)));
 	}
@@ -102,13 +109,14 @@ public class MailSendingServiceImpl implements MailSendingService {
     }
 
     @Override
-    public void sendNotificationBookAvailable(String customerEmail, String bookTitle, String buildingName) {
+    public void sendNotificationBookAvailable(String customerEmail, String bookTitle, String buildingName,
+	    Integer ref) {
 	sendSimpleMessage(createMessage(notifAvailableBook.getFrom(), customerEmail, notifAvailableBook.getSubject(),
-		notificationBookAvailable(bookTitle, buildingName)));
-	LoanBatchService.updateNotificationDate(customerEmail, bookTitle);
+		notificationBookAvailable(bookTitle, buildingName, ref)));
+	batchService.updateNotificationDate(customerEmail, bookTitle);
     }
 
-    private String notificationBookAvailable(String bookTitle, String buildingName) {
+    private String notificationBookAvailable(String bookTitle, String buildingName, Integer ref) {
 	StringBuilder stb = new StringBuilder();
 	stb.append(notifAvailableBook.getGreeting());
 	stb.append(ln);
@@ -118,11 +126,52 @@ public class MailSendingServiceImpl implements MailSendingService {
 	stb.append(notifAvailableBook.getMessage());
 	stb.append(buildingName + ".");
 	stb.append(ln);
+	stb.append(notifAvailableBook.getRef());
+	stb.append(ref + ".");
+	stb.append(ln);
 	stb.append(notifAvailableBook.getTime());
 	stb.append(ln);
 	stb.append(notifAvailableBook.getEnd());
 	return stb.toString();
 
+    }
+
+    @Override
+    public void sendNotificationCanceledReservationAndUpdateDataBase(Integer priority, Long delayInDays,
+	    Integer toAdd) {
+	List<ReservationBatch> list = batchService.reservationsToCancelListDelayExceeded(
+		batchService.reservationsToCheckCancelation(priority), delayInDays);
+	batchService.updateAndSaveReservationAndLinkedBookOnExceedDelay(list, toAdd);
+	batchService.reservationsToCancelInfo(list).forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(),
+		o.getBookTitle(), o.getBuilding(), o.getReference()));
+
+    }
+
+    @Override
+    public void sendNotificationReservationCancel(String customerEmail, String bookTitle, String buildingName,
+	    Integer ref) {
+	sendSimpleMessage(createMessage(notifCancelReservation.getFrom(), customerEmail,
+		notifCancelReservation.getSubject(), notificationReservationCancel(bookTitle, buildingName, ref)));
+	batchService.updateNotificationDate(customerEmail, bookTitle);
+    }
+
+    private String notificationReservationCancel(String bookTitle, String buildingName, Integer ref) {
+	StringBuilder stb = new StringBuilder();
+	stb.append(notifCancelReservation.getGreeting());
+	stb.append(ln);
+	stb.append(notifCancelReservation.getThebook());
+	stb.append(bookTitle + ".");
+	stb.append(ln);
+	stb.append(notifCancelReservation.getMessage());
+	stb.append(buildingName + ".");
+	stb.append(ln);
+	stb.append(notifCancelReservation.getRef());
+	stb.append(ref + ".");
+	stb.append(ln);
+	stb.append(notifCancelReservation.getCause());
+	stb.append(ln);
+	stb.append(notifCancelReservation.getEnd());
+	return stb.toString();
     }
 
 }

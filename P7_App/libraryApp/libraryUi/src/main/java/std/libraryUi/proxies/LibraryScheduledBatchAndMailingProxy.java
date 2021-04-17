@@ -12,5 +12,6 @@ public interface LibraryScheduledBatchAndMailingProxy {
     @PostMapping(value = "/libraryScheduledBatchAndMailing/sendNotificationBookAvailable")
     public void sendNotificationBookAvailable(@RequestParam(value = "customerEmail") String customerEmail,
 	    @RequestParam(value = "bookTitle") String bookTitle,
-	    @RequestParam(value = "buildingName") String buildingName);
+	    @RequestParam(value = "buildingName") String buildingName,
+	    @RequestParam(value = "reference") Integer reference);
 }

@@ -88,6 +88,7 @@ public class LoanServiceImpl implements LoanService {
 	    reservation.setCanceledStatus(true);
 	    reservationDAO.saveAndFlush(reservation);
 	    LibraryBookLoan book = book(reservation.getBook().getId());
+	    book.setAvailability(false);
 	    setBookNumberOfreservation(book);
 	    bookDAO.saveAndFlush(book);
 	    updateReservationsPriority(book.getId());

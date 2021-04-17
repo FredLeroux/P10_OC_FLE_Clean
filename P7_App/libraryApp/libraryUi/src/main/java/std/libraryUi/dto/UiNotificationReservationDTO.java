@@ -14,5 +14,6 @@ public class UiNotificationReservationDTO {
     private String customerEmail;
     private String bookTitle;
     private String building;
+    private Integer reference;
 
 }

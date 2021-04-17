@@ -17,6 +17,7 @@ import std.LibraryScheduledBatchAndMailing.dao.ReservationBatchDAO;
 import std.LibraryScheduledBatchAndMailing.dto.CustomerBatchEmailDTO;
 import std.LibraryScheduledBatchAndMailing.dto.LibraryBookBatchTitleDTO;
 import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
+import std.LibraryScheduledBatchAndMailing.dto.ReservationToCancelInfoDTO;
 import std.LibraryScheduledBatchAndMailing.entities.CustomerBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LibraryBookBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LoanBatch;
@@ -25,7 +26,7 @@ import std.LibraryScheduledBatchAndMailing.exceptions.BookNotFoundException;
 import std.LibraryScheduledBatchAndMailing.exceptions.CustomerNotFoundException;
 
 @Service
-public class LoanBatchServiceImpl implements LoanBatchService {
+public class BatchServiceImpl implements BatchService {
 
     @Autowired
     LoanBatchDAO loanBatchDao;
@@ -156,6 +157,147 @@ public class LoanBatchServiceImpl implements LoanBatchService {
 	} else {
 	    throw new NullPointerException("update notification date fail null reservation");
 	}
+    }
+
+    ////////////////////////////////////////////////////////
+
+    @Override
+    public List<ReservationToCancelInfoDTO> reservationsToCancelInfo(List<ReservationBatch> reservations) {
+	if (!reservations.isEmpty()) {
+	    return reservations.stream().map(o -> cancelInfo(o)).collect(Collectors.toList());
+	}
+	return null;
+    }
+
+    private ReservationToCancelInfoDTO cancelInfo(ReservationBatch reservation) {
+	return new ReservationToCancelInfoDTO(reservation.getId(), reservation.getCustomer().getCustomerEmail(),
+		reservation.getBook().getTitle(), reservation.getBook().getLibraryBuilding().getName());
+    }
+
+    @Override
+    public void updateAndSaveReservationAndLinkedBookOnExceedDelay(List<ReservationBatch> reservations, Integer toAdd) {
+	updateBooks(updateBooksNumberOfreservation(booksListFromReservationsList(reservations), toAdd));
+	updateReservations(updateReservationsCancelStatus(reservations, true));
+
+    }
+
+    @Override
+    public List<ReservationBatch> reservationsToCancelListDelayExceeded(List<ReservationBatch> reservations,
+	    Long delayInDays) {
+	List<ReservationBatch> list = new ArrayList<>();
+	if (!reservations.isEmpty()) {
+	    list = reservations.stream()
+		    .filter(o -> isDateIsBeforeRefDate(parseStringToLocalDate(o.getNotificationDate()),
+			    LocalDate.now().minusDays(delayInDays)))
+		    .collect(Collectors.toList());
+	}
+	return list;
+    }
+
+    @Override
+    public List<ReservationBatch> reservationsToCheckCancelation(Integer priority) {
+	return reservationBatchDAO.findByPriorityAndNotificationDateNotNullAndCanceledStatusFalse(priority);
+    }
+
+    private void updateReservations(List<ReservationBatch> reservations) {
+	if (!reservations.isEmpty()) {
+	    saveReservationList(reservations);
+	}
+    }
+
+    private void saveReservationList(List<ReservationBatch> reservations) {
+	if (!reservations.isEmpty()) {
+	    reservationBatchDAO.saveAll(reservations);
+	}
+    }
+
+    /**
+     *
+     * @param reservations
+     * @param booleanValue
+     * @return
+     */
+    private List<ReservationBatch> updateReservationsCancelStatus(List<ReservationBatch> reservations,
+	    Boolean booleanValue) {
+	if (!reservations.isEmpty()) {
+	    reservations.forEach(o -> o.setCanceledStatus(booleanValue));
+	    return reservations;
+	} else {
+	    return new ArrayList<ReservationBatch>();
+	}
+    }
+
+    private void updateBooks(List<LibraryBookBatch> listOfBooksToUpdate) {
+	if (!listOfBooksToUpdate.isEmpty()) {
+	    saveBooksList(listOfBooksToUpdate);
+	}
+
+    }
+
+    /**
+     *
+     * @param booksListToUpdate
+     * @param toAdd             value to add to the number of reservation use
+     *                          negative value to minus , positive to increase the
+     *                          value
+     *                          {@link #setBookNumberOfReservation(LibraryBookBatch, Integer)}
+     * @return list of books with numberOfReservation set with toAdd
+     *
+     */
+    private List<LibraryBookBatch> updateBooksNumberOfreservation(List<LibraryBookBatch> booksListToUpdate,
+	    Integer toAdd) {
+	List<LibraryBookBatch> list = new ArrayList<>();
+	if (!booksListToUpdate.isEmpty()) {
+	    list.forEach(o -> setBookNumberOfReservation(o, toAdd));
+	}
+	return list;
+    }
+
+    /**
+     *
+     * @param book  the book where to change number of reservation Security which
+     *              set to 0 id a number of reservation minus-1 gives a negative
+     *              number
+     * @param toAdd value to add to the number of reservation use negative value to
+     *              minus , positive to increase the value
+     */
+    private void setBookNumberOfReservation(LibraryBookBatch book, Integer toAdd) {
+	book.setNumberOfReservations(book.getNumberOfReservations() + toAdd);
+	if (book.getNumberOfReservations() < 0) {
+	    book.setNumberOfReservations(0);
+	}
+
+    }
+
+    /**
+     *
+     * @param reservationsList a reservation list where to extract a books list
+     * @return a list a books from a list of reservation
+     */
+    private List<LibraryBookBatch> booksListFromReservationsList(List<ReservationBatch> reservationsList) {
+	List<LibraryBookBatch> list = new ArrayList<>();
+	if (!reservationsList.isEmpty()) {
+	    reservationsList.forEach(o -> list.add(o.getBook()));
+
+	}
+	return list;
+
+    }
+
+    private void saveBooksList(List<LibraryBookBatch> books) {
+	libraryBookBatchDao.saveAll(books);
+    }
+
+    /**
+     *
+     * @return true if date is before referenceDate else False
+     */
+    private Boolean isDateIsBeforeRefDate(LocalDate date, LocalDate refDate) {
+	return date.isBefore(refDate);
+    }
+
+    private LocalDate parseStringToLocalDate(String dateToParse) {
+	return LocalDate.parse(dateToParse);
     }
 
 }

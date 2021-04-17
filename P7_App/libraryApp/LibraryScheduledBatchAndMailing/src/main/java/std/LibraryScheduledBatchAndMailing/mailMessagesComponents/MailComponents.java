@@ -1,4 +1,4 @@
-package std.LibraryScheduledBatchAndMailing.mail;
+package std.LibraryScheduledBatchAndMailing.mailMessagesComponents;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

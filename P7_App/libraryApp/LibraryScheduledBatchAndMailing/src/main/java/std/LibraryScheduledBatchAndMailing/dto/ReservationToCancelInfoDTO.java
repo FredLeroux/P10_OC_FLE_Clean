@@ -1,4 +1,4 @@
-package std.libraryReservations.dto;
+package std.LibraryScheduledBatchAndMailing.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class NotificationReservationDTO {
+public class ReservationToCancelInfoDTO {
 
+    private Integer Reference;
     private String customerEmail;
     private String bookTitle;
     private String building;
-    private Integer Reference;
 
 }

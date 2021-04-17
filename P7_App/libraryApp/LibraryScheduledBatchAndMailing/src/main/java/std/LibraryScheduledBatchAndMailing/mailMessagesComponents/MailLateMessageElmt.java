@@ -1,4 +1,4 @@
-package std.LibraryScheduledBatchAndMailing.mail;
+package std.LibraryScheduledBatchAndMailing.mailMessagesComponents;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
