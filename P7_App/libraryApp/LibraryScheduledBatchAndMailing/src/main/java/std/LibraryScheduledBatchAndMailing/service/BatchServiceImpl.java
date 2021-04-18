@@ -17,7 +17,7 @@ import std.LibraryScheduledBatchAndMailing.dao.ReservationBatchDAO;
 import std.LibraryScheduledBatchAndMailing.dto.CustomerBatchEmailDTO;
 import std.LibraryScheduledBatchAndMailing.dto.LibraryBookBatchTitleDTO;
 import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
-import std.LibraryScheduledBatchAndMailing.dto.ReservationToCancelInfoDTO;
+import std.LibraryScheduledBatchAndMailing.dto.ReservationToNotifiedInfoDTO;
 import std.LibraryScheduledBatchAndMailing.entities.CustomerBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LibraryBookBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LoanBatch;
@@ -107,44 +107,6 @@ public class BatchServiceImpl implements BatchService {
     }
 
     // -------- Ticket-1 issue#5 --------//
-    @Override
-    public List<ReservationBatch> toNotifieds(Integer priority) {
-	List<ReservationBatch> reservationsToNotified = reservationsToNotified(priority);
-	return reservationsToNotifiedFiltered(reservationsToNotified,
-		booksToNotified(booksToNotifiedIds(reservationsToNotified)));
-    }
-
-    private List<ReservationBatch> reservationsToNotified(Integer priority) {
-	return reservationBatchDAO.findByCanceledStatusFalseAndPriority(priority);
-    }
-
-    private List<Integer> booksToNotifiedIds(List<ReservationBatch> list) {
-	ArrayList<Integer> ids = new ArrayList<>();
-	if (!list.isEmpty()) {
-	    list.forEach(o -> ids.add(o.getBook().getId()));
-	}
-	return ids;
-    }
-
-    private List<LibraryBookBatch> booksToNotified(List<Integer> booksToNotifiedIds) {
-	List<LibraryBookBatch> booksToNotified = new ArrayList<>();
-	if (!booksToNotifiedIds.isEmpty()) {
-	    booksToNotified = libraryBookBatchDao.findByIdInAndAvailabilityTrue(booksToNotifiedIds);
-	}
-	return booksToNotified;
-    }
-
-    private List<ReservationBatch> reservationsToNotifiedFiltered(List<ReservationBatch> reservationsToNotified,
-	    List<LibraryBookBatch> booksToNotified) {
-	List<ReservationBatch> reservationsToNotifiedFiltered = new ArrayList<>();
-	if (!booksToNotified.isEmpty()) {
-	    List<Integer> ids = new ArrayList<>();
-	    booksToNotified.forEach(o -> ids.add(o.getId()));
-	    reservationsToNotifiedFiltered = reservationsToNotified.stream().filter(o -> ids.contains(o.getId()))
-		    .collect(Collectors.toList());
-	}
-	return reservationsToNotifiedFiltered;
-    }
 
     @Override
     public void updateNotificationDate(String customerEmail, String bookTitle) {
@@ -162,22 +124,18 @@ public class BatchServiceImpl implements BatchService {
     ////////////////////////////////////////////////////////
 
     @Override
-    public List<ReservationToCancelInfoDTO> reservationsToCancelInfo(List<ReservationBatch> reservations) {
+    public List<ReservationToNotifiedInfoDTO> reservationsToCancelInfo(List<ReservationBatch> reservations) {
 	if (!reservations.isEmpty()) {
-	    return reservations.stream().map(o -> cancelInfo(o)).collect(Collectors.toList());
+	    return reservations.stream().map(o -> reservationToNotifiedInfoDTO(o)).collect(Collectors.toList());
 	}
 	return null;
     }
 
-    private ReservationToCancelInfoDTO cancelInfo(ReservationBatch reservation) {
-	return new ReservationToCancelInfoDTO(reservation.getId(), reservation.getCustomer().getCustomerEmail(),
-		reservation.getBook().getTitle(), reservation.getBook().getLibraryBuilding().getName());
-    }
-
     @Override
-    public void updateAndSaveReservationAndLinkedBookOnExceedDelay(List<ReservationBatch> reservations, Integer toAdd) {
-	updateBooks(updateBooksNumberOfreservation(booksListFromReservationsList(reservations), toAdd));
-	updateReservations(updateReservationsCancelStatus(reservations, true));
+    public void updateAndSaveReservationAndLinkedBookOnExceedDelay(List<ReservationBatch> canceledReservations,
+	    List<ReservationBatch> nextPriorityReservations, Integer priority, Integer toAdd) {
+	updateBooks(updateBooksNumberOfreservation(booksListFromReservationsList(canceledReservations), toAdd));
+	updateReservations(updateReservationsCancelStatus(canceledReservations, true), nextPriorityReservations);
 
     }
 
@@ -195,14 +153,29 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public List<ReservationBatch> reservationsToCheckCancelation(Integer priority) {
-	return reservationBatchDAO.findByPriorityAndNotificationDateNotNullAndCanceledStatusFalse(priority);
+    public List<ReservationBatch> reservationsToCheckCancelation(List<ReservationBatch> reservations) {
+	if (!reservations.isEmpty()) {
+	    return reservations.stream().filter(o -> o.getNotificationDate() != null).collect(Collectors.toList());
+	} else {
+	    return new ArrayList<>();
+	}
+
     }
 
-    private void updateReservations(List<ReservationBatch> reservations) {
-	if (!reservations.isEmpty()) {
-	    saveReservationList(reservations);
+    private void updateReservations(List<ReservationBatch> canceledreservations,
+	    List<ReservationBatch> nextPrioritary) {
+	List<ReservationBatch> listToSave = new ArrayList<ReservationBatch>();
+
+	if (!canceledreservations.isEmpty()) {
+	    canceledreservations.forEach(o -> listToSave.add(o));
 	}
+	if (!nextPrioritary.isEmpty()) {
+	    nextPrioritary.forEach(o -> listToSave.add(o));
+	}
+	if (!listToSave.isEmpty()) {
+	    saveReservationList(listToSave);
+	}
+
     }
 
     private void saveReservationList(List<ReservationBatch> reservations) {
@@ -225,6 +198,14 @@ public class BatchServiceImpl implements BatchService {
 	} else {
 	    return new ArrayList<ReservationBatch>();
 	}
+    }
+
+    @Override
+    public List<ReservationBatch> updatedNextPriorityReservation(List<ReservationBatch> originList, Integer priority) {
+	List<ReservationBatch> nextPrioritary = originList.stream().filter(o -> o.getPriority() == (priority + 1))
+		.collect(Collectors.toList());
+	nextPrioritary.forEach(o -> o.setPriority(priority));
+	return nextPrioritary;
     }
 
     private void updateBooks(List<LibraryBookBatch> listOfBooksToUpdate) {
@@ -298,6 +279,42 @@ public class BatchServiceImpl implements BatchService {
 
     private LocalDate parseStringToLocalDate(String dateToParse) {
 	return LocalDate.parse(dateToParse);
+    }
+
+    @Override
+    public List<ReservationBatch> toNotifieds(Integer priority) {
+	return reservationBatchDAO.findByPriorityAndCanceledStatusFalse(priority);
+    }
+
+    @Override
+    public List<ReservationToNotifiedInfoDTO> reservationsToNotifiedBookAvailable(List<ReservationBatch> reservations) {
+	if (!reservations.isEmpty()) {
+	    return reservations.stream().map(o -> reservationToNotifiedInfoDTO(o)).collect(Collectors.toList());
+	}
+	return new ArrayList<ReservationToNotifiedInfoDTO>();
+    }
+
+    @Override
+    public List<ReservationBatch> updatedNotificationDateReservations(Integer priority) {
+	List<ReservationBatch> list = reservationBatchDAO
+		.findByPriorityAndNotificationDateNullAndCanceledStatusFalse(priority);
+	if (!list.isEmpty()) {
+	    list.forEach(o -> o.setNotificationDate(LocalDate.now().toString()));
+	    return list;
+	} else {
+	    return new ArrayList<ReservationBatch>();
+	}
+    }
+
+    private ReservationToNotifiedInfoDTO reservationToNotifiedInfoDTO(ReservationBatch reservation) {
+	return new ReservationToNotifiedInfoDTO(reservation.getId(), reservation.getCustomer().getCustomerEmail(),
+		reservation.getBook().getTitle(), reservation.getBook().getLibraryBuilding().getName());
+    }
+
+    @Override
+    public void saveReservationBatch(List<ReservationBatch> listToSave) {
+	reservationBatchDAO.saveAll(listToSave);
+
     }
 
 }

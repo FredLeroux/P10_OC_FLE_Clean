@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ReservationToCancelInfoDTO {
+public class ReservationToNotifiedInfoDTO {
 
     private Integer Reference;
     private String customerEmail;

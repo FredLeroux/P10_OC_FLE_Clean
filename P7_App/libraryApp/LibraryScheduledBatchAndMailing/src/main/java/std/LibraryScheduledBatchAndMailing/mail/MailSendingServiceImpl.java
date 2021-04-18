@@ -139,12 +139,20 @@ public class MailSendingServiceImpl implements MailSendingService {
     @Override
     public void sendNotificationCanceledReservationAndUpdateDataBase(Integer priority, Long delayInDays,
 	    Integer toAdd) {
-	List<ReservationBatch> list = batchService.reservationsToCancelListDelayExceeded(
-		batchService.reservationsToCheckCancelation(priority), delayInDays);
-	batchService.updateAndSaveReservationAndLinkedBookOnExceedDelay(list, toAdd);
-	batchService.reservationsToCancelInfo(list).forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(),
-		o.getBookTitle(), o.getBuilding(), o.getReference()));
-
+	List<ReservationBatch> toNotified = batchService.toNotifieds(priority);
+	List<ReservationBatch> canceledReservations = batchService.reservationsToCancelListDelayExceeded(
+		batchService.reservationsToCheckCancelation(toNotified), delayInDays);
+	List<ReservationBatch> updatedPriority = batchService.updatedNextPriorityReservation(toNotified, priority);
+	batchService.updateAndSaveReservationAndLinkedBookOnExceedDelay(canceledReservations, updatedPriority, priority,
+		toAdd);
+	batchService.reservationsToCancelInfo(canceledReservations)
+		.forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(), o.getBookTitle(), o.getBuilding(),
+			o.getReference()));
+	List<ReservationBatch> updatedNotificationDate = batchService.updatedNotificationDateReservations(priority);
+	batchService.saveReservationBatch(updatedNotificationDate);
+	batchService.reservationsToNotifiedBookAvailable(updatedNotificationDate)
+		.forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(), o.getBookTitle(), o.getBuilding(),
+			o.getReference()));
     }
 
     @Override
