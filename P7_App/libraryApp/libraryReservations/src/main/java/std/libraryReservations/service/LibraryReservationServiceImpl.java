@@ -14,6 +14,7 @@ import com.sun.jersey.api.NotFoundException;
 import std.libraryReservations.dao.LibraryReservationDAO;
 import std.libraryReservations.dao.LibraryReservationsBookDAO;
 import std.libraryReservations.dao.LibraryReservationsCustomerDAO;
+import std.libraryReservations.dao.LibraryResevationLoanDAO;
 import std.libraryReservations.dto.CreateReservationDTO;
 import std.libraryReservations.dto.LibraryBookForReservationDTO;
 import std.libraryReservations.dto.LibraryBuildingForReservationDTO;
@@ -26,7 +27,7 @@ import std.libraryReservations.entities.LibraryBuildingForReservation;
 import std.libraryReservations.entities.LibraryCustomerForReservation;
 import std.libraryReservations.entities.LibraryRoleForReservation;
 import std.libraryReservations.entities.Reservation;
-import std.libraryReservations.exceptions.AlreadyReservedByCustomerException;
+import std.libraryReservations.exceptions.AlreadyReservedOrLoanedByCustomerException;
 import std.libraryReservations.exceptions.ReservationsListException;
 
 @Service
@@ -37,6 +38,9 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     @Autowired
     private LibraryReservationsCustomerDAO libraryReservationsCustomerDAO;
+
+    @Autowired
+    private LibraryResevationLoanDAO libraryReservationLOanDAO;
 
     @Autowired
     private LibraryReservationsBookDAO libraryReservationsBookDAO;
@@ -70,9 +74,14 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	Reservation reservation = new Reservation();
 	LibraryCustomerForReservation customer = customer(customerEmail);
 	LibraryBookForReservation book = book(bookId);
+	if (checkIfBookAlreadyLoaned(book.getTitle(), customer.getId())) {
+	    throw new AlreadyReservedOrLoanedByCustomerException();
+	}
+	;
+	reservation.setPriority(priority(book.getTitle(), customer.getId()));
 	reservation.setBook(book);
 	reservation.setCustomer(customer);
-	reservation.setPriority(priority(book.getTitle(), customer.getId()));
+
 	reservation.setCanceledStatus(false);
 	libraryReservationDAO.saveAndFlush(reservation);
 	book.setNumberOfReservations(book.getNumberOfReservations() + 1);
@@ -86,7 +95,7 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	    return 1;
 	} else {
 	    if (!checkCustomerReservation(list, customerId)) {
-		throw new AlreadyReservedByCustomerException();
+		throw new AlreadyReservedOrLoanedByCustomerException();
 	    }
 	    return list.size() + 1;
 	}
@@ -111,6 +120,11 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     private Boolean checkCustomerReservation(List<ReservationDTO> list, Integer customerId) {
 	return list.stream().filter(o -> o.getCustomer().getId() == customerId).collect(Collectors.toList()).isEmpty();
+    }
+
+    private Boolean checkIfBookAlreadyLoaned(String bookTitle, Integer customerId) {
+	return libraryReservationLOanDAO.findByBookTitleAndCustomerIdAndReturnedFalse(bookTitle, customerId)
+		.isPresent();
     }
 
     @Override

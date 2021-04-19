@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sun.jersey.api.NotFoundException;
 
-import std.libraryUi.errorDecoder.exceptions.AlreadyReservedByCustomerException;
+import std.libraryUi.errorDecoder.exceptions.AlreadyReservedOrLoanedByCustomerException;
 import std.libraryUi.errorDecoder.exceptions.BookNotAvailableException;
 import std.libraryUi.errorDecoder.exceptions.ChronoUnitNotImplementedException;
 import std.libraryUi.errorDecoder.exceptions.LoanNotFoundException;
@@ -34,7 +34,7 @@ public class LibraryUiExceptionHandler {
 	return model;
     }
 
-    @ExceptionHandler(value = AlreadyReservedByCustomerException.class)
+    @ExceptionHandler(value = AlreadyReservedOrLoanedByCustomerException.class)
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public ModelAndView reserveBookAlreadyreservedError() {
 	ModelAndView model = new ModelAndView("/errorPageTrigger");

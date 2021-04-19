@@ -20,19 +20,27 @@ public interface BatchService {
      */
     public List<ReservationBatch> toNotifieds(Integer priority);
 
+    /**
+     *
+     * @param customerEmail the Reservation CustomerEmail to find in db
+     * @param bookTitle     The REservations BookTitle to find in db
+     * @apiNote Find and update One reservation where
+     *          Reservation.Customer.customerEmail = customerEmail and
+     *          Reservation.Book.title = bookTitle
+     */
     public void updateNotificationDate(String customerEmail, String bookTitle);
 
     /**
      *
-     * @param originList the list from {@link #toNotifieds(Integer)}
-     * @param priority   the priority to extract
-     * @apiNote set to priority the ReservationBatch.priority == priority+1
+     * @param reservations the ReservationsBatch list where to update priority
+     * @apiNote Set each ReservationBatch.notificationDate to LocalDate.now()
      */
-    public List<ReservationBatch> updatedNextPriorityReservation(List<ReservationBatch> originList, Integer priority);
+    public void updateNotificationDate(List<ReservationBatch> reservations);
 
     public List<ReservationToNotifiedInfoDTO> reservationsToCancelInfo(List<ReservationBatch> reservations);
 
-    public List<ReservationToNotifiedInfoDTO> reservationsToNotifiedBookAvailable(List<ReservationBatch> reservations);
+    public List<ReservationToNotifiedInfoDTO> reservationsToNotifiedBookAvailableInfo(
+	    List<ReservationBatch> reservations);
 
     /**
      *
@@ -48,7 +56,7 @@ public interface BatchService {
      *
      */
     public void updateAndSaveReservationAndLinkedBookOnExceedDelay(List<ReservationBatch> canceledReservations,
-	    List<ReservationBatch> toNotifiedReservations, Integer priority, Integer toAdd);
+	    List<ReservationBatch> toNotifiedReservations, Integer toAdd);
 
     /**
      *
@@ -70,12 +78,24 @@ public interface BatchService {
 
     /**
      *
-     * @param priority the priority to extract
-     * @return a ReservationBatch list where ReservationBatch.cancelStatus == false,
-     *         ReservationBatch.notificationDate == null, ReservationBatch.priority
-     *         == priority
+     * @param reservations            waiting for the list from
+     *                                {@link #toNotifieds(Integer)}
+     * @param canceledReservationList waiting for the list from
+     *                                {@link #reservationsToCancelListDelayExceeded}
+     * @param priority                the priority to extract
+     * @return a ReservationBatch list where forEach
+     *         reservations.ReservationBatch.bookId is contained in
+     *         canceledReservationList.
      */
-    public List<ReservationBatch> updatedNotificationDateReservations(Integer priority);
+    public List<ReservationBatch> reservationsListToUpdatePriority(List<ReservationBatch> reservations,
+	    List<ReservationBatch> canceledReservationList, Integer priority);
 
-    public void saveReservationBatch(List<ReservationBatch> listToSave);
+    /**
+     *
+     * @param reservations the ReservationsBatch list where to update priority
+     * @param priority     the priority to extract
+     * @apiNote Set each ReservationBatch.priority to priority
+     */
+    public void updateReservationsPriority(List<ReservationBatch> reservations, Integer priority);
+
 }

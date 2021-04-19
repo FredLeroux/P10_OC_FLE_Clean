@@ -30,10 +30,10 @@ public class LibraryScheduledBatchAndMailingApplication {
     }
 
     /*
-     * cron set to at each hour start (preserntation matter) from MONDAY to FRIDAY
-     * no message the week-end
+     * cron set to at each hour start (presentation matter) from MONDAY to FRIDAY no
+     * message the week-end cron ="0 0 * * * MON-FRI"
      */
-    @Scheduled(cron = "0 0 * * * MON-FRI")
+    @Scheduled(fixedRate = 60000)
     public void cancelResevationDelayExceeded() {
 	service.sendNotificationCanceledReservationAndUpdateDataBase(PRIORITY, DELAY_IN_DAYS,
 		NUMBER_OF_RESERVATIONS_UPDATE);
