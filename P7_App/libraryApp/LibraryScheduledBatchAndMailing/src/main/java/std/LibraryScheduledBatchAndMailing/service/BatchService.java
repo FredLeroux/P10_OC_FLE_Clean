@@ -18,7 +18,7 @@ public interface BatchService {
      * @return a ReservationBatch list where ReservationBatch.priority == priority
      *         and ReservationBatch.canceledStatus == false
      */
-    public List<ReservationBatch> toNotifieds(Integer priority);
+    public List<ReservationBatch> toNotifieds();
 
     /**
      *
@@ -84,7 +84,7 @@ public interface BatchService {
      *                                {@link #reservationsToCancelListDelayExceeded}
      * @param priority                the priority to extract
      * @return a ReservationBatch list where forEach
-     *         reservations.ReservationBatch.bookId is contained in
+     *         reservations.ReservationBatch.bookTitle is contained in
      *         canceledReservationList.
      */
     public List<ReservationBatch> reservationsListToUpdatePriority(List<ReservationBatch> reservations,

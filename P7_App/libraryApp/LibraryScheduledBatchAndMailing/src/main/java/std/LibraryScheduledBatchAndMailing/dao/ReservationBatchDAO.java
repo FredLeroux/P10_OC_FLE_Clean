@@ -9,7 +9,7 @@ import std.LibraryScheduledBatchAndMailing.entities.ReservationBatch;
 
 public interface ReservationBatchDAO extends JpaRepository<ReservationBatch, Integer> {
 
-    public List<ReservationBatch> findByPriorityAndCanceledStatusFalse(Integer priority);
+    public List<ReservationBatch> findByCanceledStatusFalse();
 
     public List<ReservationBatch> findByPriorityAndNotificationDateNullAndCanceledStatusFalse(Integer priority);
 

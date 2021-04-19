@@ -196,8 +196,8 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public List<ReservationBatch> toNotifieds(Integer priority) {
-	return reservationBatchDAO.findByPriorityAndCanceledStatusFalse(priority);
+    public List<ReservationBatch> toNotifieds() {
+	return reservationBatchDAO.findByCanceledStatusFalse();
     }
 
     @Override
@@ -221,21 +221,21 @@ public class BatchServiceImpl implements BatchService {
 	    List<ReservationBatch> canceledReservationList, Integer priority) {
 	if (!canceledReservationList.isEmpty()) {
 	    return reservations.stream()
-		    .filter(o -> canceledReservationLinkedBooksId(canceledReservationList).contains(o.getBook().getId())
-			    && o.getPriority() == (priority + 1))
+		    .filter(o -> canceledReservationLinkedBooksTitles(canceledReservationList)
+			    .contains(o.getBook().getTitle()) && o.getPriority() == (priority + 1))
 		    .collect(Collectors.toList());
 	} else {
 	    return new ArrayList<ReservationBatch>();
 	}
     }
 
-    private List<Integer> canceledReservationLinkedBooksId(List<ReservationBatch> canceledReservationList) {
+    private List<String> canceledReservationLinkedBooksTitles(List<ReservationBatch> canceledReservationList) {
 	if (!canceledReservationList.isEmpty()) {
-	    List<Integer> ids = new ArrayList<Integer>();
-	    canceledReservationList.forEach(o -> ids.add(o.getBook().getId()));
-	    return ids;
+	    List<String> titles = new ArrayList<String>();
+	    canceledReservationList.forEach(o -> titles.add(o.getBook().getTitle()));
+	    return titles;
 	}
-	return new ArrayList<Integer>();
+	return new ArrayList<String>();
 
     }
 
@@ -285,11 +285,11 @@ public class BatchServiceImpl implements BatchService {
      */
     private List<LibraryBookBatch> updateBooksNumberOfreservation(List<LibraryBookBatch> booksListToUpdate,
 	    Integer toAdd) {
-	List<LibraryBookBatch> list = new ArrayList<>();
 	if (!booksListToUpdate.isEmpty()) {
-	    list.forEach(o -> setBookNumberOfReservation(o, toAdd));
+	    booksListToUpdate.forEach(o -> setBookNumberOfReservation(o, toAdd));
+	    return booksListToUpdate;
 	}
-	return list;
+	return new ArrayList<LibraryBookBatch>();
     }
 
     /**

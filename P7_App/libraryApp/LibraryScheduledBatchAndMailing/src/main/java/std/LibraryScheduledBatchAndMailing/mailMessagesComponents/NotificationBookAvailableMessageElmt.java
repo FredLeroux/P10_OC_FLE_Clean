@@ -14,5 +14,6 @@ public class NotificationBookAvailableMessageElmt extends MailComponents {
 
     private String time;
     private String ref;
+    private String timeunit;
 
 }

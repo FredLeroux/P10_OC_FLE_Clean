@@ -35,6 +35,18 @@ public class MailSendingServiceImpl implements MailSendingService {
     private NotificationCancelReservationMessageElmt notifCancelReservation;
 
     private final String ln = "\n";
+    /**
+     * the delay allowed to pick-up the reserved book default = 2
+     */
+    private long delayIndays = 2;
+
+    public long getDelayIndays() {
+	return delayIndays;
+    }
+
+    public void setDelayIndays(long delayIndays) {
+	this.delayIndays = delayIndays;
+    }
 
     @Override
     public void getCustomerInformedOnLate() {
@@ -107,11 +119,44 @@ public class MailSendingServiceImpl implements MailSendingService {
     public void sendNotificationBookAvailable(String customerEmail, String bookTitle, String buildingName,
 	    Integer ref) {
 	sendSimpleMessage(createMessage(notifAvailableBook.getFrom(), customerEmail, notifAvailableBook.getSubject(),
-		notificationBookAvailable(bookTitle, buildingName, ref)));
+		notificationBookAvailable(bookTitle, buildingName, ref, getDelayIndays())));
 	batchService.updateNotificationDate(customerEmail, bookTitle);
     }
 
-    private String notificationBookAvailable(String bookTitle, String buildingName, Integer ref) {
+    @Override
+    public void sendNotificationCanceledReservationAndUpdateDataBase(Integer priority, Integer toAdd) {
+	List<ReservationBatch> toNotified = batchService.toNotifieds();
+	if (!toNotified.isEmpty()) {
+	    List<ReservationBatch> canceledReservations = batchService.reservationsToCancelListDelayExceeded(
+		    batchService.reservationsToCheckCancelation(toNotified), getDelayIndays());
+	    if (!canceledReservations.isEmpty()) {
+		batchService.reservationsToCancelInfo(canceledReservations)
+			.forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(), o.getBookTitle(),
+				o.getBuilding(), o.getReference()));
+		List<ReservationBatch> toUpdate = batchService.reservationsListToUpdatePriority(toNotified,
+			canceledReservations, priority);
+		if (!toUpdate.isEmpty()) {
+		    batchService.updateReservationsPriority(toUpdate, priority);
+		    batchService.reservationsToNotifiedBookAvailableInfo(toUpdate)
+			    .forEach(o -> sendNotificationBookAvailable(o.getCustomerEmail(), o.getBookTitle(),
+				    o.getBuilding(), o.getReference()));
+		    batchService.updateNotificationDate(toUpdate);
+
+		}
+		batchService.updateAndSaveReservationAndLinkedBookOnExceedDelay(canceledReservations, toUpdate, toAdd);
+	    }
+	}
+    }
+
+    @Override
+    public void sendNotificationReservationCancel(String customerEmail, String bookTitle, String buildingName,
+	    Integer ref) {
+	sendSimpleMessage(createMessage(notifCancelReservation.getFrom(), customerEmail,
+		notifCancelReservation.getSubject(), notificationReservationCancel(bookTitle, buildingName, ref)));
+	batchService.updateNotificationDate(customerEmail, bookTitle);
+    }
+
+    private String notificationBookAvailable(String bookTitle, String buildingName, Integer ref, Long delayInDays) {
 	StringBuilder stb = new StringBuilder();
 	stb.append(notifAvailableBook.getGreeting());
 	stb.append(ln);
@@ -125,37 +170,12 @@ public class MailSendingServiceImpl implements MailSendingService {
 	stb.append(ref + ".");
 	stb.append(ln);
 	stb.append(notifAvailableBook.getTime());
+	stb.append(delayInDays + " ");
+	stb.append(notifAvailableBook.getTimeunit());
 	stb.append(ln);
 	stb.append(notifAvailableBook.getEnd());
 	return stb.toString();
 
-    }
-
-    @Override
-    public void sendNotificationCanceledReservationAndUpdateDataBase(Integer priority, Long delayInDays,
-	    Integer toAdd) {
-	List<ReservationBatch> toNotified = batchService.toNotifieds(priority);
-	List<ReservationBatch> canceledReservations = batchService.reservationsToCancelListDelayExceeded(
-		batchService.reservationsToCheckCancelation(toNotified), delayInDays);
-	batchService.reservationsToCancelInfo(canceledReservations)
-		.forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(), o.getBookTitle(), o.getBuilding(),
-			o.getReference()));
-	List<ReservationBatch> toUpdate = batchService.reservationsListToUpdatePriority(toNotified,
-		canceledReservations, priority);
-	batchService.updateReservationsPriority(toUpdate, priority);
-	batchService.reservationsToNotifiedBookAvailableInfo(toUpdate)
-		.forEach(o -> sendNotificationReservationCancel(o.getCustomerEmail(), o.getBookTitle(), o.getBuilding(),
-			o.getReference()));
-	batchService.updateNotificationDate(toUpdate);
-	batchService.updateAndSaveReservationAndLinkedBookOnExceedDelay(canceledReservations, toUpdate, toAdd);
-    }
-
-    @Override
-    public void sendNotificationReservationCancel(String customerEmail, String bookTitle, String buildingName,
-	    Integer ref) {
-	sendSimpleMessage(createMessage(notifCancelReservation.getFrom(), customerEmail,
-		notifCancelReservation.getSubject(), notificationReservationCancel(bookTitle, buildingName, ref)));
-	batchService.updateNotificationDate(customerEmail, bookTitle);
     }
 
     private String notificationReservationCancel(String bookTitle, String buildingName, Integer ref) {

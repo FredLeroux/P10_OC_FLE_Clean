@@ -14,7 +14,6 @@ import std.LibraryScheduledBatchAndMailing.mail.MailSendingService;
 @EnableScheduling
 public class LibraryScheduledBatchAndMailingApplication {
     private static final Integer PRIORITY = 1;
-    private static final long DELAY_IN_DAYS = 2;
     private static final Integer NUMBER_OF_RESERVATIONS_UPDATE = -1;
 
     @Autowired
@@ -32,11 +31,14 @@ public class LibraryScheduledBatchAndMailingApplication {
     /*
      * cron set to at each hour start (presentation matter) from MONDAY to FRIDAY no
      * message the week-end cron ="0 0 * * * MON-FRI"
+     *
+     */
+    /**
+     *
      */
     @Scheduled(fixedRate = 60000)
     public void cancelResevationDelayExceeded() {
-	service.sendNotificationCanceledReservationAndUpdateDataBase(PRIORITY, DELAY_IN_DAYS,
-		NUMBER_OF_RESERVATIONS_UPDATE);
+	service.sendNotificationCanceledReservationAndUpdateDataBase(PRIORITY, NUMBER_OF_RESERVATIONS_UPDATE);
 	;
     }
 }
