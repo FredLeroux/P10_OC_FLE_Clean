@@ -9,25 +9,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sun.jersey.api.NotFoundException;
-
 import std.libraryReservations.dao.LibraryReservationDAO;
 import std.libraryReservations.dao.LibraryReservationsBookDAO;
 import std.libraryReservations.dao.LibraryReservationsCustomerDAO;
 import std.libraryReservations.dao.LibraryResevationLoanDAO;
-import std.libraryReservations.dto.CreateReservationDTO;
-import std.libraryReservations.dto.LibraryBookForReservationDTO;
-import std.libraryReservations.dto.LibraryBuildingForReservationDTO;
-import std.libraryReservations.dto.LibraryCustomerForReservationDTO;
-import std.libraryReservations.dto.LibraryRoleForReservationDTO;
 import std.libraryReservations.dto.NotificationReservationDTO;
 import std.libraryReservations.dto.ReservationDTO;
 import std.libraryReservations.entities.LibraryBookForReservation;
-import std.libraryReservations.entities.LibraryBuildingForReservation;
 import std.libraryReservations.entities.LibraryCustomerForReservation;
-import std.libraryReservations.entities.LibraryRoleForReservation;
 import std.libraryReservations.entities.Reservation;
 import std.libraryReservations.exceptions.AlreadyReservedOrLoanedByCustomerException;
+import std.libraryReservations.exceptions.NotFoundInDataBaseException;
 import std.libraryReservations.exceptions.ReservationsListException;
 
 @Service
@@ -40,22 +32,13 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
     private LibraryReservationsCustomerDAO libraryReservationsCustomerDAO;
 
     @Autowired
-    private LibraryResevationLoanDAO libraryReservationLOanDAO;
+    private LibraryResevationLoanDAO libraryReservationLoanDAO;
 
     @Autowired
     private LibraryReservationsBookDAO libraryReservationsBookDAO;
 
     private ModelMapper modelMapper = new ModelMapper();
-    private Reservation reservation = new Reservation();
     private ReservationDTO reservationDTO = new ReservationDTO();
-    private LibraryBookForReservation libraryBookForReservation = new LibraryBookForReservation();
-    private LibraryBookForReservationDTO libraryBookForReservationDTO = new LibraryBookForReservationDTO();
-    private LibraryCustomerForReservation libraryCustomerForReservation = new LibraryCustomerForReservation();
-    private LibraryCustomerForReservationDTO libraryCustomerForReservationDTO = new LibraryCustomerForReservationDTO();
-    private LibraryBuildingForReservation libraryBuildingForReservation = new LibraryBuildingForReservation();
-    private LibraryBuildingForReservationDTO libraryBuildingForReservationDTO = new LibraryBuildingForReservationDTO();
-    private LibraryRoleForReservation libraryRoleForReservation = new LibraryRoleForReservation();
-    private LibraryRoleForReservationDTO libraryRoleForReservationDTO = new LibraryRoleForReservationDTO();
 
     @Override
     public List<ReservationDTO> getAllBookReservations(String bookTitle) {
@@ -71,26 +54,26 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     @Override
     public void createReservation(Integer bookId, String customerEmail) {
-	Reservation reservation = new Reservation();
 	LibraryCustomerForReservation customer = customer(customerEmail);
 	LibraryBookForReservation book = book(bookId);
 	if (checkIfBookAlreadyLoaned(book.getTitle(), customer.getId())) {
 	    throw new AlreadyReservedOrLoanedByCustomerException();
 	}
-	;
-	reservation.setPriority(priority(book.getTitle(), customer.getId()));
-	reservation.setBook(book);
-	reservation.setCustomer(customer);
-
-	reservation.setCanceledStatus(false);
-	libraryReservationDAO.saveAndFlush(reservation);
-	book.setNumberOfReservations(book.getNumberOfReservations() + 1);
-	libraryReservationsBookDAO.saveAndFlush(book);
+	libraryReservationDAO.saveAndFlush(reservation(book, customer));
+	libraryReservationsBookDAO.saveAndFlush(updateBookNbReservation(book));
 
     }
 
-    private Integer priority(String bookTitle, Integer customerId) {
-	List<ReservationDTO> list = getAllBookReservations(bookTitle);
+    protected Reservation reservation(LibraryBookForReservation book, LibraryCustomerForReservation customer) {
+	Reservation reservation = new Reservation();
+	reservation.setPriority(priority(getAllBookReservations(book.getTitle()), customer.getId()));
+	reservation.setBook(book);
+	reservation.setCustomer(customer);
+	reservation.setCanceledStatus(false);
+	return reservation;
+    }
+
+    protected Integer priority(List<ReservationDTO> list, Integer customerId) {
 	if (list.isEmpty()) {
 	    return 1;
 	} else {
@@ -102,28 +85,37 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     }
 
-    private LibraryCustomerForReservation customer(String eMail) {
+    protected LibraryBookForReservation updateBookNbReservation(LibraryBookForReservation book) {
+	book.setNumberOfReservations(book.getNumberOfReservations() + 1);
+	return book;
+    }
+
+    protected LibraryCustomerForReservation customer(String eMail) {
 	if (libraryReservationsCustomerDAO.findByCustomerEmail(eMail).isPresent()) {
 	    return libraryReservationsCustomerDAO.findByCustomerEmail(eMail).get();
 	} else {
-	    throw new NotFoundException("Reservation service: customer not found");
+	    throw new NotFoundInDataBaseException("Reservation service: customer not found");
 	}
     }
 
-    private LibraryBookForReservation book(Integer id) {
+    protected LibraryBookForReservation book(Integer id) {
 	if (libraryReservationsBookDAO.findOneById(id).isPresent()) {
 	    return libraryReservationsBookDAO.findOneById(id).get();
 	} else {
-	    throw new NotFoundException("Reservation service: book not found");
+	    throw new NotFoundInDataBaseException("Reservation service: book not found");
 	}
     }
 
+    /*
+     * Note important on comparison primitive use == Object use .equals
+     */
     private Boolean checkCustomerReservation(List<ReservationDTO> list, Integer customerId) {
-	return list.stream().filter(o -> o.getCustomer().getId() == customerId).collect(Collectors.toList()).isEmpty();
+	return list.stream().filter(o -> o.getCustomer().getId().equals(customerId)).collect(Collectors.toList())
+		.isEmpty();
     }
 
     private Boolean checkIfBookAlreadyLoaned(String bookTitle, Integer customerId) {
-	return libraryReservationLOanDAO.findByBookTitleAndCustomerIdAndReturnedFalse(bookTitle, customerId)
+	return libraryReservationLoanDAO.findByBookTitleAndCustomerIdAndReturnedFalse(bookTitle, customerId)
 		.isPresent();
     }
 
@@ -142,59 +134,33 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     @Override
     public void cancelReservation(Integer reservationId) {
+	Reservation reservation = cancelReservationUpdate(reservationId);
+	LibraryBookForReservation book = cancelReservationUpdateBook(reservation.getBook());
+	libraryReservationDAO.saveAndFlush(reservation);
+	libraryReservationsBookDAO.saveAndFlush(book);
+
+    }
+
+    protected Reservation cancelReservationUpdate(Integer reservationId) {
 	if (libraryReservationDAO.findById(reservationId).isPresent()) {
 	    Reservation reservation = libraryReservationDAO.findById(reservationId).get();
 	    reservation.setCanceledStatus(true);
-	    LibraryBookForReservation book = reservation.getBook();
-	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
-	    if (book.getNumberOfReservations() < 0) {
-		book.setNumberOfReservations(0);
-	    }
-	    libraryReservationDAO.saveAndFlush(reservation);
-	    libraryReservationsBookDAO.saveAndFlush(book);
+	    return reservation;
 	} else {
-	    throw new NotFoundException("Reservation service : reservation to cancel not found");
+	    throw new NotFoundInDataBaseException("Reservation service : reservation to cancel not found");
 	}
     }
 
-    private Reservation reservationDTOToReservation(CreateReservationDTO dto) {
-	return (Reservation) mapper(dto, reservation);
+    protected LibraryBookForReservation cancelReservationUpdateBook(LibraryBookForReservation book) {
+	book.setNumberOfReservations(book.getNumberOfReservations() - 1);
+	if (book.getNumberOfReservations() < 0) {
+	    book.setNumberOfReservations(0);
+	}
+	return book;
     }
 
     private ReservationDTO reservationToReservationDTO(Reservation reservation) {
 	return (ReservationDTO) mapper(reservation, reservationDTO);
-    }
-
-    private LibraryBookForReservation bookDTOToEntity(LibraryBookForReservationDTO dto) {
-	return (LibraryBookForReservation) mapper(dto, libraryBookForReservation);
-    }
-
-    private LibraryBookForReservationDTO bookEntityToDTO(LibraryBookForReservation ent) {
-	return (LibraryBookForReservationDTO) mapper(ent, libraryBookForReservationDTO);
-    }
-
-    private LibraryCustomerForReservation customerDTOToEntity(LibraryCustomerForReservationDTO dto) {
-	return (LibraryCustomerForReservation) mapper(dto, libraryCustomerForReservation);
-    }
-
-    private LibraryCustomerForReservationDTO customerEntityToDTO(LibraryCustomerForReservation ent) {
-	return (LibraryCustomerForReservationDTO) mapper(ent, libraryCustomerForReservationDTO);
-    }
-
-    private LibraryBuildingForReservation buildingDTOToEntity(LibraryBuildingForReservationDTO dto) {
-	return (LibraryBuildingForReservation) mapper(dto, libraryBuildingForReservation);
-    }
-
-    private LibraryBuildingForReservationDTO buildingEntityToDTO(LibraryBuildingForReservation ent) {
-	return (LibraryBuildingForReservationDTO) mapper(ent, libraryBuildingForReservationDTO);
-    }
-
-    private LibraryRoleForReservation roleDTOToEntity(LibraryRoleForReservationDTO dto) {
-	return (LibraryRoleForReservation) mapper(dto, libraryRoleForReservation);
-    }
-
-    private LibraryRoleForReservationDTO roleEntityToDTO(LibraryRoleForReservation ent) {
-	return (LibraryRoleForReservationDTO) mapper(ent, libraryRoleForReservationDTO);
     }
 
     private Object mapper(Object source, Object destination) {
