@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,20 +72,19 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void createLoan(Integer customerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
+    public void createLoan(Integer customerId, Integer bookId, Integer unitNumber, String unit) {
 	if (!isBookReserved(customerId, bookId)) {
-	    createAndSaveLoan(customerId, bookId, unitNumber, unit);
+	    createAndSaveLoan(customerId, bookId, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
 	} else {
 	    throw new BookNotAvailableException("Loan service : book reserved or customer alreadyloaned it");
 	}
     }
 
     @Override
-    public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber,
-	    ChronoUnit unit) {
+    public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber, String unit) {
 	LibraryReservationForLoan reservation = reservation(reservationId);
 	if (isRigthCustomer(customerId, reservation)) {
-	    createAndSaveLoan(customerId, reservation.getBook(), unitNumber, unit);
+	    createAndSaveLoan(customerId, reservation.getBook(), unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
 	    reservation.setCanceledStatus(true);
 	    reservationDAO.saveAndFlush(reservation);
 	    LibraryBookLoan book = book(reservation.getBook().getId());
@@ -158,15 +158,14 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void postponeLoan(Integer loanId, String userName, Integer unitNumber, ChronoUnit unit,
+    public void postponeLoan(Integer loanId, String userName, Integer unitNumber, String unit,
 	    ArrayList<DayOfWeek> daysOffList, ArrayList<LocalDate> holidays) {
 
 	Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 	if (optLoan.isPresent()) {
 	    Loan loan = optLoan.get();
-	    loan.setReturnDate(
-		    posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber, unit, daysOffList, holidays)
-			    .toString());
+	    loan.setReturnDate(posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber,
+		    ChronoUnit.valueOf(unit.toUpperCase()), daysOffList, holidays).toString());
 	    loan.setPostponed(true);
 	    loanDAO.saveAndFlush(loan);
 	} else {
@@ -192,7 +191,16 @@ public class LoanServiceImpl implements LoanService {
 	return postponed;
     }
 
+    /**
+     *
+     * @param loan       the loan to update
+     * @param unitNumber the number of unit to add to postpone date
+     * @param unit       the unit to postpone date
+     * @apiNote default value set to 4 weeks of postpone
+     */
     private void loanDefaultValue(Loan loan, Integer unitNumber, ChronoUnit unit) {
+	unitNumber = (Integer) ObjectUtils.defaultIfNull(unitNumber, 4);
+	unit = (ChronoUnit) ObjectUtils.defaultIfNull(unit, ChronoUnit.WEEKS);
 	loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber, unit).toString());
 	loan.setReturned(false);
 	loan.setPostponed(false);
@@ -260,10 +268,9 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<ReservableBookExamplaryDatedDTO> reservableBookExamplaryDTOs(List<Integer> bookIdList,
-	    Integer numberChronoOfUnit, ChronoUnit unit) {
-	return getReservableBookLinkedLoans(bookIdList).stream()
-		.map(o -> mapReservableBookLinkedLoanDTOToExamplary(o, numberChronoOfUnit, unit))
-		.collect(Collectors.toList());
+	    Integer numberChronoOfUnit, String unit) {
+	return getReservableBookLinkedLoans(bookIdList).stream().map(o -> mapReservableBookLinkedLoanDTOToExamplary(o,
+		numberChronoOfUnit, ChronoUnit.valueOf(unit.toUpperCase()))).collect(Collectors.toList());
     }
 
     private ReservableBookExamplaryDatedDTO mapReservableBookLinkedLoanDTOToExamplary(ReservableBookLinkedLoanDTO dto,

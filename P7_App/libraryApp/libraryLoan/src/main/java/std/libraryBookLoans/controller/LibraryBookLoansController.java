@@ -1,6 +1,5 @@
 package std.libraryBookLoans.controller;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class LibraryBookLoansController {
     @PostMapping(value = "/postpone")
     public void postpone(@RequestParam(value = "loanId") Integer loanId,
 	    @RequestParam(value = "userName") String userName, @RequestParam(value = "unitNumber") Integer unitNumber,
-	    @RequestParam(value = "unit") ChronoUnit unit) {
+	    @RequestParam(value = "unit") String unit) {
 	loan.postponeLoan(loanId, userName, unitNumber, unit, null, null);
 
     }
@@ -49,20 +48,21 @@ public class LibraryBookLoansController {
     @PostMapping(value = "/createLoan")
     public void createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId, @RequestParam(value = "unitNumber") Integer unitNumber,
-	    @RequestParam(value = "unit") ChronoUnit unit) {
+	    @RequestParam(value = "unit") String unit) {
+
 	loan.createLoan(customerId, bookId, unitNumber, unit);
     }
 
     @PostMapping(value = "/createLoanFromReservation")
     public void createLoanFromReservation(@RequestParam(value = "reservationId") Integer reservationId,
 	    @RequestParam(value = "customerId") Integer customerId,
-	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") ChronoUnit unit) {
+	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") String unit) {
 	loan.createLoanFromReservation(reservationId, customerId, unitNumber, unit);
 
     }
 
     @PostMapping(value = "/returnLoan")
-    public void createLoan(@RequestParam(value = "customerId") Integer customerId,
+    public void returnLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId) {
 	loan.returnLoan(bookId, customerId);
     }
@@ -77,7 +77,7 @@ public class LibraryBookLoansController {
     public List<ReservableBookExamplaryDatedDTO> reservableBookExamplaryDTOs(
 	    @RequestParam(value = "bookIdList") List<Integer> bookIdList,
 	    @RequestParam(value = "numberChronoOfUnit") Integer numberChronoOfUnit,
-	    @RequestParam(value = "unit") ChronoUnit unit) {
+	    @RequestParam(value = "unit") String unit) {
 	return loan.reservableBookExamplaryDTOs(bookIdList, numberChronoOfUnit, unit);
     }
 
