@@ -8,7 +8,7 @@ import std.libraryReservations.entities.LibraryCustomerForReservation;
 import std.libraryReservations.entities.Reservation;
 import std.libraryReservations.service.LibraryReservationServiceImpl;
 
-public class ReservationServiceImpl extends LibraryReservationServiceImpl {
+public class ReservationServiceImplForTest extends LibraryReservationServiceImpl {
 
     @Override
     public Reservation reservation(LibraryBookForReservation book, LibraryCustomerForReservation customer) {

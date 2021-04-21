@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
-import serviceExtended.ReservationServiceImpl;
+import serviceExtended.ReservationServiceImplForTest;
 import std.libraryReservations.dao.LibraryReservationDAO;
 import std.libraryReservations.dao.LibraryReservationsBookDAO;
 import std.libraryReservations.dao.LibraryReservationsCustomerDAO;
@@ -79,7 +79,7 @@ class LibraryReservationsApplicationTests {
     private List<Reservation> listReservation;
 
     @InjectMocks
-    private ReservationServiceImpl service = new ReservationServiceImpl();
+    private ReservationServiceImplForTest service = new ReservationServiceImplForTest();
 
     @BeforeEach
     private void validator() {
