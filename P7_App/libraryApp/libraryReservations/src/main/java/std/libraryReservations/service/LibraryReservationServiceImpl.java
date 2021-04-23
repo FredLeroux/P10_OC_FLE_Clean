@@ -17,6 +17,7 @@ import std.libraryReservations.dto.NotificationReservationDTO;
 import std.libraryReservations.dto.ReservationDTO;
 import std.libraryReservations.entities.LibraryBookForReservation;
 import std.libraryReservations.entities.LibraryCustomerForReservation;
+import std.libraryReservations.entities.LibraryLoanForReservation;
 import std.libraryReservations.entities.Reservation;
 import std.libraryReservations.exceptions.AlreadyReservedOrLoanedByCustomerException;
 import std.libraryReservations.exceptions.NotFoundInDataBaseException;
@@ -121,15 +122,45 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 
     @Override
     public List<ReservationDTO> getAllCustomerReservations(String customerEmail) {
-	return libraryReservationDAO.findByCustomerCustomerEmailAndCanceledStatusFalse(customerEmail).stream()
-		.map(o -> mapReservationToDTO(o)).collect(Collectors.toList());
+	List<Reservation> customerReservations = libraryReservationDAO
+		.findByCustomerCustomerEmailAndCanceledStatusFalse(customerEmail);
+	List<LibraryLoanForReservation> reservationsLinkedLoan = reservationsLinkedLoan(customerReservations);
+	return customerReservations.stream().map(o -> mapReservationToDTO(o, reservationsLinkedLoan))
+		.collect(Collectors.toList());
     }
 
-    private ReservationDTO mapReservationToDTO(Reservation ent) {
+    protected ReservationDTO mapReservationToDTO(Reservation ent,
+	    List<LibraryLoanForReservation> reservationsLinkedLoan) {
 	ReservationDTO dto = new ReservationDTO();
 	dto = reservationToReservationDTO(ent);
 	dto.setBuildingName(ent.getBook().getLibraryBuilding().getName());
+	LibraryLoanForReservation loan = linkedLoan(ent.getBook().getId(), reservationsLinkedLoan);
+	dto.setReturnDate(loan.getReturnDate());
+	dto.setPostpone(loan.getPostponed());
 	return dto;
+    }
+
+    protected LibraryLoanForReservation linkedLoan(Integer bookId,
+	    List<LibraryLoanForReservation> reservationsLinkedLoan) {
+	Optional<LibraryLoanForReservation> optLoan = reservationsLinkedLoan.stream()
+		.filter(o -> o.getBook().getId().equals(bookId)).findFirst();
+	if (optLoan.isPresent()) {
+	    return optLoan.get();
+	} else {
+	    throw new NullPointerException("Reservation service: reservation Linked loan return null");
+	}
+    }
+
+    protected List<LibraryLoanForReservation> reservationsLinkedLoan(List<Reservation> reservations) {
+	return libraryReservationLoanDAO.findByBookIdInAndAndReturnedFalse(reservationBooksId(reservations));
+    }
+
+    protected List<Integer> reservationBooksId(List<Reservation> reservations) {
+	List<Integer> list = new ArrayList<>();
+	if (!reservations.isEmpty()) {
+	    reservations.forEach(o -> list.add(o.getBook().getId()));
+	}
+	return list;
     }
 
     @Override

@@ -16,6 +16,8 @@ public class LibraryReservationBean {
     private Boolean canceledStatus;
     private Integer priority;
     private String BuildingName;
+    private String returnDate;
+    private Boolean postpone;
     private BooksBean book;
     private LibraryCustomerBean customer;
 }

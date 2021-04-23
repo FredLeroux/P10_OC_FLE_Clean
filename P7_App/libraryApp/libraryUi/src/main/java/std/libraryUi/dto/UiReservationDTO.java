@@ -15,5 +15,8 @@ public class UiReservationDTO {
     private String title;
     private String building;
     private String notificationDate;
+    private String returnDate;
+    private Boolean postpone;
+    private Integer priority;
 
 }

@@ -18,6 +18,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.joda.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -100,18 +101,20 @@ class LibraryReservationsApplicationTests {
 	optLoan = Optional.of(loanDb);
 	customerDb.setId(999);
 	bookDb.setTitle("bookTitle");
+	bookDb.setId(1);
+	bookDb.setLibraryBuilding(new LibraryBuildingForReservation(1, "buildinName1"));
 	reservation = new Reservation(1, null, false, 1, bookDb, customerDb);
 	optReservation = Optional.of(reservation);
 	listReservationDTO = new ArrayList<ReservationDTO>();
-	listReservationDTO.add(new ReservationDTO(1, null, false, 1, "building", bookDb, customerDb));
-	listReservationDTO.add(new ReservationDTO(2, null, false, 1, "building", bookDb, customerDb));
-	listReservationDTO.add(new ReservationDTO(3, null, false, 1, "building", bookDb, customerDb));
-	listReservationDTO.add(new ReservationDTO(4, null, false, 1, "building", bookDb, customerDb));
+	listReservationDTO.add(new ReservationDTO(1, null, false, 1, "building", null, false, bookDb, customerDb));
+	listReservationDTO.add(new ReservationDTO(2, null, false, 1, "building", null, false, bookDb, customerDb));
+	listReservationDTO.add(new ReservationDTO(3, null, false, 1, "building", null, false, bookDb, customerDb));
+	listReservationDTO.add(new ReservationDTO(4, null, false, 1, "building", null, false, bookDb, customerDb));
 	listReservation = new ArrayList<Reservation>();
 	listReservation.add(new Reservation(1, null, false, 1, bookDb, customerDb));
-	listReservation.add(new Reservation(1, null, false, 2, bookDb, customerDb));
-	listReservation.add(new Reservation(1, null, false, 3, bookDb, customerDb));
-	listReservation.add(new Reservation(1, null, false, 4, bookDb, customerDb));
+	listReservation.add(new Reservation(2, null, false, 2, bookDb, customerDb));
+	listReservation.add(new Reservation(3, null, false, 3, bookDb, customerDb));
+	listReservation.add(new Reservation(4, null, false, 4, bookDb, customerDb));
     }
 
     @BeforeEach
@@ -382,6 +385,91 @@ class LibraryReservationsApplicationTests {
 		    ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
 	    assertThatCode(() -> service.customerToNotified(1, 1)).doesNotThrowAnyException();
 	    assertThat(service.customerToNotified(1, 1)).isNull();
+	}
+
+    }
+
+    @Nested
+    @DisplayName(value = "Customer reservations list tests")
+    public class CustomerReservationsListTests {
+
+	private LibraryLoanForReservation loan;
+	private List<LibraryLoanForReservation> loans;
+	private LibraryBookForReservation bookTest1;
+	private LibraryBookForReservation bookTest2;
+
+	@BeforeEach
+	public void initCustomerReservationsListTestsList() {
+	    bookTest1 = new LibraryBookForReservation();
+	    bookTest2 = new LibraryBookForReservation();
+	    bookTest1.setId(1);
+	    bookTest1.setLibraryBuilding(new LibraryBuildingForReservation(1, "buildinName1"));
+	    bookTest2.setId(2);
+	    bookTest1.setTitle("title1");
+	    reservation.setBook(bookTest1);
+	    loans = new ArrayList<LibraryLoanForReservation>();
+	    loans.add(new LibraryLoanForReservation(1, "2021-04-22", false, false, bookTest1, customerDb));
+	    loans.add(
+		    new LibraryLoanForReservation(1, LocalDate.now().toString(), false, false, bookTest2, customerDb));
+	}
+
+	@Test
+	public void reservationBooksIdTest() {
+	    service.reservationBooksId(listReservation).forEach(o -> assertThat(o.equals(1)));
+	}
+
+	@Test
+	public void reservationBooksIdTestEmpty() {
+	    listReservation.clear();
+	    assertThat(service.reservationBooksId(listReservation)).isEmpty();
+	}
+
+	@Test
+	public void linkedloanTest() {
+	    when(libraryReservationLoanDAO
+		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
+			    .thenReturn(loans);
+	    assertThat(service.linkedLoan(1, service.reservationsLinkedLoan(listReservation)).getBook().getTitle())
+		    .isEqualTo("title1");
+
+	}
+
+	@Test
+	public void linkedloanTestFail() {
+	    loans.clear();
+	    when(libraryReservationLoanDAO
+		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
+			    .thenReturn(loans);
+	    assertThatThrownBy(() -> service.linkedLoan(1, service.reservationsLinkedLoan(listReservation)))
+		    .isInstanceOf(NullPointerException.class)
+		    .hasMessage("Reservation service: reservation Linked loan return null");
+
+	}
+
+	@Test
+	public void mapReservationToDTO() {
+	    when(libraryReservationLoanDAO
+		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
+			    .thenReturn(loans);
+	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
+		    .getBuildingName()).isEqualTo("buildinName1");
+	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
+		    .getReturnDate()).isEqualTo("2021-04-22");
+	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
+		    .getPostpone()).isFalse();
+
+	}
+
+	@Test
+	public void getAllCustomerReservationsTest() {
+	    listReservation.add(reservation);
+	    when(libraryReservationDAO.findByCustomerCustomerEmailAndCanceledStatusFalse(ArgumentMatchers.anyString()))
+		    .thenReturn(listReservation);
+	    when(libraryReservationLoanDAO
+		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
+			    .thenReturn(loans);
+	    assertThat(service.getAllCustomerReservations("mail")).isNotEmpty();
+
 	}
 
     }

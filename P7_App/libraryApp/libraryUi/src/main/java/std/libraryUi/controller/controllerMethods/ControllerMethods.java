@@ -216,7 +216,8 @@ public class ControllerMethods {
 
     private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean) {
 	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBuildingName(),
-		null);
+		null, localizedFullDate(parseStringToDate(bean.getReturnDate()), "fr"), bean.getPostpone(),
+		bean.getPriority());
 	if (bean.getNotificationDate() != null) {
 	    dto.setNotificationDate(localizedFullDate(parseStringToDate(bean.getNotificationDate()), "fr"));
 	}
