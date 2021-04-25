@@ -15,21 +15,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name ="library_building",schema = "libraryum")
+@Table(name = "library_building", schema = "libraryum")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class LibraryBuildingLoan implements Serializable {
 
+    private static final long serialVersionUID = 4784353407456821636L;
 
-	private static final long serialVersionUID = 4784353407456821636L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-
-	@Column(name = "name")
-	private String name;
+    @Column(name = "name")
+    private String name;
 
 }

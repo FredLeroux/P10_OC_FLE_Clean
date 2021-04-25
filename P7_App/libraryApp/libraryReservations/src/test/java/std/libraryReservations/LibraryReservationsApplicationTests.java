@@ -48,7 +48,7 @@ import std.libraryReservations.exceptions.AlreadyReservedOrLoanedByCustomerExcep
 import std.libraryReservations.exceptions.NotFoundInDataBaseException;
 import std.libraryReservations.exceptions.ReservationsListException;
 
-@TestPropertySource(locations = "/applicationTest.properties")
+@TestPropertySource(locations = "/application-unitTest.properties")
 @SpringBootTest(classes = { Reservation.class })
 @ExtendWith(MockitoExtension.class)
 class LibraryReservationsApplicationTests {

@@ -224,6 +224,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private LibraryBookLoan book(Integer bookId) {
+	System.out.println("book present=" + bookDAO.findById(bookId).isPresent());
 	if (bookDAO.findById(bookId).isPresent()) {
 	    return bookDAO.findById(bookId).get();
 	} else {
