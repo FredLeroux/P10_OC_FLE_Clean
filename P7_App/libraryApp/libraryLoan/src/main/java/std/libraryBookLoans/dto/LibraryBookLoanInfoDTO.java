@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 public class LibraryBookLoanInfoDTO {
 
-	private String title;
+    private Integer id;
+    private String title;
+    private Boolean availability;
 
 }

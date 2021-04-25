@@ -7,43 +7,61 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
+import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 import std.libraryBookCase.service.LibraryBookCaseService;
 
 @RestController
 public class LibraryBookCaseController {
 
-	@Autowired
-	LibraryBookCaseService libraryBookCaseService;
+    @Autowired
+    LibraryBookCaseService libraryBookCaseService;
 
-	@GetMapping(value = "/books")
-	public List<LibraryBooksAndQuantityDTO> books() {
-		return libraryBookCaseService.getAllBooks();
+    @GetMapping(value = "/books")
+    public List<LibraryBookAndQuantityDTO> books(
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber) {
+	return libraryBookCaseService.getAllBooks(maxReservationNumber);
 
-	}
+    }
 
-	@GetMapping(value = "/kinds")
-	public List<LibraryBooksKindsDTO> kinds() {
-		return libraryBookCaseService.getKindsList();
-	}
+    @GetMapping(value = "/kinds")
+    public List<LibraryBooksKindsDTO> kinds() {
+	return libraryBookCaseService.getKindsList();
+    }
 
-	@GetMapping(value = "/buildingFiltered")
-	public List<LibraryBooksAndQuantityDTO> booksBuildingFiltered(
-			@RequestParam(name = "libraryBuilding") Integer libraryBuilding) {
-		return libraryBookCaseService.getBooksFilteredByBuilding(libraryBuilding);
-	}
+    @GetMapping(value = "/buildingFiltered")
+    public List<LibraryBookAndQuantityDTO> booksBuildingFiltered(
+	    @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber) {
+	return libraryBookCaseService.getBooksFilteredByBuilding(libraryBuilding, maxReservationNumber);
+    }
 
-	@GetMapping(value = "/kindsFiltered")
-	public List<LibraryBooksAndQuantityDTO> booksKindsFiltered(@RequestParam(name = "kinds") List<String> kinds) {
-		return libraryBookCaseService.getBooksFilteredByKinds(kinds);
-	}
+    @GetMapping(value = "/kindsFiltered")
+    public List<LibraryBookAndQuantityDTO> booksKindsFiltered(@RequestParam(name = "kinds") List<String> kinds,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber) {
+	return libraryBookCaseService.getBooksFilteredByKinds(kinds, maxReservationNumber);
+    }
 
-	@GetMapping(value = "/buildingAndKindsFiltered")
-	public List<LibraryBooksAndQuantityDTO> booksBuildingAndKindsFiltered(
-			@RequestParam(name = "libraryBuilding") Integer libraryBuilding,
-			@RequestParam(name = "kinds") List<String> kinds) {
-		return libraryBookCaseService.getBooksFilteredByLibraryBuildingIdAndKinds(libraryBuilding, kinds);
-	}
+    @GetMapping(value = "/buildingAndKindsFiltered")
+    public List<LibraryBookAndQuantityDTO> booksBuildingAndKindsFiltered(
+	    @RequestParam(name = "libraryBuilding") Integer libraryBuilding,
+	    @RequestParam(name = "kinds") List<String> kinds,
+	    @RequestParam(name = "maxReservationNumber") Integer maxReservationNumber) {
+	return libraryBookCaseService.getBooksFilteredByLibraryBuildingIdAndKinds(libraryBuilding, kinds,
+		maxReservationNumber);
+    }
 
+    @GetMapping(value = "/reservableBookExamplaries")
+    public List<LibraryReservableBookExamplary> getReservableBooks(@RequestParam(name = "title") String title,
+	    @RequestParam(name = "buildingName") String buildingName,
+	    @RequestParam(name = "maxOfReservation") Integer maxOfReservation) {
+	return libraryBookCaseService.getReservableBooks(title, buildingName, maxOfReservation);
+    }
+
+    @GetMapping(value = "/getBookByReference")
+    public LibraryBookDTO getBookById(@RequestParam(name = "reference") Integer id) {
+	return libraryBookCaseService.getBookById(id);
+    }
 }

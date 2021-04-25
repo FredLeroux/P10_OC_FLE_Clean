@@ -30,6 +30,9 @@ $datepicker-background-color:rgb(235, 233, 222);
 $background-ui:rgb(246, 245, 244);
 $body-font:body-font;
 $color-1:rgb(101, 75, 36);
+$color-2:rgb(0,0,0);
+$color-3:rgb(255, 255, 255);
+$color-4:rgb(107,142,35);
 $dataTable-even: rgb(243, 242, 241);
 $dataTable-odd:rgb(255, 255, 255);
 $dataTable-tr-hover-background: rgb(107, 87, 54);
@@ -49,6 +52,8 @@ $datepicker-tooltip-border-color:rgb(25,25,112);
 $datepicker-tooltip-background-color:rgb(234, 232, 221);
 $datepicker-tooltip-font: body-font;
 $warn-color: rgb(185, 49, 0);
+$warn-color-2: rgb(128,0,0);
+
 
 @mixin date-highlight-common{
 	border-color:$datepicker-date-active-border-color !important;
@@ -224,7 +229,18 @@ tr.even:hover,tr.odd:hover{
 
 .loanSummary{
 	font-family: $body-font;
+
+}
+
+.reservationSummary{
+	font-family: $body-font;
 	font-size: 1.2em;
+	text-align: center;
+}
+
+.reservationExamplariesList,.reservationsList,.reservationSummary{
+	font-family: $body-font;
+	font-size: 1em;
 }
 
 
@@ -239,7 +255,7 @@ tr.even:hover,tr.odd:hover{
 	color:$datepicker-tooltip-color !important;
 }
 
-.postPoneAsk{
+.postPoneAsk,.cancelReservationAsk,.reservationAsk{
 	border: none;
 	background-color: none;
 	background: none;
@@ -247,17 +263,81 @@ tr.even:hover,tr.odd:hover{
 	padding :0;
 }
 
+.reservationAsk{
+	color:$color-4;
+}
+
+.cancelReservationAsk{
+	color: $warn-color;
+}
+
 .postPoneAsk:hover{
 	text-decoration: underline;
 	color:$datepicker-date-highlighted-hover-font-color;
 }
 
+.cancelReservationAsk:hover{
+	text-decoration: underline;
+	color:$warn-color;
+}
+
+.reservationAsk:hover{
+	text-decoration: underline;
+	color:$color-1;
+}
+
+.loanSummaryRows{
+	font-size: 1.55vw;
+}
 .loanSummaryRows:hover {
 	color:$datepicker-date-highlighted-hover-font-color;
 	background-color:$datepicker-background-color ;
 	cursor: default;
 
 }
+
+.doReservationTitleAndBuilding,.reservationsSummary{
+	color:$color-2;
+	text-align:center;
+	font-family:$menu-font;
+	font-size: 2em;
+}
+
+.modalLink{
+	@include nav-elemt-basis;
+	color:$color-1;
+}
+
+.modalLink:hover{
+	color:$color-3;
+	text-decoration: none;
+}
+
+.modal-content{
+	background-color: black;
+}
+
+.modal-title{
+	font-family:$menu-font;
+	color: $color-1;
+	font-size: 2em;
+	text-align: center;
+}
+
+.link{
+	color:$color-4!important;
+}
+
+.link:hover{
+	color:$color-3!important;
+}
+
+.warn{
+	color:$warn-color-2;
+}
+
+
+
 
 
 
