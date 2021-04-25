@@ -112,7 +112,6 @@ public class BatchServiceImpl implements BatchService {
     public void updateNotificationDate(String customerEmail, String bookTitle) {
 	Optional<ReservationBatch> optReservation = reservationBatchDAO
 		.findByCustomerCustomerEmailAndBookTitleAndCanceledStatusFalse(customerEmail, bookTitle);
-	System.out.println(optReservation.isPresent());
 	if (optReservation.isPresent()) {
 	    reservationBatchDAO.saveAndFlush(setNotificationDateToNow(optReservation.get()));
 	} else {

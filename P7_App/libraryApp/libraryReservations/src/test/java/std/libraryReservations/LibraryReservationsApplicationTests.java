@@ -269,7 +269,6 @@ class LibraryReservationsApplicationTests {
 	@Test
 	public void createReservationTestFailCustomerNotFound() {
 	    bookDb.setNumberOfReservations(1);
-	    System.out.println("before creation");
 	    when(libraryReservationsCustomerDAO.findByCustomerEmail("eMail")).thenReturn(Optional.empty());
 	    when(libraryReservationsBookDAO.findOneById(1)).thenReturn(optBook);
 	    when(libraryReservationLoanDAO.findByBookTitleAndCustomerIdAndReturnedFalse(bookDb.getTitle(),
