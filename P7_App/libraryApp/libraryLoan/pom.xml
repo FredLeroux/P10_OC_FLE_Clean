@@ -109,13 +109,13 @@
 			</activation>
 		</profile>
 		<profile>
-			<id>unitTest</id>
+			<id>integrationTestService</id>
 			<properties>
-				<activatedProperties>unitTest</activatedProperties>
+				<activatedProperties>itService</activatedProperties>
 			</properties>
 		</profile>
 		<profile>
-			<id>integrationTest</id>
+			<id>integrationTestAPI</id>
 			<properties>
 				<activatedProperties>it</activatedProperties>
 			</properties>

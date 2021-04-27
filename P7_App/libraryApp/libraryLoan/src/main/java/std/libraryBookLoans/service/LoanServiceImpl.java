@@ -74,17 +74,29 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public void createLoan(Integer customerId, Integer bookId, Integer unitNumber, String unit) {
 	if (!isBookReserved(customerId, bookId)) {
-	    createAndSaveLoan(customerId, bookId, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
+	    saveLoan(createLoanUsingBookId(customerId, bookId, unitNumber, unit));
 	} else {
 	    throw new BookNotAvailableException("Loan service : book reserved or customer alreadyloaned it");
 	}
+    }
+
+    protected Loan createLoanUsingBookId(Integer customerId, Integer bookId, Integer unitNumber, String unit) {
+	Loan loan = new Loan();
+	loanDefaultValue(loan, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
+	loan.setBook(settedLoanedBook(bookId, customerId));
+	loan.setCustomer(settedCustomerLoan(customerId));
+	return loan;
+    }
+
+    private Boolean isBookReserved(Integer customerId, Integer bookId) {
+	return reservationDAO.findByBookIdAndCustomerIdAndCanceledStatusFalse(bookId, customerId).isPresent();
     }
 
     @Override
     public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber, String unit) {
 	LibraryReservationForLoan reservation = reservation(reservationId);
 	if (isRigthCustomer(customerId, reservation)) {
-	    createAndSaveLoan(customerId, reservation.getBook(), unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
+	    saveLoan(createLoanUsingBook(customerId, reservation.getBook(), unitNumber, unit));
 	    reservation.setCanceledStatus(true);
 	    reservationDAO.saveAndFlush(reservation);
 	    LibraryBookLoan book = book(reservation.getBook().getId());
@@ -96,6 +108,21 @@ public class LoanServiceImpl implements LoanService {
 	    throw new BookNotAvailableException("Loan service: customer not corresponding to the one on reservation ");
 	}
 
+    }
+
+    /**
+     *
+     * @param loan       the loan to update
+     * @param unitNumber the number of unit to add to postpone date
+     * @param unit       the unit to postpone date
+     * @apiNote default value set to 4 weeks of postpone
+     */
+    protected void loanDefaultValue(Loan loan, Integer unitNumber, ChronoUnit unit) {
+	unitNumber = (Integer) ObjectUtils.defaultIfNull(unitNumber, 4);
+	unit = (ChronoUnit) ObjectUtils.defaultIfNull(unit, ChronoUnit.WEEKS);
+	loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber, unit).toString());
+	loan.setReturned(false);
+	loan.setPostponed(false);
     }
 
     private LibraryReservationForLoan reservation(Integer reservationId) {
@@ -128,19 +155,15 @@ public class LoanServiceImpl implements LoanService {
 	return reservation;
     }
 
-    private void createAndSaveLoan(Integer customerId, Integer bookId, Integer unitNumber, ChronoUnit unit) {
+    private Loan createLoanUsingBook(Integer customerId, LibraryBookLoan book, Integer unitNumber, String unit) {
 	Loan loan = new Loan();
-	loanDefaultValue(loan, unitNumber, unit);
-	loan.setBook(settedLoanedBook(bookId, customerId));
-	loan.setCustomer(settedCustommerLoan(customerId));
-	loanDAO.saveAndFlush(loan);
+	loanDefaultValue(loan, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
+	loan.setBook(book);
+	loan.setCustomer(settedCustomerLoan(customerId));
+	return loan;
     }
 
-    private void createAndSaveLoan(Integer customerId, LibraryBookLoan book, Integer unitNumber, ChronoUnit unit) {
-	Loan loan = new Loan();
-	loanDefaultValue(loan, unitNumber, unit);
-	loan.setBook(book);
-	loan.setCustomer(settedCustommerLoan(customerId));
+    protected void saveLoan(Loan loan) {
 	loanDAO.saveAndFlush(loan);
     }
 
@@ -191,29 +214,14 @@ public class LoanServiceImpl implements LoanService {
 	return postponed;
     }
 
-    /**
-     *
-     * @param loan       the loan to update
-     * @param unitNumber the number of unit to add to postpone date
-     * @param unit       the unit to postpone date
-     * @apiNote default value set to 4 weeks of postpone
-     */
-    private void loanDefaultValue(Loan loan, Integer unitNumber, ChronoUnit unit) {
-	unitNumber = (Integer) ObjectUtils.defaultIfNull(unitNumber, 4);
-	unit = (ChronoUnit) ObjectUtils.defaultIfNull(unit, ChronoUnit.WEEKS);
-	loan.setReturnDate(postponedDate(LocalDate.now().toString(), unitNumber, unit).toString());
-	loan.setReturned(false);
-	loan.setPostponed(false);
-    }
-
-    private LibraryBookLoan settedLoanedBook(Integer bookId, Integer customerId) {
+    protected LibraryBookLoan settedLoanedBook(Integer bookId, Integer customerId) {
 	LibraryBookLoan settedBook = loanedBook(bookId, customerId);
 	settedBook.setLibraryBuilding(bookBuilding(settedBook.getLibraryBuilding().getId()));
 	settedBook.setAvailability(false);
 	return settedBook;
     }
 
-    private LibraryBookLoan loanedBook(Integer bookId, Integer customerId) {
+    protected LibraryBookLoan loanedBook(Integer bookId, Integer customerId) {
 	LibraryBookLoan book = book(bookId);
 	if (book.getAvailability() && !isTitleAlreadyLoaned(customerId, book.getTitle())) {
 	    return book;
@@ -223,29 +231,30 @@ public class LoanServiceImpl implements LoanService {
 
     }
 
-    private LibraryBookLoan book(Integer bookId) {
+    protected LibraryBookLoan book(Integer bookId) {
 	if (bookDAO.findById(bookId).isPresent()) {
 	    return bookDAO.findById(bookId).get();
 	} else {
-	    throw new BookNotFoundException("pas de livre sous" + bookId);
+	    throw new BookNotFoundException("pas de livre sous " + bookId);
 	}
     }
 
-    private LibraryBuildingLoan bookBuilding(Integer buildingId) {
+    protected LibraryBuildingLoan bookBuilding(Integer buildingId) {
 	Optional<LibraryBuildingLoan> optBuilding = buildingDAO.findById(buildingId);
 	if (optBuilding.isPresent()) {
+	    System.out.println(optBuilding.get().getName());
 	    return optBuilding.get();
 	}
 	throw new BuildingNotFoundException();
     }
 
-    private CustomerLoan settedCustommerLoan(Integer customerId) {
+    protected CustomerLoan settedCustomerLoan(Integer customerId) {
 	CustomerLoan customerLoan = customerLoan(customerId);
 	customerLoan.setRole(roleLoan(customerLoan.getRole().getId()));
 	return customerLoan;
     }
 
-    private CustomerLoan customerLoan(Integer customerId) {
+    protected CustomerLoan customerLoan(Integer customerId) {
 	Optional<CustomerLoan> optCustomer = customerDAO.findById(customerId);
 	if (optCustomer.isPresent()) {
 	    return optCustomer.get();
@@ -253,7 +262,7 @@ public class LoanServiceImpl implements LoanService {
 	throw new CustomerNotFoundException();
     }
 
-    private LibraryRoleLoan roleLoan(Integer id) {
+    protected LibraryRoleLoan roleLoan(Integer id) {
 	Optional<LibraryRoleLoan> optRole = roleDAO.findById(id);
 	if (optRole.isPresent()) {
 	    return optRole.get();
@@ -307,7 +316,7 @@ public class LoanServiceImpl implements LoanService {
      * @return date postponed of daysToAdd
      *
      */
-    private LocalDate postponedDate(String date, Integer numberChronoOfUnit, ChronoUnit unit) {
+    protected LocalDate postponedDate(String date, Integer numberChronoOfUnit, ChronoUnit unit) {
 	if (ChronoUnit.DAYS.equals(unit)) {
 	    return LocalDate.parse(date).plusDays(numberChronoOfUnit);
 	} else if (ChronoUnit.WEEKS.equals(unit)) {
@@ -318,10 +327,6 @@ public class LoanServiceImpl implements LoanService {
 	    return LocalDate.parse(date).plusYears(numberChronoOfUnit);
 	}
 	throw new ChronoUnitNotImplementedException();
-    }
-
-    private Boolean isBookReserved(Integer customerId, Integer bookId) {
-	return reservationDAO.findByBookIdAndCustomerIdAndCanceledStatusFalse(bookId, customerId).isPresent();
     }
 
     private Boolean isTitleAlreadyLoaned(Integer customerId, String bookTitle) {

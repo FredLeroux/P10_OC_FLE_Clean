@@ -221,7 +221,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public void updateReservationsPriority(List<ReservationBatch> reservations, Integer priority) {
 	if (!reservations.isEmpty()) {
-	    reservations.forEach(o -> o.setPriority(priority - 1));
+	    reservations.forEach(o -> o.setPriority(priority));
 	}
     }
 
@@ -230,21 +230,22 @@ public class BatchServiceImpl implements BatchService {
 	    List<ReservationBatch> canceledReservationList, Integer priority) {
 	if (!canceledReservationList.isEmpty()) {
 	    return reservations.stream()
-		    .filter(o -> canceledReservationLinkedBooksTitles(canceledReservationList)
-			    .contains(o.getBook().getTitle()) && o.getPriority() >= (priority + 1))
+		    .filter(o -> canceledReservationLinkedBooksId(canceledReservationList).contains(o.getBook().getId())
+			    && o.getPriority() == (priority + 1))
 		    .collect(Collectors.toList());
+
 	} else {
 	    return new ArrayList<ReservationBatch>();
 	}
     }
 
-    protected List<String> canceledReservationLinkedBooksTitles(List<ReservationBatch> canceledReservationList) {
+    protected List<Integer> canceledReservationLinkedBooksId(List<ReservationBatch> canceledReservationList) {
 	if (!canceledReservationList.isEmpty()) {
-	    List<String> titles = new ArrayList<String>();
-	    canceledReservationList.forEach(o -> titles.add(o.getBook().getTitle()));
-	    return titles;
+	    List<Integer> ids = new ArrayList<Integer>();
+	    canceledReservationList.forEach(o -> ids.add(o.getBook().getId()));
+	    return ids;
 	}
-	return new ArrayList<String>();
+	return new ArrayList<Integer>();
 
     }
 
