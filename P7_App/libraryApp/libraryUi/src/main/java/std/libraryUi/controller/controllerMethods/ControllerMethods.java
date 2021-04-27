@@ -224,8 +224,10 @@ public class ControllerMethods {
 	return dto;
     }
 
-    public void cancelReservation(Integer reservationReference) {
+    public void cancelReservation(Integer reservationReference, String bookTitle) {
 	libraryReservationsProxy.cancelReservation(reservationReference);
+	libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailableAfterCustomerCancel(bookTitle,
+		PRIORITY_VALUE);
     }
 
     private Boolean isHeaderPresent(HttpServletRequest request, String headerName) {

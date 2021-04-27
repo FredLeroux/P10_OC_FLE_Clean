@@ -21,4 +21,11 @@ public class LibraryScheduledBatchAndMailingController {
 	service.sendNotificationBookAvailable(customerEmail, bookTitle, buildingName, reference);
     }
 
+    @PostMapping(value = "/sendNotificationBookAvailableAfterCustomerCancel")
+    public void sendNotificationBookAvailableAfterCustomerCancel(@RequestParam(value = "bookTitle") String bookTitle,
+	    @RequestParam(value = "priority") Integer priority) {
+	service.sendNotificationBookAvailableOnCustomerCancelReservation(bookTitle, priority);
+	;
+    }
+
 }
