@@ -94,8 +94,10 @@ public interface BatchService {
      *
      * @param reservations the ReservationsBatch list where to update priority
      * @param priority     the priority to extract
-     * @apiNote Set each ReservationBatch.priority to priority
+     * @apiNote Set each ReservationBatch.priority to ReservationBatch.priority-1
      */
     public void updateReservationsPriority(List<ReservationBatch> reservations, Integer priority);
+
+    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(String bookTitle, Integer priority);
 
 }
