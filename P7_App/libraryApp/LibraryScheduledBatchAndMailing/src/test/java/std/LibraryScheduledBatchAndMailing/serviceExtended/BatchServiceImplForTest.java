@@ -29,9 +29,9 @@ public class BatchServiceImplForTest extends BatchServiceImpl {
     }
 
     @Override
-    public List<String> canceledReservationLinkedBooksTitles(List<ReservationBatch> canceledReservationList) {
+    public List<Integer> canceledReservationLinkedBooksId(List<ReservationBatch> canceledReservationList) {
 	// TODO Auto-generated method stub
-	return super.canceledReservationLinkedBooksTitles(canceledReservationList);
+	return super.canceledReservationLinkedBooksId(canceledReservationList);
     }
 
     @Override

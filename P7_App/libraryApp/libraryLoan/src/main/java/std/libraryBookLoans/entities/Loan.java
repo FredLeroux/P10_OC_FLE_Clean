@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -36,16 +37,21 @@ public class Loan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull
     @Column(name = "return_date")
     private String returnDate;
+    @NotNull
     @Column(name = "postponed")
     private Boolean postponed;
+    @NotNull
     @Column(name = "returned")
     private Boolean returned;
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "book_fk")
     private LibraryBookLoan book;
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "customer_fk")

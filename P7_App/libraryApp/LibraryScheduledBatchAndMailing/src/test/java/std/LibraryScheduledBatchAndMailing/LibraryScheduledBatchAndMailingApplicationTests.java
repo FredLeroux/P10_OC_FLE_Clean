@@ -230,11 +230,11 @@ class LibraryScheduledBatchAndMailingApplicationTests {
 	listReservations.clear();
 	List<ReservationBatch> rawList = new ArrayList<>();
 	bookTest1 = new LibraryBookBatch();
-	bookTest1.setTitle("canceledBook");
+	bookTest1.setId(1);
 	bookTest2 = new LibraryBookBatch();
-	bookTest2.setTitle("canceledBook1");
+	bookTest2.setId(2);
 	bookTest3 = new LibraryBookBatch();
-	bookTest3.setTitle("notCanceledBook");
+	bookTest3.setId(3);
 	listReservations.add(new ReservationBatch(9, null, false, 2, bookTest1, customer));
 	listReservations.add(new ReservationBatch(10, null, false, 3, bookTest1, customer));
 	listReservations.add(new ReservationBatch(11, null, false, 2, bookTest2, customer));
@@ -272,22 +272,22 @@ class LibraryScheduledBatchAndMailingApplicationTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "title1", "title2", "title3" })
-    public void canceledReservationLinkedBooksTitlesTest(String strings) {
+    @ValueSource(ints = { 1, 2, 3 })
+    public void canceledReservationLinkedBooksTitlesTest(Integer ints) {
 	listReservations.clear();
 	bookTest1 = new LibraryBookBatch();
-	bookTest1.setTitle(strings);
+	bookTest1.setId(ints);
 	listReservations.add(new ReservationBatch(1, null, false, 1, bookTest1, customer));
 	listReservations.add(new ReservationBatch(2, null, false, 1, bookTest1, customer));
 	listReservations.add(new ReservationBatch(3, null, false, 1, bookTest1, customer));
 	listReservations.add(new ReservationBatch(4, null, false, 1, bookTest1, customer));
-	service.canceledReservationLinkedBooksTitles(listReservations).forEach(o -> assertThat(o).isEqualTo(strings));
+	service.canceledReservationLinkedBooksId(listReservations).forEach(o -> assertThat(o).isEqualTo(ints));
     }
 
     @Test
     public void canceledReservationLinkedBooksTitlesTestEmpty() {
 	listReservations.clear();
-	assertThat(service.canceledReservationLinkedBooksTitles(listReservations)).isEmpty();
+	assertThat(service.canceledReservationLinkedBooksId(listReservations)).isEmpty();
     }
 
     @Nested
