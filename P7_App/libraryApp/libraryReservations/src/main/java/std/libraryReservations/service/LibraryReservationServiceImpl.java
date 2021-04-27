@@ -152,9 +152,25 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	    }
 	    libraryReservationDAO.saveAndFlush(reservation);
 	    libraryReservationsBookDAO.saveAndFlush(book);
+	    List<Reservation> listToUpdate = updateNextPriority(reservation);
+	    if (!listToUpdate.isEmpty()) {
+		libraryReservationDAO.saveAll(listToUpdate);
+	    }
 	} else {
 	    throw new NotFoundException("Reservation service : reservation to cancel not found");
 	}
+    }
+
+    protected List<Reservation> updateNextPriority(Reservation reservation) {
+	List<Reservation> list = libraryReservationDAO
+		.findByBookIdAndAndCanceledStatusFalse(reservation.getBook().getId());
+	if (!list.isEmpty()) {
+	    list.forEach(o -> o.setPriority(o.getPriority() - 1));
+	    return list;
+	} else {
+	    return new ArrayList<Reservation>();
+	}
+
     }
 
     private Reservation reservationDTOToReservation(CreateReservationDTO dto) {

@@ -38,7 +38,8 @@
 						</td>
 						<td>
 							<form  th:action="@{/cancelReservation}" method="post">
-							<input type = "hidden" th:value="${reservation.reference}" name="reservationReference">							
+							<input type = "hidden" th:value="${reservation.reference}" name="reservationReference">	
+							<input type = "hidden" th:value="${reservation.title}" name="bookTitle">						
 							<input class="cancelReservationAsk"  type="submit" value="Annuler la réservation" >								
 						</form>					
 						</td>

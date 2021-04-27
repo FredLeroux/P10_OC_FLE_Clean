@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
+import std.LibraryScheduledBatchAndMailing.dto.ReservationToNotifiedInfoDTO;
 import std.LibraryScheduledBatchAndMailing.entities.ReservationBatch;
 import std.LibraryScheduledBatchAndMailing.mailMessagesComponents.MailLateMessageElmt;
 import std.LibraryScheduledBatchAndMailing.mailMessagesComponents.NotificationBookAvailableMessageElmt;
@@ -195,6 +196,19 @@ public class MailSendingServiceImpl implements MailSendingService {
 	stb.append(ln);
 	stb.append(notifCancelReservation.getEnd());
 	return stb.toString();
+    }
+
+    @Override
+    public void sendNotificationBookAvailableOnCustomerCancelReservation(String bookTitle, Integer priority) {
+	ReservationToNotifiedInfoDTO dto = batchService.nextPriorytyNotificationAfterCustomerCancel(bookTitle,
+		priority);
+	if (dto != null) {
+	    sendSimpleMessage(createMessage(notifAvailableBook.getFrom(), dto.getCustomerEmail(),
+		    notifAvailableBook.getSubject(), notificationBookAvailable(dto.getBookTitle(), dto.getBuilding(),
+			    dto.getReference(), getDelayIndays())));
+	    batchService.updateNotificationDate(dto.getCustomerEmail(), dto.getBookTitle());
+	}
+
     }
 
 }

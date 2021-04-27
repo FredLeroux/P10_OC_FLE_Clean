@@ -212,7 +212,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public void updateReservationsPriority(List<ReservationBatch> reservations, Integer priority) {
 	if (!reservations.isEmpty()) {
-	    reservations.forEach(o -> o.setPriority(priority));
+	    reservations.forEach(o -> o.setPriority(priority - 1));
 	}
     }
 
@@ -222,7 +222,7 @@ public class BatchServiceImpl implements BatchService {
 	if (!canceledReservationList.isEmpty()) {
 	    return reservations.stream()
 		    .filter(o -> canceledReservationLinkedBooksTitles(canceledReservationList)
-			    .contains(o.getBook().getTitle()) && o.getPriority() == (priority + 1))
+			    .contains(o.getBook().getTitle()) && o.getPriority() >= (priority + 1))
 		    .collect(Collectors.toList());
 	} else {
 	    return new ArrayList<ReservationBatch>();
@@ -325,6 +325,20 @@ public class BatchServiceImpl implements BatchService {
 
     private void saveBooksList(List<LibraryBookBatch> books) {
 	libraryBookBatchDao.saveAll(books);
+    }
+
+    @Override
+    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(String bookTitle,
+	    Integer priority) {
+	if (reservationBatchDAO
+		.findByBookTitleAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookTitle, priority)
+		.isPresent()) {
+	    ReservationBatch reservation = reservationBatchDAO
+		    .findByBookTitleAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookTitle, priority).get();
+	    return reservationToNotifiedInfoDTO(reservation);
+	}
+	return null;
+
     }
 
 }
