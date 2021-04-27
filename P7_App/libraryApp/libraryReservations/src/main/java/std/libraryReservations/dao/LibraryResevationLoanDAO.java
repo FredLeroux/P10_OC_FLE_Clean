@@ -1,5 +1,6 @@
 package std.libraryReservations.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ public interface LibraryResevationLoanDAO extends JpaRepository<LibraryLoanForRe
 
     Optional<LibraryLoanForReservation> findByBookTitleAndCustomerIdAndReturnedFalse(String bookTiltle,
 	    Integer customerId);
+
+    List<LibraryLoanForReservation> findByBookIdInAndAndReturnedFalse(List<Integer> bookIds);
 }

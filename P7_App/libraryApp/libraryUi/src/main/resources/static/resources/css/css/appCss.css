@@ -208,7 +208,7 @@ tr.even:hover, tr.odd:hover {
 
 .reservationExamplariesList, .reservationsList, .reservationSummary {
   font-family: body-font;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .datepicker-tooltip {

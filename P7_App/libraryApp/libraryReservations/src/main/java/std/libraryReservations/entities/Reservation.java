@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -37,14 +38,18 @@ public class Reservation implements Serializable {
     private Integer id;
     @Column(name = "notification_date")
     private String notificationDate;
+    @NotNull
     @Column(name = "canceled_status")
     private Boolean canceledStatus;
+    @NotNull
     @Column(name = "priority")
     private Integer priority;
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "library_book_fk")
     private LibraryBookForReservation book;
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "library_customer_fk")

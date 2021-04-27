@@ -38,15 +38,25 @@ public interface LibraryBookLoansProxy {
 	    @RequestParam(value = "userName") String userName, @RequestParam(value = "unitNumber") Integer unitNumber,
 	    @RequestParam(value = "unit") ChronoUnit unit);
 
+    /**
+     *
+     * @param custommerId
+     * @param bookId
+     * @param unitNumber
+     * @param unit        the ChronoUnit enum value wiched in lowercase
+     *                    example(days,weeks,months,....)
+     * @apiNote a loan period is defined by unitNumber x unit(ChronoUnit expect only
+     *          days,weeks,months,years)
+     */
     @PostMapping(value = "/libraryBookLoans/createLoan")
     public void createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId, @RequestParam(value = "unitNumber") Integer unitNumber,
-	    @RequestParam(value = "unit") ChronoUnit unit);
+	    @RequestParam(value = "unit") String unit);
 
     @PostMapping(value = "/libraryBookLoans/createLoanFromReservation")
     public void createLoanFromReservation(@RequestParam(value = "reservationId") Integer reservationId,
 	    @RequestParam(value = "customerId") Integer customerId,
-	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") ChronoUnit unit);
+	    @RequestParam(value = "unitNumber") Integer unitNumber, @RequestParam(value = "unit") String unit);
 
     @PostMapping(value = "/libraryBookLoans/returnLoan")
     public void returnLoan(@RequestParam(value = "customerId") Integer customerId,
@@ -60,6 +70,6 @@ public interface LibraryBookLoansProxy {
     public List<ReservableBookExamplaryDatedBean> reservableBookExamplaryDTOs(
 	    @RequestParam(value = "bookIdList") List<Integer> bookIdList,
 	    @RequestParam(value = "numberChronoOfUnit") Integer numberChronoOfUnit,
-	    @RequestParam(value = "unit") ChronoUnit unit);
+	    @RequestParam(value = "unit") String unit);
 
 }

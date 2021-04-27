@@ -6,7 +6,7 @@
 <title>Liste des réservations</title>
 </head>
 <body>
-<div class="col-md-12 col-lg-8 ">
+<div class="col-md-12 col-lg-11 ">
 			<div class="container-fluid text-center" th:if="${reservationsList==null}">
 			<br>
 				<span class="reservationSummary" >Aucune réservations en cours</span>
@@ -16,13 +16,17 @@
 			<br>
 			</div>
 			<div th:if="${reservationsList!=null}">
-			<table class="table table-borderless table-sm reservationsList">
+			<table class="table table-borderless reservationsList">
 				<thead>
 					<tr>
 						<th>Référence</th>
 						<th>Titre</th>
 						<th>Bibliothèque</th>
+						<th>Date de retour estimée</th>
+						<th>Information complémentaire</th>
 						<th>Date de notification</th>
+						<th>Position dans la liste d'attente</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -30,12 +34,20 @@
 						<td th:text = "${reservation.reference}"></td>
 						<td th:text = "${reservation.title}"></td>
 						<td th:text = "${reservation.building}"></td>
+						<td th:text = "${reservation.returnDate}"></td>
+						<td th:if= "${reservation.postpone == 'true'}">
+						<span th:text = "'Important un report peut encore être appliqué'"></span>
+						</td>
+						<td th:unless= "${reservation.postpone == 'false'}">
+						<span th:text = "'Report déjà appliqué '"></span>
+						</td>
 						<td th:if= "${reservation.notificationDate == null}">
 						<span th:text = "'Toujours indisponible'"></span>
 						</td>
 						<td th:unless= "${reservation.notificationDate == null}">
 						<span th:text = "${reservation.notificationDate}"></span>
-						</td>
+						</td>						
+						<td th:text = "${reservation.priority}"></td>
 						<td>
 							<form  th:action="@{/cancelReservation}" method="post">
 							<input type = "hidden" th:value="${reservation.reference}" name="reservationReference">	

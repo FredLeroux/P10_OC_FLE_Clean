@@ -87,4 +87,30 @@
 		</plugins>
 	</build>
 
+		<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>unitTest</id>
+			<properties>
+				<activatedProperties>unitTest</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>integrationTest</id>
+			<properties>
+				<activatedProperties>it</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
+
+
+
 </project>

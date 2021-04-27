@@ -77,11 +77,11 @@ public class ControllerMethods {
     }
 
     public void createLoan(Integer customerId, Integer bookId) {
-	libraryBookLoansProxy.createLoan(customerId, bookId, 4, ChronoUnit.WEEKS);
+	libraryBookLoansProxy.createLoan(customerId, bookId, 4, "weeks");
     }
 
     public void createLoanFromReservation(Integer customerId, Integer reservationId) {
-	libraryBookLoansProxy.createLoanFromReservation(reservationId, customerId, 4, ChronoUnit.WEEKS);
+	libraryBookLoansProxy.createLoanFromReservation(reservationId, customerId, 4, "weeks");
     }
 
     public void returnLoan(Integer customerId, Integer bookId) {
@@ -150,7 +150,7 @@ public class ControllerMethods {
     }
 
     public List<ReservableBookExamplaryDatedBean> getReservableExamplaryBeans(String title, String buildingName,
-	    Integer maxOfReservation, Integer maxPeriodLoan, ChronoUnit unit, String language) {
+	    Integer maxOfReservation, Integer maxPeriodLoan, String unit, String language) {
 	List<ReservableBookExamplaryDatedBean> list = libraryBookLoansProxy
 		.reservableBookExamplaryDTOs(getReservableBookExamplaryIds(title, buildingName, maxOfReservation),
 			maxPeriodLoan, unit)
@@ -216,7 +216,8 @@ public class ControllerMethods {
 
     private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean) {
 	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBuildingName(),
-		null);
+		null, localizedFullDate(parseStringToDate(bean.getReturnDate()), "fr"), bean.getPostpone(),
+		bean.getPriority());
 	if (bean.getNotificationDate() != null) {
 	    dto.setNotificationDate(localizedFullDate(parseStringToDate(bean.getNotificationDate()), "fr"));
 	}

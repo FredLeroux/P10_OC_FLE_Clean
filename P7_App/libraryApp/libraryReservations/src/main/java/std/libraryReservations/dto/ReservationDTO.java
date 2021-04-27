@@ -18,6 +18,8 @@ public class ReservationDTO {
     private Boolean canceledStatus;
     private Integer priority;
     private String BuildingName;
+    private String returnDate;
+    private Boolean postpone;
     private LibraryBookForReservation book;
     private LibraryCustomerForReservation customer;
 }

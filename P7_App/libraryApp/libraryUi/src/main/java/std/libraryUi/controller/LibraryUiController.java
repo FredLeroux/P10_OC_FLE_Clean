@@ -128,7 +128,7 @@ public class LibraryUiController {
 	String buildingName = request.getParameter("building");
 	List<ReservableBookExamplaryDatedBean> list = new ArrayList<>();
 	try {
-	    list = methods.getReservableExamplaryBeans(title, buildingName, 2, 4, ChronoUnit.WEEKS, "fr");
+	    list = methods.getReservableExamplaryBeans(title, buildingName, 2, 4, "weeks", "fr");
 	} catch (Exception e) {
 	    throw new EmptyListException();
 	}
