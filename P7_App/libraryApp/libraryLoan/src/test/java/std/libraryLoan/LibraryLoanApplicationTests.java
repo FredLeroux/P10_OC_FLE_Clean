@@ -54,6 +54,7 @@ import std.libraryBookLoans.exceptions.BookNotFoundException;
 import std.libraryBookLoans.exceptions.BuildingNotFoundException;
 import std.libraryBookLoans.exceptions.ChronoUnitNotImplementedException;
 import std.libraryBookLoans.exceptions.CustomerNotFoundException;
+import std.libraryBookLoans.exceptions.ReservationNotFoundException;
 import std.libraryBookLoans.exceptions.RoleNotFoundException;
 
 @SpringBootTest(classes = { Loan.class, LoanServiceImplForTest.class })
@@ -144,8 +145,9 @@ class LibraryLoanApplicationTests {
 	private LocalDate today;
 
 	@BeforeEach
-	public void initToday() {
+	public void init() {
 	    reset(loanDAO);
+	    reset(reservationDAO);
 	    today = LocalDate.now();
 	}
 
@@ -363,6 +365,136 @@ class LibraryLoanApplicationTests {
 	    assertThatThrownBy(() -> service.createLoan(1, 1, 1, "weeks")).isInstanceOf(BookNotAvailableException.class)
 		    .hasMessage("Loan service : book reserved or customer alreadyloaned it");
 	    verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+	}
+
+	@Test
+	public void reservationTest() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    assertThatCode(() -> service.reservation(1)).doesNotThrowAnyException();
+	}
+
+	@Test
+	public void reservationTestFail() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
+	    assertThatThrownBy(() -> service.reservation(1)).isInstanceOf(ReservationNotFoundException.class)
+		    .hasMessage("Reservation ref = [1] not found.");
+	}
+
+	@Test
+	public void isRigthCustomerTest() {
+	    assertThat(service.isRigthCustomer(1, reservationLoanTest)).isTrue();
+	    assertThat(service.isRigthCustomer(2, reservationLoanTest)).isFalse();
+	}
+
+	@Test
+	public void setBookNumberOfreservationTest() {
+	    bookLoanTest.setNumberOfReservations(2);
+	    service.setBookNumberOfreservation(bookLoanTest);
+	    assertThat(bookLoanTest.getNumberOfReservations()).isEqualTo(1);
+	    bookLoanTest.setNumberOfReservations(0);
+	    service.setBookNumberOfreservation(bookLoanTest);
+	    assertThat(bookLoanTest.getNumberOfReservations()).isEqualTo(0);
+	}
+
+	@Test
+	public void updateBookFromReservationTest() {
+	    bookLoanTest.setNumberOfReservations(1);
+	    LibraryBookLoan book = service.updateBookFromReservation(bookLoanTest);
+	    assertThat(book.getAvailability()).isFalse();
+	    assertThat(book.getNumberOfReservations()).isEqualTo(0);
+	    assertThat(service.updateBookFromReservation(bookLoanTest).getNumberOfReservations()).isEqualTo(0);
+
+	}
+
+	@Test
+	public void createLoanUsingBookTest() {
+	    bookLoanTest.setAvailability(true);
+	    bookLoanTest.setNumberOfReservations(2);
+	    ;
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    Loan loan = service.createLoanUsingBook(1, bookLoanTest, 5, "weeks");
+	    assertThat(loan.getBook().getNumberOfReservations()).isEqualTo(1);
+	    assertThat(loan.getBook().getAvailability()).isFalse();
+	    assertThat(loan.getCustomer()).isEqualTo(customerLoanTest);
+	    assertThat(loan.getReturnDate()).isEqualTo(today.plusWeeks(5).toString());
+	}
+
+	@Test
+	public void updateReservationOnLoanTest() {
+	    LibraryReservationForLoan reservation = service.updateReservationOnLoan(reservationLoanTest);
+	    assertThat(reservation.getCanceledStatus()).isTrue();
+	    assertThat(reservation.getPriority()).isEqualTo(-1);
+	}
+
+	@Test
+	public void updatePriorityTest() {
+	    LibraryReservationForLoan reservation = service.updatePriority(reservationLoanTest);
+	    assertThat(reservation.getPriority()).isEqualTo(0);
+	    assertThat(service.updatePriority(reservationLoanTest).getPriority()).isEqualTo(0);
+	}
+
+	@Test
+	public void reservationUpdatedPriorityListTest() {
+	    List<LibraryReservationForLoan> rawList = listReservationTest();
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6)).thenReturn(
+		    rawList.stream().filter(o -> o.getBook().getId().equals(6)).collect(Collectors.toList()));
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(7))
+		    .thenReturn(new ArrayList<LibraryReservationForLoan>());
+	    List<LibraryReservationForLoan> list = service.reservationUpdatedPriorityList(6);
+	    assertThat(list.size()).isEqualTo(2);
+	    list.forEach(o -> assertThat(o.getPriority()).isEqualTo(0));
+	    assertThat(service.reservationUpdatedPriorityList(7)).isEmpty();
+	}
+
+	@Test
+	public void updateReservationsPriorityTest() {
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6)).thenReturn(listReservationTest());
+	    service.updateReservationsPriority(6);
+	    verify(reservationDAO, times(1)).saveAll(ArgumentMatchers.anyIterable());
+
+	}
+
+	@Test
+	public void updateReservationsPriorityTestEmpty() {
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6))
+		    .thenReturn(new ArrayList<LibraryReservationForLoan>());
+	    service.updateReservationsPriority(6);
+	    verify(reservationDAO, times(0)).saveAll(ArgumentMatchers.anyIterable());
+
+	}
+
+	private List<LibraryReservationForLoan> listReservationTest() {
+	    List<LibraryReservationForLoan> list = new ArrayList<LibraryReservationForLoan>();
+	    list.add(new LibraryReservationForLoan(2, null, false, 1, bookLoan(6, true, "title6", 1, "buildingName"),
+		    customerLoan(2)));
+	    list.add(new LibraryReservationForLoan(3, null, false, 1, bookLoan(6, true, "title6", 1, "buildingName"),
+		    customerLoan(3)));
+	    list.add(new LibraryReservationForLoan(4, null, false, 1, bookLoan(7, true, "title7", 1, "buildingName"),
+		    customerLoan(2)));
+	    return list;
+	}
+
+	@Test
+	public void createLoanFromReservationTest() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    assertThatCode(() -> service.createLoanFromReservation(1, 1, 5, "weeks")).doesNotThrowAnyException();
+	}
+
+	@Test
+	public void createLoanFromReservationTestFail() {
+	    customerLoanTest.setId(2);
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    assertThatThrownBy(() -> service.createLoanFromReservation(1, 1, 5, "weeks"))
+		    .isInstanceOf(BookNotAvailableException.class)
+		    .hasMessage("Loan service: customer not corresponding to the one on reservation ");
 	}
 
     }

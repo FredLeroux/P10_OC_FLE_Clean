@@ -96,18 +96,40 @@ public class LoanServiceImpl implements LoanService {
     public void createLoanFromReservation(Integer reservationId, Integer customerId, Integer unitNumber, String unit) {
 	LibraryReservationForLoan reservation = reservation(reservationId);
 	if (isRigthCustomer(customerId, reservation)) {
-	    saveLoan(createLoanUsingBook(customerId, reservation.getBook(), unitNumber, unit));
-	    reservation.setCanceledStatus(true);
-	    reservationDAO.saveAndFlush(reservation);
-	    LibraryBookLoan book = book(reservation.getBook().getId());
-	    book.setAvailability(false);
-	    setBookNumberOfreservation(book);
-	    bookDAO.saveAndFlush(book);
+	    LibraryBookLoan book = reservation.getBook();
+	    saveLoan(createLoanUsingBook(customerId, book, unitNumber, unit));
+	    reservationDAO.saveAndFlush(updateReservationOnLoan(reservation));
 	    updateReservationsPriority(book.getId());
 	} else {
 	    throw new BookNotAvailableException("Loan service: customer not corresponding to the one on reservation ");
 	}
 
+    }
+
+    protected void setBookNumberOfreservation(LibraryBookLoan book) {
+	if (book.getNumberOfReservations() != 0) {
+	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
+	}
+    }
+
+    protected Loan createLoanUsingBook(Integer customerId, LibraryBookLoan book, Integer unitNumber, String unit) {
+	Loan loan = new Loan();
+	loanDefaultValue(loan, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
+	loan.setBook(updateBookFromReservation(book));
+	loan.setCustomer(settedCustomerLoan(customerId));
+	return loan;
+    }
+
+    protected LibraryBookLoan updateBookFromReservation(LibraryBookLoan book) {
+	book.setAvailability(false);
+	setBookNumberOfreservation(book);
+	return book;
+    }
+
+    protected LibraryReservationForLoan updateReservationOnLoan(LibraryReservationForLoan reservation) {
+	reservation.setCanceledStatus(true);
+	reservation.setPriority(-1);
+	return reservation;
     }
 
     /**
@@ -125,59 +147,55 @@ public class LoanServiceImpl implements LoanService {
 	loan.setPostponed(false);
     }
 
-    private LibraryReservationForLoan reservation(Integer reservationId) {
+    protected LibraryReservationForLoan reservation(Integer reservationId) {
 	if (reservationDAO.findByIdAndCanceledStatusFalse(reservationId).isPresent()) {
-	    return reservationDAO.findById(reservationId).get();
+	    return reservationDAO.findByIdAndCanceledStatusFalse(reservationId).get();
 	} else {
 	    throw new ReservationNotFoundException("Reservation ref = [" + reservationId + "] not found.");
 	}
     }
 
-    private Boolean isRigthCustomer(Integer customerId, LibraryReservationForLoan reservation) {
-	return customerId == reservation.getCustomer().getId();
+    protected Boolean isRigthCustomer(Integer customerId, LibraryReservationForLoan reservation) {
+	return customerId.equals(reservation.getCustomer().getId());
     }
 
-    private void setBookNumberOfreservation(LibraryBookLoan book) {
-	if (book.getNumberOfReservations() != 0) {
-	    book.setNumberOfReservations(book.getNumberOfReservations() - 1);
-	}
+    protected List<LibraryReservationForLoan> reservationUpdatedPriorityList(Integer bookId) {
+	return reservationDAO.findByBookIdAndCanceledStatusFalse(bookId).stream().map(o -> updatePriority(o))
+		.collect(Collectors.toList());
     }
 
-    private void updateReservationsPriority(Integer bookId) {
+    protected void updateReservationsPriority(Integer bookId) {
 	if (!reservationDAO.findByBookIdAndCanceledStatusFalse(bookId).isEmpty()) {
-	    reservationDAO.saveAll(reservationDAO.findByBookIdAndCanceledStatusFalse(bookId).stream()
-		    .map(o -> updatePriority(o)).collect(Collectors.toList()));
+	    reservationDAO.saveAll(reservationUpdatedPriorityList(bookId));
 	}
     }
 
-    private LibraryReservationForLoan updatePriority(LibraryReservationForLoan reservation) {
+    protected LibraryReservationForLoan updatePriority(LibraryReservationForLoan reservation) {
 	reservation.setPriority(reservation.getPriority() - 1);
+	if (reservation.getPriority() < 0) {
+	    reservation.setPriority(0);
+	}
 	return reservation;
     }
 
-    private Loan createLoanUsingBook(Integer customerId, LibraryBookLoan book, Integer unitNumber, String unit) {
-	Loan loan = new Loan();
-	loanDefaultValue(loan, unitNumber, ChronoUnit.valueOf(unit.toUpperCase()));
-	loan.setBook(book);
-	loan.setCustomer(settedCustomerLoan(customerId));
-	return loan;
-    }
-
-    protected void saveLoan(Loan loan) {
+    private void saveLoan(Loan loan) {
 	loanDAO.saveAndFlush(loan);
     }
 
     @Override
     public void returnLoan(Integer bookId, Integer customerId) {
-	Optional<Loan> optLoan = (loanDAO.findByBookIdAndCustomerIdAndReturnedFalse(bookId, customerId));
+	Optional<Loan> optLoan = loanDAO.findByBookIdAndCustomerIdAndReturnedFalse(bookId, customerId);
 	if (optLoan.isPresent()) {
-	    Loan loan = optLoan.get();
-	    loan.setReturned(true);
-	    loan.getBook().setAvailability(true);
-	    loanDAO.saveAndFlush(loan);
+	    loanDAO.saveAndFlush(updatedLoan(optLoan.get()));
 	} else {
 	    throw new LoanUnknownException("Erreur aucune correspondance");
 	}
+    }
+
+    protected Loan updatedLoan(Loan loan) {
+	loan.setReturned(true);
+	loan.getBook().setAvailability(true);
+	return loan;
     }
 
     @Override

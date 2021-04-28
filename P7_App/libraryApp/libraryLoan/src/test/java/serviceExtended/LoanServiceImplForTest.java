@@ -2,10 +2,12 @@ package serviceExtended;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import std.libraryBookLoans.entities.CustomerLoan;
 import std.libraryBookLoans.entities.LibraryBookLoan;
 import std.libraryBookLoans.entities.LibraryBuildingLoan;
+import std.libraryBookLoans.entities.LibraryReservationForLoan;
 import std.libraryBookLoans.entities.LibraryRoleLoan;
 import std.libraryBookLoans.entities.Loan;
 import std.libraryBookLoans.service.LoanServiceImpl;
@@ -70,6 +72,60 @@ public class LoanServiceImplForTest extends LoanServiceImpl {
     public Loan createLoanUsingBookId(Integer customerId, Integer bookId, Integer unitNumber, String unit) {
 	// TODO Auto-generated method stub
 	return super.createLoanUsingBookId(customerId, bookId, unitNumber, unit);
+    }
+
+    @Override
+    public LibraryReservationForLoan reservation(Integer reservationId) {
+	// TODO Auto-generated method stub
+	return super.reservation(reservationId);
+    }
+
+    @Override
+    public Boolean isRigthCustomer(Integer customerId, LibraryReservationForLoan reservation) {
+	// TODO Auto-generated method stub
+	return super.isRigthCustomer(customerId, reservation);
+    }
+
+    @Override
+    public void setBookNumberOfreservation(LibraryBookLoan book) {
+	// TODO Auto-generated method stub
+	super.setBookNumberOfreservation(book);
+    }
+
+    @Override
+    public LibraryBookLoan updateBookFromReservation(LibraryBookLoan book) {
+	// TODO Auto-generated method stub
+	return super.updateBookFromReservation(book);
+    }
+
+    @Override
+    public Loan createLoanUsingBook(Integer customerId, LibraryBookLoan book, Integer unitNumber, String unit) {
+	// TODO Auto-generated method stub
+	return super.createLoanUsingBook(customerId, book, unitNumber, unit);
+    }
+
+    @Override
+    public LibraryReservationForLoan updateReservationOnLoan(LibraryReservationForLoan reservation) {
+	// TODO Auto-generated method stub
+	return super.updateReservationOnLoan(reservation);
+    }
+
+    @Override
+    public LibraryReservationForLoan updatePriority(LibraryReservationForLoan reservation) {
+	// TODO Auto-generated method stub
+	return super.updatePriority(reservation);
+    }
+
+    @Override
+    public List<LibraryReservationForLoan> reservationUpdatedPriorityList(Integer bookId) {
+	// TODO Auto-generated method stub
+	return super.reservationUpdatedPriorityList(bookId);
+    }
+
+    @Override
+    public void updateReservationsPriority(Integer bookId) {
+	// TODO Auto-generated method stub
+	super.updateReservationsPriority(bookId);
     }
 
 }
