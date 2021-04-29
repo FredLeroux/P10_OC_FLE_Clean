@@ -225,6 +225,7 @@ public class ControllerMethods {
     }
 
     public void cancelReservation(Integer reservationReference, Integer bookId) {
+	System.out.println(bookId);
 	libraryReservationsProxy.cancelReservation(reservationReference);
 	libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailableAfterCustomerCancel(bookId, PRIORITY_VALUE);
     }
