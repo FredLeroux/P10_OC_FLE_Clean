@@ -202,7 +202,7 @@ public class ControllerMethods {
 	    String userName = userNameByToken(token(request, headerName));
 	    if (userName != null) {
 		reservations = libraryReservationsProxy.customerReservations(userName).stream()
-			.map(o -> mapReservationToDTO(o)).collect(Collectors.toList());
+			.map(o -> mapReservationToDTO(o, PRIORITY_VALUE)).collect(Collectors.toList());
 		if (reservations.isEmpty()) {
 		    reservations = null;
 		}
@@ -214,14 +214,28 @@ public class ControllerMethods {
 
     }
 
-    private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean) {
-	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBook().getId(),
-		bean.getBuildingName(), null, localizedFullDate(parseStringToDate(bean.getReturnDate()), "fr"),
-		bean.getPostpone(), bean.getPriority());
+    private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean, Integer priority) {
+	UiReservationDTO dto = new UiReservationDTO();
+	if (bean.getPriority() > priority) {
+	    dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBook().getId(),
+		    bean.getBuildingName(), null, "none", true, bean.getPriority());
+	} else {
+	    dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBook().getId(),
+		    bean.getBuildingName(), null, uiReservationDTOReturnDate(bean.getReturnDate()), bean.getPostpone(),
+		    bean.getPriority());
+	}
 	if (bean.getNotificationDate() != null) {
 	    dto.setNotificationDate(localizedFullDate(parseStringToDate(bean.getNotificationDate()), "fr"));
 	}
 	return dto;
+    }
+
+    private String uiReservationDTOReturnDate(String returnDate) {
+	if (returnDate.equals("available")) {
+	    return returnDate;
+	} else {
+	    return localizedFullDate(parseStringToDate(returnDate), "fr");
+	}
     }
 
     public void cancelReservation(Integer reservationReference, Integer bookId) {

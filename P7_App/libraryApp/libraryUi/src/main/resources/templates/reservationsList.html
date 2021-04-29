@@ -15,7 +15,7 @@
 			<br>
 			<br>
 			</div>
-			<div th:if="${reservationsList!=null}">
+			<div th:if="${reservationsList!=null}" class="table-responsive-xl">
 			<table class="table table-borderless reservationsList">
 				<thead>
 					<tr>
@@ -34,15 +34,27 @@
 						<td th:text = "${reservation.reference}"></td>
 						<td th:text = "${reservation.title}"></td>
 						<td th:text = "${reservation.building}"></td>
-						<td th:text = "${reservation.returnDate}"></td>
-						<td th:if= "${reservation.postpone == 'true'}">
-						<span th:text = "'Important un report peut encore être appliqué'"></span>
+						<td th:if= "${reservation.returnDate != 'available'}">
+							<span th:if= "${reservation.returnDate == 'none'}">En liste d\'attente</span>
+							<span th:unless= "${reservation.returnDate == 'none'}">
+								<span th:text = "${reservation.returnDate}"></span>
+							</span>
 						</td>
-						<td th:unless= "${reservation.postpone == 'false'}">
-						<span th:text = "'Report déjà appliqué '"></span>
+						<td th:if= "${reservation.returnDate == 'available'}">
+							<span th:text = "'Titre disponible'"></span>
+						</td>						
+						<td th:if= "${reservation.postpone == false}">
+						<span th:text = "'Un report peut encore être appliqué'"></span>
+						</td>
+						<td th:if= "${reservation.postpone == true and reservation.returnDate !='available'}">
+							<span th:if= "${reservation.returnDate == 'none'}">Aucune</span>
+							<span th:unless= "${reservation.returnDate == 'none'}">Report déjà appliqué</span>	
+						</td>
+						<td th:if= "${reservation.postpone == true and reservation.returnDate =='available' }">
+						<span th:text = "'Aucune'"></span>
 						</td>
 						<td th:if= "${reservation.notificationDate == null}">
-						<span th:text = "'Toujours indisponible'"></span>
+						<span th:text = "'Aucune'"></span>
 						</td>
 						<td th:unless= "${reservation.notificationDate == null}">
 						<span th:text = "${reservation.notificationDate}"></span>
