@@ -135,8 +135,13 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	dto = reservationToReservationDTO(ent);
 	dto.setBuildingName(ent.getBook().getLibraryBuilding().getName());
 	LibraryLoanForReservation loan = linkedLoan(ent.getBook().getId(), reservationsLinkedLoan);
-	dto.setReturnDate(loan.getReturnDate());
-	dto.setPostpone(loan.getPostponed());
+	if (loan == null) {
+	    dto.setReturnDate("available");
+	    dto.setPostpone(true);
+	} else {
+	    dto.setReturnDate(loan.getReturnDate());
+	    dto.setPostpone(loan.getPostponed());
+	}
 	return dto;
     }
 
@@ -147,7 +152,7 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	if (optLoan.isPresent()) {
 	    return optLoan.get();
 	} else {
-	    throw new NullPointerException("Reservation service: reservation Linked loan return null");
+	    return null;
 	}
     }
 
