@@ -16,7 +16,7 @@ public interface ReservationBatchDAO extends JpaRepository<ReservationBatch, Int
     public Optional<ReservationBatch> findByCustomerCustomerEmailAndBookTitleAndCanceledStatusFalse(
 	    String customerEmail, String bookTitle);
 
-    public Optional<ReservationBatch> findByBookTitleAndPriorityAndNotificationDateNullAndCanceledStatusFalse(
-	    String bookTitle, Integer priority);
+    public Optional<ReservationBatch> findByBookIdAndBookAvailabilityTrueAndPriorityAndNotificationDateNullAndCanceledStatusFalse(
+	    Integer bookId, Integer priority);
 
 }

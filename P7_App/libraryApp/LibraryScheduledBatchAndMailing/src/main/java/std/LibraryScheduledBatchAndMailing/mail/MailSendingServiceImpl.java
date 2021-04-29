@@ -199,9 +199,8 @@ public class MailSendingServiceImpl implements MailSendingService {
     }
 
     @Override
-    public void sendNotificationBookAvailableOnCustomerCancelReservation(String bookTitle, Integer priority) {
-	ReservationToNotifiedInfoDTO dto = batchService.nextPriorytyNotificationAfterCustomerCancel(bookTitle,
-		priority);
+    public void sendNotificationBookAvailableOnCustomerCancelReservation(Integer bookId, Integer priority) {
+	ReservationToNotifiedInfoDTO dto = batchService.nextPriorytyNotificationAfterCustomerCancel(bookId, priority);
 	if (dto != null) {
 	    sendSimpleMessage(createMessage(notifAvailableBook.getFrom(), dto.getCustomerEmail(),
 		    notifAvailableBook.getSubject(), notificationBookAvailable(dto.getBookTitle(), dto.getBuilding(),

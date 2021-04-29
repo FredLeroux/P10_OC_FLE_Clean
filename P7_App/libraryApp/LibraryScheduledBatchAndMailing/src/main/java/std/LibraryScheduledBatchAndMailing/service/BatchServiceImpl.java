@@ -332,7 +332,6 @@ public class BatchServiceImpl implements BatchService {
 	List<LibraryBookBatch> list = new ArrayList<>();
 	if (!reservationsList.isEmpty()) {
 	    reservationsList.forEach(o -> list.add(o.getBook()));
-
 	}
 	return list;
 
@@ -343,13 +342,15 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(String bookTitle,
-	    Integer priority) {
+    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(Integer bookId, Integer priority) {
 	if (reservationBatchDAO
-		.findByBookTitleAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookTitle, priority)
+		.findByBookIdAndBookAvailabilityTrueAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookId,
+			priority)
 		.isPresent()) {
 	    ReservationBatch reservation = reservationBatchDAO
-		    .findByBookTitleAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookTitle, priority).get();
+		    .findByBookIdAndBookAvailabilityTrueAndPriorityAndNotificationDateNullAndCanceledStatusFalse(bookId,
+			    priority)
+		    .get();
 	    return reservationToNotifiedInfoDTO(reservation);
 	}
 	return null;
