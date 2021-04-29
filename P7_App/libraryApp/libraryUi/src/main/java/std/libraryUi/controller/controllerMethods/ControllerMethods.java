@@ -215,19 +215,18 @@ public class ControllerMethods {
     }
 
     private UiReservationDTO mapReservationToDTO(LibraryReservationBean bean) {
-	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBuildingName(),
-		null, localizedFullDate(parseStringToDate(bean.getReturnDate()), "fr"), bean.getPostpone(),
-		bean.getPriority());
+	UiReservationDTO dto = new UiReservationDTO(bean.getId(), bean.getBook().getTitle(), bean.getBook().getId(),
+		bean.getBuildingName(), null, localizedFullDate(parseStringToDate(bean.getReturnDate()), "fr"),
+		bean.getPostpone(), bean.getPriority());
 	if (bean.getNotificationDate() != null) {
 	    dto.setNotificationDate(localizedFullDate(parseStringToDate(bean.getNotificationDate()), "fr"));
 	}
 	return dto;
     }
 
-    public void cancelReservation(Integer reservationReference, String bookTitle) {
+    public void cancelReservation(Integer reservationReference, Integer bookId) {
 	libraryReservationsProxy.cancelReservation(reservationReference);
-	libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailableAfterCustomerCancel(bookTitle,
-		PRIORITY_VALUE);
+	libraryScheduledBatchAndMailingProxy.sendNotificationBookAvailableAfterCustomerCancel(bookId, PRIORITY_VALUE);
     }
 
     private Boolean isHeaderPresent(HttpServletRequest request, String headerName) {

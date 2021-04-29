@@ -202,9 +202,9 @@ public class LibraryUiController {
 
     @PostMapping(value = "/cancelReservation")
     public ModelAndView cancelReservation(ModelAndView model, HttpServletRequest request, Integer reservationReference,
-	    String bookTitle) {
+	    Integer bookId) {
 	model.setViewName("reservationsList");
-	methods.cancelReservation(reservationReference, bookTitle);
+	methods.cancelReservation(reservationReference, bookId);
 	return model;
     }
 

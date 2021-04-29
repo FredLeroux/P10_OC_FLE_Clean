@@ -98,6 +98,6 @@ public interface BatchService {
      */
     public void updateReservationsPriority(List<ReservationBatch> reservations, Integer priority);
 
-    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(String bookTitle, Integer priority);
+    public ReservationToNotifiedInfoDTO nextPriorytyNotificationAfterCustomerCancel(Integer bookId, Integer priority);
 
 }

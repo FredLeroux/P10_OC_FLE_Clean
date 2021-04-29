@@ -13,6 +13,7 @@ public class UiReservationDTO {
 
     private Integer reference;
     private String title;
+    private Integer bookId;
     private String building;
     private String notificationDate;
     private String returnDate;
