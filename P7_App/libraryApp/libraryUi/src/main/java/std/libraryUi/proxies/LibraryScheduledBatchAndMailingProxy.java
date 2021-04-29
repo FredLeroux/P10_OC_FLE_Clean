@@ -16,6 +16,6 @@ public interface LibraryScheduledBatchAndMailingProxy {
 	    @RequestParam(value = "reference") Integer reference);
 
     @PostMapping(value = "/libraryScheduledBatchAndMailing/sendNotificationBookAvailableAfterCustomerCancel")
-    public void sendNotificationBookAvailableAfterCustomerCancel(@RequestParam(value = "bookTitle") String bookTitle,
+    public void sendNotificationBookAvailableAfterCustomerCancel(@RequestParam(value = "bookId") Integer bookId,
 	    @RequestParam(value = "priority") Integer priority);
 }

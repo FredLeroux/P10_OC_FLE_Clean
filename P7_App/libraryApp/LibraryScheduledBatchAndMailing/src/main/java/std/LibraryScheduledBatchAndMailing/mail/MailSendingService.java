@@ -40,5 +40,5 @@ public interface MailSendingService {
     public void sendNotificationReservationCancel(String customerEmail, String bookTitle, String buildingName,
 	    Integer ref);
 
-    public void sendNotificationBookAvailableOnCustomerCancelReservation(String bookTitle, Integer Priority);
+    public void sendNotificationBookAvailableOnCustomerCancelReservation(Integer bookId, Integer Priority);
 }
