@@ -22,7 +22,7 @@ public class LibraryScheduledBatchAndMailingController {
     }
 
     @PostMapping(value = "/sendNotificationBookAvailableAfterCustomerCancel")
-    public void sendNotificationBookAvailableAfterCustomerCancel(@RequestParam(value = "bookTitle") Integer bookId,
+    public void sendNotificationBookAvailableAfterCustomerCancel(@RequestParam(value = "bookId") Integer bookId,
 	    @RequestParam(value = "priority") Integer priority) {
 	service.sendNotificationBookAvailableOnCustomerCancelReservation(bookId, priority);
 	;
