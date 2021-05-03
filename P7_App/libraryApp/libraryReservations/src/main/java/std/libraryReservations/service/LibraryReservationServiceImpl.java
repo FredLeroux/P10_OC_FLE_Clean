@@ -174,10 +174,7 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	LibraryBookForReservation book = cancelReservationUpdateBook(reservation.getBook());
 	libraryReservationDAO.saveAndFlush(reservation);
 	libraryReservationsBookDAO.saveAndFlush(book);
-	List<Reservation> listToUpdate = updateNextPriority(reservation);
-	if (!listToUpdate.isEmpty()) {
-	    libraryReservationDAO.saveAll(listToUpdate);
-	}
+	saveUpdatedPriority(reservation);
 
     }
 
@@ -197,6 +194,13 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	    book.setNumberOfReservations(0);
 	}
 	return book;
+    }
+
+    protected void saveUpdatedPriority(Reservation reservation) {
+	List<Reservation> listToUpdate = updateNextPriority(reservation);
+	if (!listToUpdate.isEmpty()) {
+	    libraryReservationDAO.saveAll(listToUpdate);
+	}
     }
 
     protected List<Reservation> updateNextPriority(Reservation reservation) {

@@ -86,6 +86,7 @@ public class BatchServiceImpl implements BatchService {
 
     private CustomerBatch customerBatch(Integer id) {
 	Optional<CustomerBatch> optCustomerBatch = customerBatchDao.findById(id);
+	System.out.println(optCustomerBatch.isPresent());
 	if (optCustomerBatch.isPresent()) {
 	    return optCustomerBatch.get();
 	}
