@@ -1,4 +1,4 @@
-package std.libraryAPIGatewayZuul.filters.filtersMethods.loanAuth;
+package std.libraryAPIGatewayZuul.filters.filtersMethods.tokenAuth;
 
 public interface TokenAuthFilterMethodService {
 

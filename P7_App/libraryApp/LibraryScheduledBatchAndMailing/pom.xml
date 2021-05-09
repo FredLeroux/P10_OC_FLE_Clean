@@ -113,4 +113,28 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>integrationTestService</id>
+			<properties>
+				<activatedProperties>itService</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>integrationTestAPI</id>
+			<properties>
+				<activatedProperties>it</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
 </project>

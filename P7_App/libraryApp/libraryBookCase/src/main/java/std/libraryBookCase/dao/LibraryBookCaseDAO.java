@@ -23,7 +23,6 @@ public interface LibraryBookCaseDAO extends JpaRepository<LibraryBook, Integer> 
 
     public List<LibraryBook> findByLibraryBuildingIdAndKindIn(Integer id, List<String> kinds);
 
-    public List<LibraryBook> findByTitleAndLibraryBuildingNameAndNumberOfReservationsLessThan(String title,
-	    String buildingName, Integer maxOfReservation);
+    public List<LibraryBook> findByTitleAndLibraryBuildingName(String title, String buildingName);
 
 }

@@ -49,7 +49,6 @@ public class LibraryBookLoansController {
     public void createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId, @RequestParam(value = "unitNumber") Integer unitNumber,
 	    @RequestParam(value = "unit") String unit) {
-
 	loan.createLoan(customerId, bookId, unitNumber, unit);
     }
 

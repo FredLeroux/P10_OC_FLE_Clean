@@ -42,7 +42,7 @@ public class LibraryCustomersServiceImpl implements LibraryCustomersService {
 	    dto.setRole(roleDTO);
 	    return dto;
 	}
-	throw new CustomerNotFoundException();
+	throw new CustomerNotFoundException("Unknown customer");
     }
 
     @Override
