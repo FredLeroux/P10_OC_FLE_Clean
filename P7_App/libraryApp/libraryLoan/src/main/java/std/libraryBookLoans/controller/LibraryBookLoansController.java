@@ -19,6 +19,11 @@ public class LibraryBookLoansController {
     @Autowired
     LoanService loan;
 
+    @GetMapping(value = "/loanAlreadyPostPoned")
+    public Boolean loanAlreadyPostPoned(@RequestParam(value = "loanId") Integer loanId) {
+	return loan.loanAlreadyPostponed(loanId);
+    }
+
     @GetMapping(value = "/loansList")
     public List<LoanInfoDTO> loansList(@RequestParam(value = "userName") String userName) {
 	return loan.customerLoans(userName);
@@ -49,7 +54,6 @@ public class LibraryBookLoansController {
     public void createLoan(@RequestParam(value = "customerId") Integer customerId,
 	    @RequestParam(value = "bookId") Integer bookId, @RequestParam(value = "unitNumber") Integer unitNumber,
 	    @RequestParam(value = "unit") String unit) {
-
 	loan.createLoan(customerId, bookId, unitNumber, unit);
     }
 

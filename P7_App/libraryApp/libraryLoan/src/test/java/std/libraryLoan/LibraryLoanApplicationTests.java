@@ -8,6 +8,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.joda.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -43,6 +44,7 @@ import std.libraryBookLoans.dao.LibraryReservationForLoanDAO;
 import std.libraryBookLoans.dao.LibraryRoleLoanDAO;
 import std.libraryBookLoans.dao.LoanDAO;
 import std.libraryBookLoans.dto.LoanInfoDTO;
+import std.libraryBookLoans.dto.ReservableBookExamplaryDatedDTO;
 import std.libraryBookLoans.entities.CustomerLoan;
 import std.libraryBookLoans.entities.LibraryBookLoan;
 import std.libraryBookLoans.entities.LibraryBuildingLoan;
@@ -54,6 +56,9 @@ import std.libraryBookLoans.exceptions.BookNotFoundException;
 import std.libraryBookLoans.exceptions.BuildingNotFoundException;
 import std.libraryBookLoans.exceptions.ChronoUnitNotImplementedException;
 import std.libraryBookLoans.exceptions.CustomerNotFoundException;
+import std.libraryBookLoans.exceptions.LoanNotFoundException;
+import std.libraryBookLoans.exceptions.LoanUnknownException;
+import std.libraryBookLoans.exceptions.ReservationNotFoundException;
 import std.libraryBookLoans.exceptions.RoleNotFoundException;
 
 @SpringBootTest(classes = { Loan.class, LoanServiceImplForTest.class })
@@ -83,6 +88,7 @@ class LibraryLoanApplicationTests {
     private LoanServiceImplForTest service = new LoanServiceImplForTest();
 
     private Validator validator;
+    private LocalDate today;
     private Loan loanTest;
     private LibraryBookLoan bookLoanTest;
     private LibraryBuildingLoan buildingLoanTest;
@@ -100,12 +106,15 @@ class LibraryLoanApplicationTests {
 
     @BeforeEach
     public void initAndSetUp() {
+	reset(loanDAO);
+	reset(reservationDAO);
 	roleLoanTest = new LibraryRoleLoan(1, "roleType");
 	buildingLoanTest = new LibraryBuildingLoan(2, "buildingTest2");
 	bookLoanTest = bookLoan(1, false, "title0", 0, "buildingName0");
 	customerLoanTest = customerLoan(1);
 	loanTest = new Loan(1, returnDateForTest(1), false, false, bookLoanTest, customerLoanTest);
 	reservationLoanTest = new LibraryReservationForLoan(1, null, false, 1, bookLoanTest, customerLoanTest);
+	today = LocalDate.now();
     }
 
     @BeforeEach
@@ -140,14 +149,6 @@ class LibraryLoanApplicationTests {
     @Nested
     @DisplayName(value = "Loan creation ")
     public class LoanCreationTests {
-
-	private LocalDate today;
-
-	@BeforeEach
-	public void initToday() {
-	    reset(loanDAO);
-	    today = LocalDate.now();
-	}
 
 	@ParameterizedTest
 	@ValueSource(ints = { 0, 1, 4, 10 })
@@ -365,6 +366,232 @@ class LibraryLoanApplicationTests {
 	    verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
 	}
 
+	@Test
+	public void reservationTest() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    assertThatCode(() -> service.reservation(1)).doesNotThrowAnyException();
+	}
+
+	@Test
+	public void reservationTestFail() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
+	    assertThatThrownBy(() -> service.reservation(1)).isInstanceOf(ReservationNotFoundException.class)
+		    .hasMessage("Reservation ref = [1] not found.");
+	}
+
+	@Test
+	public void isRigthCustomerTest() {
+	    assertThat(service.isRigthCustomer(1, reservationLoanTest)).isTrue();
+	    assertThat(service.isRigthCustomer(2, reservationLoanTest)).isFalse();
+	}
+
+	@Test
+	public void setBookNumberOfreservationTest() {
+	    bookLoanTest.setNumberOfReservations(2);
+	    service.setBookNumberOfreservation(bookLoanTest);
+	    assertThat(bookLoanTest.getNumberOfReservations()).isEqualTo(1);
+	    bookLoanTest.setNumberOfReservations(0);
+	    service.setBookNumberOfreservation(bookLoanTest);
+	    assertThat(bookLoanTest.getNumberOfReservations()).isEqualTo(0);
+	}
+
+	@Test
+	public void updateBookFromReservationTest() {
+	    bookLoanTest.setNumberOfReservations(1);
+	    LibraryBookLoan book = service.updateBookFromReservation(bookLoanTest);
+	    assertThat(book.getAvailability()).isFalse();
+	    assertThat(book.getNumberOfReservations()).isEqualTo(0);
+	    assertThat(service.updateBookFromReservation(bookLoanTest).getNumberOfReservations()).isEqualTo(0);
+
+	}
+
+	@Test
+	public void createLoanUsingBookTest() {
+	    bookLoanTest.setAvailability(true);
+	    bookLoanTest.setNumberOfReservations(2);
+	    ;
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    Loan loan = service.createLoanUsingBook(1, bookLoanTest, 5, "weeks");
+	    assertThat(loan.getBook().getNumberOfReservations()).isEqualTo(1);
+	    assertThat(loan.getBook().getAvailability()).isFalse();
+	    assertThat(loan.getCustomer()).isEqualTo(customerLoanTest);
+	    assertThat(loan.getReturnDate()).isEqualTo(today.plusWeeks(5).toString());
+	}
+
+	@Test
+	public void updateReservationOnLoanTest() {
+	    LibraryReservationForLoan reservation = service.updateReservationOnLoan(reservationLoanTest);
+	    assertThat(reservation.getCanceledStatus()).isTrue();
+	    assertThat(reservation.getPriority()).isEqualTo(-1);
+	}
+
+	@Test
+	public void updatePriorityTest() {
+	    LibraryReservationForLoan reservation = service.updatePriority(reservationLoanTest);
+	    assertThat(reservation.getPriority()).isEqualTo(0);
+	    assertThat(service.updatePriority(reservationLoanTest).getPriority()).isEqualTo(0);
+	}
+
+	@Test
+	public void reservationUpdatedPriorityListTest() {
+	    List<LibraryReservationForLoan> rawList = listReservationTest();
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6)).thenReturn(
+		    rawList.stream().filter(o -> o.getBook().getId().equals(6)).collect(Collectors.toList()));
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(7))
+		    .thenReturn(new ArrayList<LibraryReservationForLoan>());
+	    List<LibraryReservationForLoan> list = service.reservationUpdatedPriorityList(6);
+	    assertThat(list.size()).isEqualTo(2);
+	    list.forEach(o -> assertThat(o.getPriority()).isEqualTo(0));
+	    assertThat(service.reservationUpdatedPriorityList(7)).isEmpty();
+	}
+
+	@Test
+	public void updateReservationsPriorityTest() {
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6)).thenReturn(listReservationTest());
+	    service.updateReservationsPriority(6);
+	    verify(reservationDAO, times(1)).saveAll(ArgumentMatchers.anyIterable());
+
+	}
+
+	@Test
+	public void updateReservationsPriorityTestEmpty() {
+	    when(reservationDAO.findByBookIdAndCanceledStatusFalse(6))
+		    .thenReturn(new ArrayList<LibraryReservationForLoan>());
+	    service.updateReservationsPriority(6);
+	    verify(reservationDAO, times(0)).saveAll(ArgumentMatchers.anyIterable());
+
+	}
+
+	private List<LibraryReservationForLoan> listReservationTest() {
+	    List<LibraryReservationForLoan> list = new ArrayList<LibraryReservationForLoan>();
+	    list.add(new LibraryReservationForLoan(2, null, false, 1, bookLoan(6, true, "title6", 1, "buildingName"),
+		    customerLoan(2)));
+	    list.add(new LibraryReservationForLoan(3, null, false, 1, bookLoan(6, true, "title6", 1, "buildingName"),
+		    customerLoan(3)));
+	    list.add(new LibraryReservationForLoan(4, null, false, 1, bookLoan(7, true, "title7", 1, "buildingName"),
+		    customerLoan(2)));
+	    return list;
+	}
+
+	@Test
+	public void createLoanFromReservationTest() {
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    assertThatCode(() -> service.createLoanFromReservation(1, 1, 5, "weeks")).doesNotThrowAnyException();
+	}
+
+	@Test
+	public void createLoanFromReservationTestFail() {
+	    customerLoanTest.setId(2);
+	    when(reservationDAO.findByIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(Optional.of(reservationLoanTest));
+	    when(customerDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(customerLoanTest));
+	    when(roleDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(roleLoanTest));
+	    assertThatThrownBy(() -> service.createLoanFromReservation(1, 1, 5, "weeks"))
+		    .isInstanceOf(BookNotAvailableException.class)
+		    .hasMessage("Loan service: customer not corresponding to the one on reservation ");
+	}
+
+    }
+
+    @Test
+    public void returnLoanTest() {
+	when(loanDAO.findByBookIdAndCustomerIdAndReturnedFalse(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
+		.thenReturn(Optional.of(loanTest));
+	assertThatCode(() -> service.returnLoan(1, 1)).doesNotThrowAnyException();
+	assertThat(loanTest.getReturned()).isTrue();
+	assertThat(bookLoanTest.getAvailability()).isTrue();
+	verify(loanDAO, times(1)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+    }
+
+    @Test
+    public void returnLoanTestFail() {
+	when(loanDAO.findByBookIdAndCustomerIdAndReturnedFalse(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
+		.thenReturn(Optional.empty());
+	assertThatThrownBy(() -> service.returnLoan(1, 1)).isInstanceOf(LoanUnknownException.class)
+		.hasMessage("Erreur aucune correspondance");
+	assertThat(loanTest.getReturned()).isFalse();
+	assertThat(bookLoanTest.getAvailability()).isFalse();
+	verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+    }
+
+    @Test
+    public void postponeLoanTest() {
+	loanTest.setReturnDate(today.toString());
+	when(loanDAO.findByIdAndCustomerCustomerEmail(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
+		.thenReturn(Optional.of(loanTest));
+	assertThatCode(() -> service.postponeLoan(1, "userName", 5, "weeks", null, null)).doesNotThrowAnyException();
+	assertThat(loanTest.getReturnDate()).isEqualTo(today.plusWeeks(5).toString());
+	assertThat(loanTest.getPostponed()).isTrue();
+	verify(loanDAO, times(1)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+
+    }
+
+    @Test
+    public void postponeLoanTestFail() {
+	loanTest.setReturnDate(today.toString());
+	when(loanDAO.findByIdAndCustomerCustomerEmail(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
+		.thenReturn(Optional.empty());
+	assertThatThrownBy(() -> service.postponeLoan(1, "userName", 5, "weeks", null, null))
+		.isInstanceOf(LoanNotFoundException.class);
+	assertThat(loanTest.getReturnDate()).isEqualTo(today.toString());
+	assertThat(loanTest.getPostponed()).isFalse();
+	verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+
+    }
+
+    @Test
+    public void postponeLoanTestDaysOff() {
+	loanTest.setReturnDate(today.toString());
+	ArrayList<DayOfWeek> daysOfWeeks = new ArrayList<>();
+	daysOfWeeks.add(today.getDayOfWeek());
+	when(loanDAO.findByIdAndCustomerCustomerEmail(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
+		.thenReturn(Optional.of(loanTest));
+	assertThatCode(() -> service.postponeLoan(1, "userName", 5, "weeks", daysOfWeeks, null))
+		.doesNotThrowAnyException();
+	assertThat(LocalDate.parse(loanTest.getReturnDate()).getDayOfWeek())
+		.isEqualTo(today.plusDays(1).getDayOfWeek());
+	assertThat(loanTest.getPostponed()).isTrue();
+	verify(loanDAO, times(1)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+    }
+
+    @Test
+    public void postponeLoanTestHollidays() {
+	Integer postponeUnitNumber = 5;
+	loanTest.setReturnDate(today.toString());
+	ArrayList<LocalDate> holidays = new ArrayList<LocalDate>();
+	holidays.add(today.plusWeeks(postponeUnitNumber));
+	when(loanDAO.findByIdAndCustomerCustomerEmail(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
+		.thenReturn(Optional.of(loanTest));
+	assertThatCode(() -> service.postponeLoan(1, "userName", 5, "weeks", null, holidays))
+		.doesNotThrowAnyException();
+	assertThat(loanTest.getReturnDate()).isEqualTo(today.plusWeeks(postponeUnitNumber).plusDays(1).toString());
+	assertThat(loanTest.getPostponed()).isTrue();
+	verify(loanDAO, times(1)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+    }
+
+    @Test
+    public void reservableBookExamplaryDTOsTest() {
+	when(loanDAO.findByReturnedFalseAndBookIdIn(ArgumentMatchers.anyList())).thenReturn(loanListTest);
+	List<ReservableBookExamplaryDatedDTO> list = service.reservableBookExamplaryDTOs(new ArrayList<Integer>(), 5,
+		"weeks");
+	list.forEach(o -> assertThat(o).isInstanceOf(ReservableBookExamplaryDatedDTO.class));
+	list.forEach(o -> assertThat(o.getClosestReturnDate()).isEqualTo(returnDateForTest(1)));
+	list.forEach(o -> assertThat(o.getFarrestReturnDate()).isEqualTo(LocalDate.now().plusWeeks(6).toString()));
+    }
+
+    @Test
+    public void reservableBookExamplaryDTOsTestPostPonedLoan() {
+	loanListTest.forEach(o -> o.setPostponed(true));
+	when(loanDAO.findByReturnedFalseAndBookIdIn(ArgumentMatchers.anyList())).thenReturn(loanListTest);
+	List<ReservableBookExamplaryDatedDTO> list = service.reservableBookExamplaryDTOs(new ArrayList<Integer>(), 5,
+		"weeks");
+
+	list.forEach(o -> assertThat(o.getFarrestReturnDate()).isEqualTo("none"));
     }
 
     @Nested
@@ -415,6 +642,23 @@ class LibraryLoanApplicationTests {
 
     }
 
+    @Test
+    public void loanALreadyLoanedTest() {
+	loanTest.setPostponed(true);
+	when(loanDAO.findById(ArgumentMatchers.any())).thenReturn(Optional.of(loanTest));
+	assertThat(service.loanAlreadyPostponed(1)).isTrue();
+	loanTest.setPostponed(false);
+	assertThat(service.loanAlreadyPostponed(1)).isFalse();
+
+    }
+
+    @Test
+    public void loanALreadyLoanedTestFail() {
+	when(loanDAO.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
+	assertThatThrownBy(() -> service.loanAlreadyPostponed(1)).isInstanceOf(LoanNotFoundException.class);
+
+    }
+
     private LibraryBookLoan bookLoan(Integer id, Boolean availability, String title, Integer nbReservation,
 	    String buildingName) {
 	LibraryBookLoan book = new LibraryBookLoan();
@@ -434,7 +678,7 @@ class LibraryLoanApplicationTests {
     }
 
     private Boolean constrainCheck(Loan loan) {
-	Set<ConstraintViolation<Loan>> validation = validator.validate(loan);
+	Set<ConstraintViolation<Loan>> validation = validator.validate(loanTest);
 	return validation.isEmpty();
 
     }

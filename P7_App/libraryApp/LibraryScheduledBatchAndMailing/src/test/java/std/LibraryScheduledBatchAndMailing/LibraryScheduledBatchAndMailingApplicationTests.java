@@ -31,11 +31,15 @@ import std.LibraryScheduledBatchAndMailing.dao.CustomerBatchDAO;
 import std.LibraryScheduledBatchAndMailing.dao.LibraryBookBatchDAO;
 import std.LibraryScheduledBatchAndMailing.dao.LoanBatchDAO;
 import std.LibraryScheduledBatchAndMailing.dao.ReservationBatchDAO;
+import std.LibraryScheduledBatchAndMailing.dto.LoanBatchMailInfoDTO;
 import std.LibraryScheduledBatchAndMailing.dto.ReservationToNotifiedInfoDTO;
 import std.LibraryScheduledBatchAndMailing.entities.CustomerBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LibraryBookBatch;
 import std.LibraryScheduledBatchAndMailing.entities.LibraryBuildingBatch;
+import std.LibraryScheduledBatchAndMailing.entities.LoanBatch;
 import std.LibraryScheduledBatchAndMailing.entities.ReservationBatch;
+import std.LibraryScheduledBatchAndMailing.exceptions.BookNotFoundException;
+import std.LibraryScheduledBatchAndMailing.exceptions.CustomerNotFoundException;
 import std.LibraryScheduledBatchAndMailing.serviceExtended.BatchServiceImplForTest;
 
 @SpringBootTest(classes = BatchServiceImplForTest.class)
@@ -461,6 +465,69 @@ class LibraryScheduledBatchAndMailingApplicationTests {
 	rawList.clear();
 	verify(reservationBatchDAO, times(0)).saveAll(ArgumentMatchers.anyIterable());
 	verify(libraryBookBatchDao, times(0)).saveAll(ArgumentMatchers.anyIterable());
+
+    }
+
+    @Test
+    public void nextPriorytyNotificationAfterCustomerCancelTest() {
+	when(reservationBatchDAO
+		.findByBookIdAndBookAvailabilityTrueAndPriorityAndNotificationDateNullAndCanceledStatusFalse(
+			ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())).thenReturn(optReservation);
+	assertThat(service.nextPriorytyNotificationAfterCustomerCancel(1, 1)).isNotNull();
+	assertThat(service.nextPriorytyNotificationAfterCustomerCancel(1, 1))
+		.isInstanceOf(ReservationToNotifiedInfoDTO.class);
+    }
+
+    @Test
+    public void nextPriorytyNotificationAfterCustomerCancelTestNull() {
+	when(reservationBatchDAO
+		.findByBookIdAndBookAvailabilityTrueAndPriorityAndNotificationDateNullAndCanceledStatusFalse(
+			ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
+	assertThat(service.nextPriorytyNotificationAfterCustomerCancel(1, 1)).isNull();
+    }
+
+    @Nested
+    public class SortLateLoansListTests {
+
+	private ArrayList<LoanBatch> loans = null;
+
+	@BeforeEach
+	public void initLoanList() {
+	    reset(customerBatchDao);
+	    loans = new ArrayList<>();
+	    loans.add(new LoanBatch(1, LocalDate.now().minusDays(5).toString(), false, false, new LibraryBookBatch(),
+		    new CustomerBatch()));
+	    loans.add(new LoanBatch(2, LocalDate.now().minusDays(5).toString(), false, false, new LibraryBookBatch(),
+		    new CustomerBatch()));
+	    loans.add(new LoanBatch(3, LocalDate.now().toString(), false, false, new LibraryBookBatch(),
+		    new CustomerBatch()));
+
+	}
+
+	@Test
+	public void sortLateLoansListTest() {
+	    when(loanBatchDao.findByReturnedFalse()).thenReturn(loans);
+	    when(customerBatchDao.findById(ArgumentMatchers.any())).thenReturn(Optional.of(customer));
+	    when(libraryBookBatchDao.findById(ArgumentMatchers.any())).thenReturn(Optional.of(book));
+	    List<LoanBatchMailInfoDTO> list = service.sortLateLoansList();
+	    assertThat(list).isNotEmpty();
+	    assertThat(list.size()).isEqualTo(2);
+	}
+
+	@Test
+	public void sortLateLoansListTestNullCustomer() {
+	    when(loanBatchDao.findByReturnedFalse()).thenReturn(loans);
+	    when(customerBatchDao.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
+	    assertThatThrownBy(() -> service.sortLateLoansList()).isInstanceOf(CustomerNotFoundException.class);
+	}
+
+	@Test
+	public void sortLateLoansListTestNullBook() {
+	    when(loanBatchDao.findByReturnedFalse()).thenReturn(loans);
+	    when(customerBatchDao.findById(ArgumentMatchers.any())).thenReturn(Optional.of(customer));
+	    when(libraryBookBatchDao.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
+	    assertThatThrownBy(() -> service.sortLateLoansList()).isInstanceOf(BookNotFoundException.class);
+	}
 
     }
 

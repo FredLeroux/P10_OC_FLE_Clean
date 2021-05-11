@@ -12,12 +12,12 @@ import std.libraryBuildings.service.LibraryBuildingService;
 @RestController
 public class LibraryBuildingsController {
 
-	@Autowired
-	LibraryBuildingService service;
+    @Autowired
+    LibraryBuildingService service;
 
-	@GetMapping(value = "buildings")
-	public List<LibraryBuildingDTO> getBuildings(){
-		return service.getAllBuildings();
-	}
+    @GetMapping(value = "/buildings")
+    public List<LibraryBuildingDTO> getBuildings() {
+	return service.getAllBuildings();
+    }
 
 }

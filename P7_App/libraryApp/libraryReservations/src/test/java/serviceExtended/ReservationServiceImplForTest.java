@@ -78,4 +78,16 @@ public class ReservationServiceImplForTest extends LibraryReservationServiceImpl
 	return super.mapReservationToDTO(ent, reservationsLinkedLoan);
     }
 
+    @Override
+    public List<Reservation> updateNextPriority(Reservation reservation) {
+	// TODO Auto-generated method stub
+	return super.updateNextPriority(reservation);
+    }
+
+    @Override
+    public void saveUpdatedPriority(Reservation reservation) {
+	// TODO Auto-generated method stub
+	super.saveUpdatedPriority(reservation);
+    }
+
 }

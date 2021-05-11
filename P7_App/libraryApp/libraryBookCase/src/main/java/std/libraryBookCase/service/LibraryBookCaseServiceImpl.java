@@ -23,7 +23,7 @@ import std.libraryBookCase.exceptions.BookNotFoundException;
 public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
 
     @Autowired
-    LibraryBookCaseDAO dao;
+    private LibraryBookCaseDAO dao;
 
     private ModelMapper modelMapper = new ModelMapper();
     private LibraryBookDTO bookDTO = new LibraryBookDTO();
@@ -76,7 +76,7 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     private LibraryBookAndQuantityDTO bookAndQuantity(List<LibraryBookDTO> booksDTOList, LibraryBookDTO bookDTO,
 	    Integer maxReservationNumber) {
 	LibraryBookAndQuantityDTO book = convertBookDTOToBookAndQuantity(bookDTO);
-	book.setNumber(booksNumber(booksDTOList, bookDTO, maxReservationNumber));
+	book.setNumberOfBookAvailable(booksNumber(booksDTOList, bookDTO, maxReservationNumber));
 	return book;
     }
 
@@ -180,10 +180,26 @@ public class LibraryBookCaseServiceImpl implements LibraryBookCaseService {
     public List<LibraryReservableBookExamplary> getReservableBooks(String title, String buildingName,
 	    Integer maxOfReservation) {
 	List<LibraryReservableBookExamplary> list = new ArrayList<>();
-	list = dao
-		.findByTitleAndLibraryBuildingNameAndNumberOfReservationsLessThan(title, buildingName, maxOfReservation)
-		.stream().map(o -> convertBookToLibraryReservableBook(o)).collect(Collectors.toList());
+	list = booksFilterByMaxReservation(title, buildingName, maxOfReservation).stream()
+		.map(o -> convertBookToLibraryReservableBook(o)).collect(Collectors.toList());
 	return list;
+    }
+
+    private List<LibraryBook> booksFilterByMaxReservation(String title, String buildingName, Integer maxOfReservation) {
+	return booksByTitleAndBuilding(title, buildingName).stream()
+		.filter(o -> o.getNumberOfReservations() < maxOfReservation).collect(Collectors.toList());
+    }
+
+    private List<LibraryBook> booksByTitleAndBuilding(String title, String buildingName) {
+	return dao.findByTitleAndLibraryBuildingName(title, buildingName).stream()
+		.map(o -> parsedNumberOfReservationNullToZero(o)).collect(Collectors.toList());
+
+    }
+
+    private LibraryBook parsedNumberOfReservationNullToZero(LibraryBook book) {
+	LibraryBook parsedBook = book;
+	parsedBook.setNumberOfReservations(parseNumberOfreservation(book.getNumberOfReservations()));
+	return parsedBook;
     }
 
     private LibraryReservableBookExamplary convertBookToLibraryReservableBook(LibraryBook book) {

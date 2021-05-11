@@ -16,6 +16,6 @@ public class BooksBean {
     private String title;
     private String author;
     private String libraryBuildingName;
-    private Integer number;
+    private Integer numberOfBookAvailable;
 
 }

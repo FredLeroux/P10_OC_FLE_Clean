@@ -20,7 +20,6 @@ import std.libraryUi.beans.LibraryReservationBean;
 import std.libraryUi.beans.LoanInfoBean;
 import std.libraryUi.beans.ReservableBookExamplaryBean;
 import std.libraryUi.beans.ReservableBookExamplaryDatedBean;
-import std.libraryUi.beans.ReservableBookLinkedLoanBean;
 import std.libraryUi.dto.UiLoanDateAndBooksList;
 import std.libraryUi.dto.UiLoanInfoDTO;
 import std.libraryUi.dto.UiNotificationReservationDTO;
@@ -71,7 +70,9 @@ public class ControllerMethods {
 	if (isHeaderPresent(request, headerName)) {
 	    String userName = userNameByToken(token(request, headerName));
 	    if (userName != null) {
-		libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
+		if (!libraryBookLoansProxy.loanAlreadyPostPoned(loanId)) {
+		    libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
+		}
 	    }
 	}
     }
@@ -167,12 +168,6 @@ public class ControllerMethods {
 	return bean;
     }
 
-    private List<ReservableBookLinkedLoanBean> getReservableBookLinkedLoanBeans(String title, String buildingName,
-	    Integer maxOfReservation) {
-	return libraryBookLoansProxy
-		.getReservableBookLinkedLoans(getReservableBookExamplaryIds(title, buildingName, maxOfReservation));
-    }
-
     private List<Integer> getReservableBookExamplaryIds(String title, String buildingName, Integer maxOfReservation) {
 	List<Integer> ids = new ArrayList<>();
 	getResevableBookExamplaryBeans(title, buildingName, maxOfReservation).forEach(o -> ids.add(o.getId()));
@@ -196,7 +191,6 @@ public class ControllerMethods {
     }
 
     public void customerReservations(ModelAndView model, HttpServletRequest request, String headerName) {
-	String reservationsListName = "reservationsList";
 	List<UiReservationDTO> reservations = null;
 	if (isHeaderPresent(request, headerName)) {
 	    String userName = userNameByToken(token(request, headerName));
@@ -209,7 +203,7 @@ public class ControllerMethods {
 	    } else {
 		reservations = null;
 	    }
-	    model.addObject(reservationsListName, reservations);
+	    model.addObject("reservationsList", reservations);
 	}
 
     }

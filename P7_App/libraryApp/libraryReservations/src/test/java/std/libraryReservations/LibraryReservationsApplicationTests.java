@@ -341,10 +341,31 @@ class LibraryReservationsApplicationTests {
 	public void cancelReservationTestPass() {
 	    bookTest.setNumberOfReservations(1);
 	    reservation.setBook(bookTest);
-	    when(libraryReservationDAO.findById(1)).thenReturn(optReservation);
+	    when(libraryReservationDAO.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(reservation));
 	    assertThatCode(() -> service.cancelReservation(1)).doesNotThrowAnyException();
+	    when(libraryReservationDAO.findByBookIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(listReservation);
 	    verify(libraryReservationDAO, times(1)).saveAndFlush(ArgumentMatchers.any());
 	    verify(libraryReservationsBookDAO, times(1)).saveAndFlush(ArgumentMatchers.any());
+	}
+
+	@Test
+	public void saveUpdatedPriorityTest() {
+	    when(libraryReservationDAO.findByBookIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(listReservation);
+	    service.saveUpdatedPriority(reservation);
+	    assertThat(service.updateNextPriority(reservation)).isNotEmpty();
+	    verify(libraryReservationDAO, times(1)).saveAll(ArgumentMatchers.anyIterable());
+	}
+
+	@Test
+	public void saveUpdatedPriorityTestEmptyUpdate() {
+	    listReservation.clear();
+	    when(libraryReservationDAO.findByBookIdAndCanceledStatusFalse(ArgumentMatchers.anyInt()))
+		    .thenReturn(listReservation);
+	    service.saveUpdatedPriority(reservation);
+	    assertThat(service.updateNextPriority(reservation)).isEmpty();
+	    verify(libraryReservationDAO, times(0)).saveAll(ArgumentMatchers.anyIterable());
 	}
 
 	@Test
@@ -392,7 +413,6 @@ class LibraryReservationsApplicationTests {
     @DisplayName(value = "Customer reservations list tests")
     public class CustomerReservationsListTests {
 
-	private LibraryLoanForReservation loan;
 	private List<LibraryLoanForReservation> loans;
 	private LibraryBookForReservation bookTest1;
 	private LibraryBookForReservation bookTest2;
@@ -434,18 +454,6 @@ class LibraryReservationsApplicationTests {
 	}
 
 	@Test
-	public void linkedloanTestFail() {
-	    loans.clear();
-	    when(libraryReservationLoanDAO
-		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
-			    .thenReturn(loans);
-	    assertThatThrownBy(() -> service.linkedLoan(1, service.reservationsLinkedLoan(listReservation)))
-		    .isInstanceOf(NullPointerException.class)
-		    .hasMessage("Reservation service: reservation Linked loan return null");
-
-	}
-
-	@Test
 	public void mapReservationToDTO() {
 	    when(libraryReservationLoanDAO
 		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
@@ -456,6 +464,19 @@ class LibraryReservationsApplicationTests {
 		    .getReturnDate()).isEqualTo("2021-04-22");
 	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
 		    .getPostpone()).isFalse();
+
+	}
+
+	@Test
+	public void mapReservationToDTONullLoan() {
+	    loans.clear();
+	    when(libraryReservationLoanDAO
+		    .findByBookIdInAndAndReturnedFalse(service.reservationBooksId(ArgumentMatchers.anyList())))
+			    .thenReturn(loans);
+	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
+		    .getReturnDate()).isEqualTo("available");
+	    assertThat(service.mapReservationToDTO(reservation, service.reservationsLinkedLoan(listReservation))
+		    .getPostpone()).isTrue();
 
 	}
 

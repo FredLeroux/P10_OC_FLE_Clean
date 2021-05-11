@@ -65,6 +65,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -87,7 +96,7 @@
 		</plugins>
 	</build>
 
-		<profiles>
+	<profiles>
 		<profile>
 			<id>dev</id>
 			<properties>
@@ -98,13 +107,13 @@
 			</activation>
 		</profile>
 		<profile>
-			<id>unitTest</id>
+			<id>integrationTestService</id>
 			<properties>
-				<activatedProperties>unitTest</activatedProperties>
+				<activatedProperties>itService</activatedProperties>
 			</properties>
 		</profile>
 		<profile>
-			<id>integrationTest</id>
+			<id>integrationTestAPI</id>
 			<properties>
 				<activatedProperties>it</activatedProperties>
 			</properties>

@@ -9,7 +9,7 @@ public class NotFoundInDataBaseException extends RuntimeException {
     /**
      *
      */
-    private static final long serialVersionUID = -2299995255364280095L;
+    private static final long serialVersionUID = -1930063802323927017L;
 
     public NotFoundInDataBaseException() {
 	super();

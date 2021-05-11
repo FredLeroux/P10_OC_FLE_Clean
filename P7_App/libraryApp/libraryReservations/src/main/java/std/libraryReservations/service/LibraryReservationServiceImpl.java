@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,8 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
     }
 
     protected LibraryBookForReservation updateBookNbReservation(LibraryBookForReservation book) {
-	book.setNumberOfReservations(book.getNumberOfReservations() + 1);
+	Integer nbOfReservation = (Integer) ObjectUtils.defaultIfNull(book.getNumberOfReservations(), 0);
+	book.setNumberOfReservations(nbOfReservation + 1);
 	return book;
     }
 
@@ -174,10 +176,7 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
 	LibraryBookForReservation book = cancelReservationUpdateBook(reservation.getBook());
 	libraryReservationDAO.saveAndFlush(reservation);
 	libraryReservationsBookDAO.saveAndFlush(book);
-	List<Reservation> listToUpdate = updateNextPriority(reservation);
-	if (!listToUpdate.isEmpty()) {
-	    libraryReservationDAO.saveAll(listToUpdate);
-	}
+	saveUpdatedPriority(reservation);
 
     }
 
@@ -192,11 +191,19 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
     }
 
     protected LibraryBookForReservation cancelReservationUpdateBook(LibraryBookForReservation book) {
-	book.setNumberOfReservations(book.getNumberOfReservations() - 1);
-	if (book.getNumberOfReservations() < 0) {
+	Integer nbOfReservation = (Integer) ObjectUtils.defaultIfNull(book.getNumberOfReservations(), 0);
+	book.setNumberOfReservations(nbOfReservation - 1);
+	if (nbOfReservation < 0) {
 	    book.setNumberOfReservations(0);
 	}
 	return book;
+    }
+
+    protected void saveUpdatedPriority(Reservation reservation) {
+	List<Reservation> listToUpdate = updateNextPriority(reservation);
+	if (!listToUpdate.isEmpty()) {
+	    libraryReservationDAO.saveAll(listToUpdate);
+	}
     }
 
     protected List<Reservation> updateNextPriority(Reservation reservation) {

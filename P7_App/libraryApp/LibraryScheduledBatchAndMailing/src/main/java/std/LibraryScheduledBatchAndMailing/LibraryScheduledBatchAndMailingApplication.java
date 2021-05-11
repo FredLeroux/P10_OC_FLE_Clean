@@ -23,7 +23,7 @@ public class LibraryScheduledBatchAndMailingApplication {
 	SpringApplication.run(LibraryScheduledBatchAndMailingApplication.class, args);
     }
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(cron = "${cronNotif}")
     public void scheduling() {
 	service.getCustomerInformedOnLate();
     }
@@ -36,7 +36,7 @@ public class LibraryScheduledBatchAndMailingApplication {
     /**
      *
      */
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "${cronReservation}")
     public void cancelResevationDelayExceeded() {
 	service.sendNotificationCanceledReservationAndUpdateDataBase(PRIORITY, NUMBER_OF_RESERVATIONS_UPDATE);
 	;

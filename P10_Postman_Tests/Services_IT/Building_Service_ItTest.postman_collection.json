@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "a759fa6b-ecfb-43c7-822c-e13fcdd5170b",
+		"name": "Building_Service_ItTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "buildings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Buildings_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Buildings_List_size\",()=>{\r",
+							"    const buildings = pm.response.json();\r",
+							"    pm.expect(buildings.length).to.eql(5);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9102/buildings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9102",
+					"path": [
+						"buildings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -9,6 +9,7 @@ import std.libraryUi.errorDecoder.exceptions.BookNotAvailableException;
 import std.libraryUi.errorDecoder.exceptions.ChronoUnitNotImplementedException;
 import std.libraryUi.errorDecoder.exceptions.LoanNotFoundException;
 import std.libraryUi.errorDecoder.exceptions.NotFoundException;
+import std.libraryUi.errorDecoder.exceptions.NotFoundInDataBaseException;
 import std.libraryUi.errorDecoder.exceptions.ReservationNotFoundException;
 import std.libraryUi.exceptions.UnknowErrorException;;
 
@@ -49,6 +50,12 @@ public class LibraryUiErrorDecoder implements ErrorDecoder {
 	if (response.status() == 404) {
 	    if (methodKey.contains("createReservation")) {
 		return new NotFoundException("Reservation service book or customer not found");
+	    }
+	}
+
+	if (response.status() == 404) {
+	    if (methodKey.contains("cancelReservation")) {
+		return new NotFoundInDataBaseException("Reservation service reservation not found");
 	    }
 	}
 	throw new UnknowErrorException();
