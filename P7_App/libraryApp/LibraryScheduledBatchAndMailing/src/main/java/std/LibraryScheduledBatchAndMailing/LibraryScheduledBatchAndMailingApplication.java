@@ -36,7 +36,7 @@ public class LibraryScheduledBatchAndMailingApplication {
     /**
      *
      */
-    @Scheduled(cron = "${cronDelay}")
+    @Scheduled(cron = "${cronReservation}")
     public void cancelResevationDelayExceeded() {
 	service.sendNotificationCanceledReservationAndUpdateDataBase(PRIORITY, NUMBER_OF_RESERVATIONS_UPDATE);
 	;

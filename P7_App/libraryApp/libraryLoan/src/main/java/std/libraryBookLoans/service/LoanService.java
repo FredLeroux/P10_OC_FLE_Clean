@@ -18,6 +18,8 @@ import std.libraryBookLoans.dto.ReservableBookLinkedLoanDTO;
  */
 public interface LoanService {
 
+    public Boolean loanAlreadyPostponed(Integer id);
+
     public List<LoanInfoDTO> customerLoans(String authUserName);
 
     /**

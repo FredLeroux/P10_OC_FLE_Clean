@@ -26,9 +26,9 @@ INSERT INTO libraryum.library_books(
 	(2,'A_Kind','A_Book','A_author',true,3,null),
 	(3,'A_Kind','A_Book','A_author',true,3,null),
 	(4,'A_Kind','A_Book','A_author',true,3,null),
-	(5,'A_Kind','A_Book','A_author',true,3,null),
+	(5,'A_Kind','A_Book','A_author',false,3,null),
 	(6,'A_Kind','A_Book','A_author',true,3,null),
-	(7,'A_Kind','A_Book','A_author',true,4,null),
+	(7,'A_Kind','A_Book','A_author',false,4,null),
 	(8,'A_Kind','A_Book','A_author',true,4,null),
 	(9,'A_Kind','A_Book','A_author',true,4,null),
 	(10,'A_Kind','A_Book','A_author',false,4,null),
@@ -97,7 +97,6 @@ INSERT INTO libraryum.library_books(
 	(73,'A_Kind','D_Book','C_author',false,4,null),
 	(74,'A_Kind','A_Book','A_author',false,1,null);
 
-
 	INSERT INTO libraryum.library_book_loans(
 	id, return_date, postponed, returned, book_fk, customer_fk)
 	VALUES
@@ -110,8 +109,6 @@ INSERT INTO libraryum.library_books(
 	(7, DATEADD('DAY', 5, CURRENT_DATE), false, false, 49, 3);
 
 
-
-
 	INSERT INTO libraryum.library_book_reservations(
 	id, notification_date, canceled_status, priority, library_book_fk, library_customer_fk)
 	VALUES
@@ -120,6 +117,6 @@ INSERT INTO libraryum.library_books(
 	(3,null, false, 2, 5, 2),
 	(4,null, false, 1, 6, 3),
 	(5,null, false, 1, 37, 3),
-	(6,null, false, 1, 48, 4),
-	(7,null, false, 1, 61, 2);
+	(6,null, false, 1, 48, 4);
+
 

@@ -70,7 +70,9 @@ public class ControllerMethods {
 	if (isHeaderPresent(request, headerName)) {
 	    String userName = userNameByToken(token(request, headerName));
 	    if (userName != null) {
-		libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
+		if (!libraryBookLoansProxy.loanAlreadyPostPoned(loanId)) {
+		    libraryBookLoansProxy.postpone(loanId, userName, unitNumber, unit);
+		}
 	    }
 	}
     }

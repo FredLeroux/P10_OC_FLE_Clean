@@ -350,4 +350,12 @@ public class LoanServiceImpl implements LoanService {
 
     }
 
+    @Override
+    public Boolean loanAlreadyPostponed(Integer id) {
+	if (loanDAO.findById(id).isPresent()) {
+	    return loanDAO.findById(id).get().getPostponed();
+	}
+	throw new LoanNotFoundException();
+    }
+
 }

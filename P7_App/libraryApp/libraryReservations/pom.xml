@@ -96,7 +96,7 @@
 		</plugins>
 	</build>
 
-		<profiles>
+	<profiles>
 		<profile>
 			<id>dev</id>
 			<properties>
@@ -105,9 +105,15 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-		</profile>		
+		</profile>
 		<profile>
-			<id>integrationTest</id>
+			<id>integrationTestService</id>
+			<properties>
+				<activatedProperties>itService</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>integrationTestAPI</id>
 			<properties>
 				<activatedProperties>it</activatedProperties>
 			</properties>

@@ -1,4 +1,4 @@
-package std.libraryReservations.exceptions;
+package std.libraryUi.errorDecoder.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,7 +9,7 @@ public class NotFoundInDataBaseException extends RuntimeException {
     /**
      *
      */
-    private static final long serialVersionUID = -1930063802323927017L;
+    private static final long serialVersionUID = -2299995255364280095L;
 
     public NotFoundInDataBaseException() {
 	super();
@@ -17,6 +17,7 @@ public class NotFoundInDataBaseException extends RuntimeException {
 
     public NotFoundInDataBaseException(String message) {
 	super(message);
+
     }
 
 }

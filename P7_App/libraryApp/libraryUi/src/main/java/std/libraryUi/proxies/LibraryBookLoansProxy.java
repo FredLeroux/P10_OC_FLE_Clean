@@ -17,6 +17,9 @@ import std.libraryUi.beans.ReservableBookLinkedLoanBean;
 @RibbonClient(name = "libraryBookLoans")
 public interface LibraryBookLoansProxy {
 
+    @GetMapping(value = "/libraryBookLoans/loanAlreadyPostPoned")
+    public Boolean loanAlreadyPostPoned(@RequestParam(value = "loanId") Integer loanId);
+
     @GetMapping(value = "/libraryBookLoans/loansList")
     public List<LoanInfoBean> loansList(@RequestParam(value = "userName") String userName);
 

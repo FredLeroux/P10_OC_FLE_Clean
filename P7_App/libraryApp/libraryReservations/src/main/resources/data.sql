@@ -100,12 +100,24 @@ INSERT INTO libraryum.library_books(
 	INSERT INTO libraryum.library_book_loans(
 	id, return_date, postponed, returned, book_fk, customer_fk)
 	VALUES
-	(1, '2021-05-10', false, false, 10, 1),
-	(2, '2021-05-10', false, false, 48, 1);
+	(1, CURRENT_DATE, false, false, 10, 1),
+	(2, DATEADD('DAY', -28, CURRENT_DATE), false, false, 48, 1),
+	(3, DATEADD('DAY', 10, CURRENT_DATE), false, false, 66, 2),
+	(4, DATEADD('DAY', 1, CURRENT_DATE), false, false, 67, 3),
+	(5, DATEADD('DAY', 5, CURRENT_DATE), false, false, 74, 4),
+	(6, DATEADD('DAY', 5, CURRENT_DATE), false, false, 51, 4),
+	(7, DATEADD('DAY', 5, CURRENT_DATE), false, false, 49, 3);
+
 
 
 	INSERT INTO libraryum.library_book_reservations(
 	id, notification_date, canceled_status, priority, library_book_fk, library_customer_fk)
 	VALUES
-	(1, null, false, 1, 5, 1);
+	(1, null, false, 1, 5, 1),
+	(2, DATEADD('DAY', -5, CURRENT_DATE), false, 1, 40, 2),
+	(3,null, false, 2, 5, 2),
+	(4,null, false, 1, 6, 3),
+	(5,null, false, 1, 37, 3),
+	(6,null, false, 1, 48, 4);
+
 

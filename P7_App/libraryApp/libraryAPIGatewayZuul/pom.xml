@@ -108,4 +108,22 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>integrationTestAPI</id>
+			<properties>
+				<activatedProperties>it</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>

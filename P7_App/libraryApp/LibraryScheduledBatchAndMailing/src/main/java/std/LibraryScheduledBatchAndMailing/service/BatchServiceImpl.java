@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,7 +87,6 @@ public class BatchServiceImpl implements BatchService {
 
     private CustomerBatch customerBatch(Integer id) {
 	Optional<CustomerBatch> optCustomerBatch = customerBatchDao.findById(id);
-	System.out.println(optCustomerBatch.isPresent());
 	if (optCustomerBatch.isPresent()) {
 	    return optCustomerBatch.get();
 	}
@@ -317,7 +317,8 @@ public class BatchServiceImpl implements BatchService {
      *              minus , positive to increase the value
      */
     private void setBookNumberOfReservation(LibraryBookBatch book, Integer toAdd) {
-	book.setNumberOfReservations(book.getNumberOfReservations() + toAdd);
+	Integer nbOfReservation = (Integer) ObjectUtils.defaultIfNull(book.getNumberOfReservations(), 0);
+	book.setNumberOfReservations(nbOfReservation + toAdd);
 	if (book.getNumberOfReservations() < 0) {
 	    book.setNumberOfReservations(0);
 	}

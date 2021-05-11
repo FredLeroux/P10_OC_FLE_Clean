@@ -642,6 +642,23 @@ class LibraryLoanApplicationTests {
 
     }
 
+    @Test
+    public void loanALreadyLoanedTest() {
+	loanTest.setPostponed(true);
+	when(loanDAO.findById(ArgumentMatchers.any())).thenReturn(Optional.of(loanTest));
+	assertThat(service.loanAlreadyPostponed(1)).isTrue();
+	loanTest.setPostponed(false);
+	assertThat(service.loanAlreadyPostponed(1)).isFalse();
+
+    }
+
+    @Test
+    public void loanALreadyLoanedTestFail() {
+	when(loanDAO.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
+	assertThatThrownBy(() -> service.loanAlreadyPostponed(1)).isInstanceOf(LoanNotFoundException.class);
+
+    }
+
     private LibraryBookLoan bookLoan(Integer id, Boolean availability, String title, Integer nbReservation,
 	    String buildingName) {
 	LibraryBookLoan book = new LibraryBookLoan();
@@ -661,7 +678,7 @@ class LibraryLoanApplicationTests {
     }
 
     private Boolean constrainCheck(Loan loan) {
-	Set<ConstraintViolation<Loan>> validation = validator.validate(loan);
+	Set<ConstraintViolation<Loan>> validation = validator.validate(loanTest);
 	return validation.isEmpty();
 
     }
