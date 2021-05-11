@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "23fe80a8-fca8-4324-b20a-497cbb279f41",
+		"name": "Reservation_Service_ItTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Created\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/createReservation?bookId=68&customerEmail=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"createReservation"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "68"
+						},
+						{
+							"key": "customerEmail",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReservationFailAlreadyReserved",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Created_Fail\",()=>{\r",
+							"pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/createReservation?bookId=61&customerEmail=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"createReservation"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "61"
+						},
+						{
+							"key": "customerEmail",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReservationFailAlreadyLoaned",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Created_Fail\",()=>{\r",
+							"pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/createReservation?bookId=48&customerEmail=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"createReservation"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "48"
+						},
+						{
+							"key": "customerEmail",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReservationFailCustomer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Created_Fail\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/createReservation?bookId=50&customerEmail=customer100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"createReservation"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "50"
+						},
+						{
+							"key": "customerEmail",
+							"value": "customer100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReservationFailBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Created_Fail\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/createReservation?bookId=500&customerEmail=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"createReservation"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "500"
+						},
+						{
+							"key": "customerEmail",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Canceled\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/cancelReservation?reservationId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"cancelReservation"
+					],
+					"query": [
+						{
+							"key": "reservationId",
+							"value": "1"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelReservationFail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation_Canceled_Not_Found\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/cancelReservation?reservationId=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"cancelReservation"
+					],
+					"query": [
+						{
+							"key": "reservationId",
+							"value": "100"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customerReservations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Customer_Reservation_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"list_Check\",()=>{\r",
+							"const list = pm.response.json();\r",
+							"pm.expect(list.length).to.eql(1);\r",
+							"pm.expect(list[0].id).to.eql(2);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/customerReservations?customerEmail=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"customerReservations"
+					],
+					"query": [
+						{
+							"key": "customerEmail",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customerReservationsCustomerNotFound",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Customer_Reservation_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"list_Check\",()=>{\r",
+							"const list = pm.response.json();\r",
+							"pm.expect(list).to.empty;\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/customerReservations?customerEmail=customer100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"customerReservations"
+					],
+					"query": [
+						{
+							"key": "customerEmail",
+							"value": "customer100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customerToNotified",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Customer_Reservation_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"customer_Check\",()=>{\r",
+							"const customer = pm.response.json();\r",
+							"pm.expect(customer.customerEmail).to.eql(\"customer1\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/customerToNotified?bookId=68&priority=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"customerToNotified"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "68"
+						},
+						{
+							"key": "priority",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customerToNotified Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Customer_Reservation_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"customer_Check\",()=>{\r",
+							"pm.expect(pm.response.text()).to.empty;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9108/customerToNotified?bookId=680&priority=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9108",
+					"path": [
+						"customerToNotified"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "680"
+						},
+						{
+							"key": "priority",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,1213 @@
+{
+	"info": {
+		"_postman_id": "52a4ee4d-6449-461f-9a87-b2fdabe0fce3",
+		"name": "App_ItTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "home",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Home\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Home_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<a id=\\\"logBtn\\\" href=\\\"/login\\\">Connexion</a>\");\r",
+							"pm.expect(page).not.contain(\"Mes réservation\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "homeHome",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Home\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Home_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWeb</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/home",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoanTrackingEmpty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"LOan\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Loan_Page\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Suivi des emprunts</title>\");\r",
+							"pm.expect(page).contain(\"Connectez vous pour affichez le résumer\");\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/loanTracking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"loanTracking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Books\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Book_List\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Liste des livres</title>\");\r",
+							"pm.expect(page).not.contain(\"Mes réservation\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/booksList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"booksList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksListTable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Books_Table\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Books_Table_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>tableaux des livres</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/bookListTable",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"bookListTable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksListFiltered",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Books\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Book_List\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>tableaux des livres</title>\");\r",
+							"pm.expect(page).not.contain(\"B_kind\");\r",
+							"pm.expect(page).not.contain(\"bibliothèque_ouest\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/booksListFiltered?libraryBuilding=1&kinds=A_kind",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"booksListFiltered"
+					],
+					"query": [
+						{
+							"key": "libraryBuilding",
+							"value": "1"
+						},
+						{
+							"key": "kinds",
+							"value": "A_kind"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksListFilteredEmpty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"BookListFiltered\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/booksListFiltered?libraryBuilding=5&kinds=D_kind",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"booksListFiltered"
+					],
+					"query": [
+						{
+							"key": "libraryBuilding",
+							"value": "5"
+						},
+						{
+							"key": "kinds",
+							"value": "D_kind"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Login_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWebConnexion</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loginPostFailUsername",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Login_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWebConnexion</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/login?username=customer100&password=pass1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "customer100"
+						},
+						{
+							"key": "password",
+							"value": "pass1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loginPostFailPass",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Login_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWebConnexion</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/login?username=customer1&password=pass100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "customer1"
+						},
+						{
+							"key": "password",
+							"value": "pass100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loginPost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Login_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWeb</title>\");\r",
+							"pm.expect(page).contain(\"<a id=\\\"unlogBtn\\\" href=\\\"/logout\\\">Déconnexion</a>\");\r",
+							"pm.expect(page).contain(\"Mes réservation\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/login?username=customer1&password=pass1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "customer1"
+						},
+						{
+							"key": "password",
+							"value": "pass1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoanTracking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Loan_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Suivi des emprunts</title>\");\r",
+							"pm.expect(page).contain(\"<span>C_Book</span>\");\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/loanTracking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"loanTracking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postpone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Postpone\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/postPone?loanId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"postPone"
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postponeAlreadyDone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"PostPone\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/postPone?loanId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"postPone"
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksList Logged",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"books\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"books_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Liste des livres</title>\");\r",
+							"pm.expect(page).contain(\"Mes réservation\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/booksList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"booksList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Home\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Home_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Liste des livres</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/booksList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"booksList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ongoingReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Reservation\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Reservation_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>réservation en cours</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/onGoingReservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"onGoingReservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "myReservationsList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"myReservations\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"myReservations_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>>Liste des réservations</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/myReservationsList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"myReservationsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"CancelReservation_not_exist\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"myReservations_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>Liste des réservations</title>\");\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/cancelReservation?reservationReference=1&bookId=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"cancelReservation"
+					],
+					"query": [
+						{
+							"key": "reservationReference",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelReservationFail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"CancelReservation_not_exist\",()=>{\r",
+							"    pm.response.to.have.status(405);\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/cancelReservation?reservationReference=20&bookId=51",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"cancelReservation"
+					],
+					"query": [
+						{
+							"key": "reservationReference",
+							"value": "20"
+						},
+						{
+							"key": "bookId",
+							"value": "51"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reserveBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"myReservations\",()=>{\r",
+							"    pm.response.to.have.status(202);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"myReservations_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).to.true;\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/reserveBook?bookRef=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"reserveBook"
+					],
+					"query": [
+						{
+							"key": "bookRef",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"LogOut\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"LogOut_Title\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"<title>BiblioWeb</title>\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "returnLoan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"returnLoan\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"returnLoan_succeed\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"Method action confirmed\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/returnLoan?customerId=1&bookId=48",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"returnLoan"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "48"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"CreateLoan\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"CreateLoan_succeed\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"Method action confirmed\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/createLoan?customerId=1&bookId=48",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"createLoan"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "48"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"CreatenLoan\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"CreateLoan_succeed\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"Method action confirmed\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/createLoanFromReservation?customerId=2&reservationId=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "2"
+						},
+						{
+							"key": "reservationId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservationFail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"returnLoan\",()=>{\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/createLoanFromReservation?customerId=1&reservationId=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "reservationId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservationFailCustomer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"CreateLoan\",()=>{\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/createLoanFromReservation?customerId=3&reservationId=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "3"
+						},
+						{
+							"key": "reservationId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "errorPage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Error\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Error_Check\",()=>{\r",
+							"  const page = pm.response.text();\r",
+							"pm.expect(page).contain(\"1025\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9205/errorPage?errorCode=1025",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"errorPage"
+					],
+					"query": [
+						{
+							"key": "errorCode",
+							"value": "1025"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,976 @@
+{
+	"info": {
+		"_postman_id": "9f993a54-c74d-47e3-bd99-2d838639abd8",
+		"name": "Loan_Service_ItTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createLoan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoan/?customerId=1&bookId=40&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoan",
+						""
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "40"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanAlreadyLoaned",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoan/?customerId=1&bookId=40&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoan",
+						""
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "40"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFailCustomer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoan/?customerId=100&bookId=50&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoan",
+						""
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "100"
+						},
+						{
+							"key": "bookId",
+							"value": "50"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFailBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoan/?customerId=1&bookId=400&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoan",
+						""
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "400"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoanFromReservation?reservationId=1&customerId=1&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "reservationId",
+							"value": "1"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservationFailCustomer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoanFromReservation?reservationId=1&customerId=100&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "reservationId",
+							"value": "1"
+						},
+						{
+							"key": "customerId",
+							"value": "100"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createLoanFromReservationFailReservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/createLoanFromReservation?reservationId=100&customerId=1&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"createLoanFromReservation"
+					],
+					"query": [
+						{
+							"key": "reservationId",
+							"value": "100"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postpone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/postpone/?loanId=1&userName=customer1&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"postpone",
+						""
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "1"
+						},
+						{
+							"key": "userName",
+							"value": "customer1"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postponeFailLoanId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Not_Found\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/postpone/?loanId=200&userName=customer1&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"postpone",
+						""
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "200"
+						},
+						{
+							"key": "userName",
+							"value": "customer1"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postponeFailCustomerId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/postpone/?loanId=1&userName=customer2&unitNumber=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"postpone",
+						""
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "1"
+						},
+						{
+							"key": "userName",
+							"value": "customer2"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postponeFailUnit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loan_Found_And_Saved\",()=>{\r",
+							"pm.response.to.have.status(501);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/postpone/?loanId=1&userName=customer1&unitNumber=4&unit=eras",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"postpone",
+						""
+					],
+					"query": [
+						{
+							"key": "loanId",
+							"value": "1"
+						},
+						{
+							"key": "userName",
+							"value": "customer1"
+						},
+						{
+							"key": "unitNumber",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "eras"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loansList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Loans_list_size\",()=>{\r",
+							"const listSize = pm.response.json();\r",
+							"pm.expect(listSize.length).to.eql(4);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/loansList?userName=customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"loansList"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loansListFail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/loansList?userName=customer100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"loansList"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "customer100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "returnLoan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/returnLoan?customerId=1&bookId=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"returnLoan"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "returnLoanFailCustomer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/returnLoan?customerId=100&bookId=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"returnLoan"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "100"
+						},
+						{
+							"key": "bookId",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "returnLoanFailBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/returnLoan?customerId=1&bookId=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"returnLoan"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookId",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reservableBookLinkedLoans",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Loans_list_size\",()=>{\r",
+							"const listSize = pm.response.json();\r",
+							"pm.expect(listSize.length).to.eql(3);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=5,10,40,48",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"reservableBookLinkedLoans"
+					],
+					"query": [
+						{
+							"key": "bookIdList",
+							"value": "5,10,40,48"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reservableBookLinkedLoansEmpty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Loans_list_size\",()=>{\r",
+							"const listSize = pm.response.json();\r",
+							"pm.expect(listSize).to.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=50,100,400,480",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"reservableBookLinkedLoans"
+					],
+					"query": [
+						{
+							"key": "bookIdList",
+							"value": "50,100,400,480"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reservableBookExamplary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Loans_list_size\",()=>{\r",
+							"const listSize = pm.response.json();\r",
+							"pm.expect(listSize.length).to.eql(3);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=5,10,40,48",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"reservableBookLinkedLoans"
+					],
+					"query": [
+						{
+							"key": "bookIdList",
+							"value": "5,10,40,48"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reservableBookExamplaryEmpty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Loans_List\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Loans_list_size\",()=>{\r",
+							"const listSize = pm.response.json();\r",
+							"pm.expect(listSize).to.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9104/reservableBookExamplary?bookIdList=50,100,400,480&numberChronoOfUnit=4&unit=weeks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9104",
+					"path": [
+						"reservableBookExamplary"
+					],
+					"query": [
+						{
+							"key": "bookIdList",
+							"value": "50,100,400,480"
+						},
+						{
+							"key": "numberChronoOfUnit",
+							"value": "4"
+						},
+						{
+							"key": "unit",
+							"value": "weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
