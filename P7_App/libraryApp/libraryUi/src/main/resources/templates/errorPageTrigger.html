@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ErrorTrigger</title>
 </head>
 <body>
 ERROR
@@ -13,8 +13,7 @@ refreshPage();
 function refreshPage(){	
 	if ( window.location !== window.parent.location ) {
 			 window.parent.location.replace(url);	
-		  } else {	 
-			  window.alert(errorCode);
+		  } else {
 			location.replace(url);
 }
 	

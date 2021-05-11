@@ -11,23 +11,18 @@
 <title>Suivi des emprunts</title>
 </head>
 <body>
-	<div class="container-fluid text-center">
-
-<!--  <div th:id="loading" style="background-color: black;"> loading...</div>-->
-
-
-
-		<div class="row content">
+	<div class="container-fluid text-center"><div class="row content">
 			<div class="col-xl-4 col-lg-5 col-md-12 ">
 				<span class="menu-text" >Calendrier</span><br>
 				<div class="d-inline-flex justify-content-center" id="date"></div>
 			</div>
-		<div class="col-xl-8 col-lg-7 col-md-12">
+		<div class="col-xl-8 col-lg-7 col-md-12 ">
 			<span class="menu-text" > Résumer des livres empruntés</span>
 			<br>
-			<table class="table table-borderless table-sm loanSummary">				
+			<div  class="table-responsive-sm loanSummary">
+			<table class="table table-borderless table-sm w-auto">				
 				<tr	th:if="${list==null}">
-					<td>Connectez vous pour affichez le résumer</td>
+					<td >Connectez vous pour affichez le résumer</td>
 				</tr>
 				<tr	th:if="${list !=null and list.empty}">
 					<td>Aucun emprunt en cours</td>
@@ -41,7 +36,7 @@
 						<span th:text="${loan.localizedFullDate}"></span>	
 						<br>					
 					</td>					
-					<td th:if= "${loan.postponed ==false}" class="text-left align-bottom">
+					<td th:if= "${loan.postponed ==false and loan.daysLeft >= 0}" class="text-left align-bottom">
 						<form  th:action="@{/postPone}" method="post">
 							<input type = "hidden" th:value="${loan.id}" name="loanId">
 							<span><sup>xxx</sup></span>
@@ -49,15 +44,21 @@
 							<span><sup>xxx</sup></span>
 						</form>						
 					</td>
-					<td th:if= "${loan.postponed ==true}" class="text-left align-bottom">
+					<td th:if= "${loan.postponed ==true and loan.daysLeft >= 0}" class="text-left align-bottom">
 					<span><sup>xxx</sup></span>
 					<span >Report déja appliqué</span>	
 					<span><sup>xxx</sup></span>
-					</td>							
+					</td>
+					<td th:if= "${loan.daysLeft < 0}" class="text-left align-bottom">
+					<span><sup>xxx</sup></span>
+					<span ><b>Urgent rapporter le livre</b></span>	
+					<span><sup>xxx</sup></span>
+					</td>								
 				</tr>				
 			</table>
 		</div>
 	</div>		
+</div>
 </div>
 <script th:inline="javascript">
 var list = /*[[${list}]]*/ null;

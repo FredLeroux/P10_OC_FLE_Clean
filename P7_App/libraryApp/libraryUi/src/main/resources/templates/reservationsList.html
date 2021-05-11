@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="appFragments :: LibraryApp_head"></th:block>
+<title>Liste des réservations</title>
+</head>
+<body>
+<div class="col-md-12 col-lg-11 ">
+			<div class="container-fluid text-center" th:if="${reservationsList==null}">
+			<br>
+				<span class="reservationSummary" >Aucune réservations en cours</span>
+			<br>
+			<br>
+			<br>
+			<br>
+			</div>
+			<div th:if="${reservationsList!=null}" class="table-responsive-xl">
+			<table class="table table-borderless reservationsList">
+				<thead>
+					<tr>
+						<th>Référence</th>
+						<th>Titre</th>
+						<th>Bibliothèque</th>
+						<th>Date de retour estimée</th>
+						<th>Information complémentaire</th>
+						<th>Date de notification</th>
+						<th>Position dans la liste d'attente</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each ="reservation:${reservationsList}" >
+						<td th:text = "${reservation.reference}"></td>
+						<td th:text = "${reservation.title}"></td>
+						<td th:text = "${reservation.building}"></td>
+						<td th:if= "${reservation.returnDate != 'available'}">
+							<span th:if= "${reservation.returnDate == 'none'}">En liste d\'attente</span>
+							<span th:unless= "${reservation.returnDate == 'none'}">
+								<span th:text = "${reservation.returnDate}"></span>
+							</span>
+						</td>
+						<td th:if= "${reservation.returnDate == 'available'}">
+							<span th:text = "'Titre disponible'"></span>
+						</td>						
+						<td th:if= "${reservation.postpone == false}">
+						<span th:text = "'Un report peut encore être appliqué'"></span>
+						</td>
+						<td th:if= "${reservation.postpone == true and reservation.returnDate !='available'}">
+							<span th:if= "${reservation.returnDate == 'none'}">Aucune</span>
+							<span th:unless= "${reservation.returnDate == 'none'}">Report déjà appliqué</span>	
+						</td>
+						<td th:if= "${reservation.postpone == true and reservation.returnDate =='available' }">
+						<span th:text = "'Aucune'"></span>
+						</td>
+						<td th:if= "${reservation.notificationDate == null}">
+						<span th:text = "'Aucune'"></span>
+						</td>
+						<td th:unless= "${reservation.notificationDate == null}">
+						<span th:text = "${reservation.notificationDate}"></span>
+						</td>						
+						<td th:text = "${reservation.priority}"></td>
+						<td>
+							<form  th:action="@{/cancelReservation}" method="post">
+							<input type = "hidden" th:value="${reservation.reference}" name="reservationReference">	
+							<input type = "hidden" th:value="${reservation.bookId}" name="bookId">						
+							<input class="cancelReservationAsk"  type="submit" value="Annuler la réservation" >								
+						</form>					
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		
+</body>
+</html>

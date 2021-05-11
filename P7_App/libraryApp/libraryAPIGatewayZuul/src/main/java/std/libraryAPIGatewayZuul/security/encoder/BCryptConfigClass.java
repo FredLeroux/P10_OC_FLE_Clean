@@ -14,8 +14,8 @@ import lombok.Setter;
 @Setter
 public class BCryptConfigClass {
 
-	private String version;
-	private Integer strength;
-	private Boolean randomSecure;
+    private String version;
+    private Integer strength;
+    private Boolean randomSecure;
 
 }

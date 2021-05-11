@@ -22,13 +22,13 @@ import lombok.Setter;
 @Setter
 public class LibraryRoleLoan implements Serializable {
 
-	private static final long serialVersionUID = -9068201568653054991L;
+    private static final long serialVersionUID = -9068201568653054991L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name ="role_type")
-	private String roleType;
+    @Column(name = "role_type")
+    private String roleType;
 
 }

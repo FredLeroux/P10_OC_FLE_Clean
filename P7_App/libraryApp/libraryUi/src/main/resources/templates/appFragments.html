@@ -23,7 +23,7 @@
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>
 		<script src="https://kit.fontawesome.com/4d5fe12e4b.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-		<link rel="stylesheet" th:href="@{./resources/css/css/appCss.css}">		
+		<link rel="stylesheet" th:href="@{/resources/css/css/appCss.css}">		
 	</th:block>
 
 	<div th:fragment="LibraryApp_header">	
@@ -63,6 +63,59 @@
 		</div>
 	</div>
 	
+	<div th:fragment="doReservation_subTitle">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<h2 class="sub-title">Faire une réservation</h2>		
+				</div>
+				<div class="col-lg-2 text-right">
+					
+				</div>			
+			</div>		
+		</div>
+	</div>
+	
+	<div th:fragment="ongoingReservations_subTitle">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+					<h2 class="sub-title">Suivi des réservations</h2>		
+				</div>
+				<div class="col-lg-2 text-right">
+					<div th:replace="appFragments :: sideNave_link_log"></div>
+				</div>			
+			</div>		
+		</div>
+	</div>
+	
+	<div th:fragment="doReservation_bookAndBuilding">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-12">
+					<div class="doReservationTitleAndBuilding">Titre: <span th:text="${title}"></span></div>
+				</div>
+			</div>
+			<div class="row content">
+				<div class="col-lg-12 doReservationTitleAndBuilding">Bibliothèque: 
+					<span th:text="${building}"></span></div>
+				</div>
+			</div>				
+		</div>
+		
+	<div th:fragment="reservations_summary">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-lg-12">
+					<div class="reservationsSummary">Réservations en cours</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	
+	
 	<div th:fragment="errorPage_subTitle">
 		<div class="container-fluid">
 			<div class="row content">
@@ -77,7 +130,7 @@
 	
 	<div th:fragment="backHomeButton_nav">
 		<p>
-			<a th:id="backHomeButton" th:href="@{/}">Retour Acceuil</a>				
+			<a th:id="backHomeButton" th:href="@{/}">Retour acceuil</a>				
 		</p> 
 		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>
 		<script type="text/javascript">
@@ -107,6 +160,72 @@
 			uiButton("#logBtn","uiElmt-sideNav-login");
 			uiButton("#unlogBtn","uiElmt-sideNav-unlogin");								
 		</script>
+	</div>
+	
+	<div th:fragment="ongoingReservations_nav">
+		<p>
+			<a th:id="ongoingReservations" th:href="@{/onGoingReservations}">Mes réservations</a>				
+		</p> 
+		<script th:src="@{/resources/JS/jQueryUiStylingTools.js}"></script>
+		<script type="text/javascript">
+			uiButton("#ongoingReservations","uiElmt-sideNav-link");				
+		</script>	  	
 	</div>	
+	
+	<div th:fragment = "modal_back_link">
+		<a class="modalLink" th:href="@{/}">Retour acceuil</a>
+	</div>
+	
+	<div th:fragment = "modal_back_list">
+		<a class="modalLink" href="/booksList" >Liste des livres</a>
+	 </div>
+	 
+	 <div th:fragment = "modal_back_reservation">
+		<a class="modalLink" href="/onGoingReservations" >Résevations en cours</a>
+	 </div>
+	
+	<div th:fragment = "modal_links">
+		<a th:replace="appFragments ::modal_back_link"></a>
+        <a th:replace="appFragments ::modal_back_list"></a>
+        <a th:replace="appFragments ::modal_back_reservation"></a>
+	</div>
+	
+	<div th:fragment ="reserve_book_confirm_modal">
+		<!-- Modal -->
+		<div class="modal" id="reserveBookModal"  aria-labelledby="reserveBookModal" aria-hidden="true">
+  			<div class="modal-dialog " role="document">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<p class="modal-title" >Réservation éffectuée</p>        
+      				</div>
+     				 <div class="modal-footer">
+        				<a th:replace="appFragments ::modal_back_link"></a>
+        				<a th:replace="appFragments ::modal_back_list"></a>
+        				<a th:replace="appFragments ::modal_back_reservation"></a>
+    				</div>
+  				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div th:fragment ="reserve_book_error_modal">
+		<!-- Modal -->
+		<div class="modal" id="reserveBookErrorModal" aria-labelledby="reserveBookErrorModal" aria-hidden="true">
+  			<div class="modal-dialog " role="document">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<p style="color: rgb(185, 49, 0);"class="modal-title" >Refusé :titre déjà emprunté ou reservé </p>        
+      				</div>
+     				 <div class="modal-footer">
+        				<a th:replace="appFragments ::modal_back_link"></a>
+        				<a th:replace="appFragments ::modal_back_list"></a>
+        				<a th:replace="appFragments ::modal_back_reservation"></a>
+        			</div>
+  				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 </body>
 </html>

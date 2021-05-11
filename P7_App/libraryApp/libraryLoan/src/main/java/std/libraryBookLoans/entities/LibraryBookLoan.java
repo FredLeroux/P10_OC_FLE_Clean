@@ -20,7 +20,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Table(name = "library_books", schema = "libraryum")
 @NoArgsConstructor
@@ -29,28 +28,30 @@ import lombok.Setter;
 @Setter
 public class LibraryBookLoan implements Serializable {
 
+    private static final long serialVersionUID = 7123011051900300385L;
 
-	private static final long serialVersionUID = 7123011051900300385L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Column(name = "kind")
+    private String kind;
 
-	@Column(name = "kind")
-	private String kind;
+    @Column(name = "title")
+    private String title;
 
-	@Column(name = "title")
-	private String title;
+    @Column(name = "author")
+    private String author;
 
-	@Column(name = "author")
-	private String author;
+    @Column(name = "availability")
+    private Boolean availability;
 
-	@Column(name = "availability")
-	private Boolean availability;
+    @Column(name = "number_of_reservations")
+    private Integer numberOfReservations;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	@JoinColumn(name = "library_building_fk")
-	private LibraryBuildingLoan libraryBuilding;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn(name = "library_building_fk")
+    private LibraryBuildingLoan libraryBuilding;
 
 }

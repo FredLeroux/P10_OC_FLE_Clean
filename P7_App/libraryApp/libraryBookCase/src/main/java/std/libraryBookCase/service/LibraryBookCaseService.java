@@ -2,20 +2,26 @@ package std.libraryBookCase.service;
 
 import java.util.List;
 
-import std.libraryBookCase.dto.LibraryBooksAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookAndQuantityDTO;
+import std.libraryBookCase.dto.LibraryBookDTO;
 import std.libraryBookCase.dto.LibraryBooksKindsDTO;
-
+import std.libraryBookCase.dto.LibraryReservableBookExamplary;
 
 public interface LibraryBookCaseService {
 
-	public List<LibraryBooksAndQuantityDTO> getAllBooks();
+    public LibraryBookDTO getBookById(Integer id);
 
-	public List<LibraryBooksKindsDTO> getKindsList();
+    public List<LibraryBookAndQuantityDTO> getAllBooks(Integer maxReservationNumber);
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByBuilding(Integer id);
+    public List<LibraryBooksKindsDTO> getKindsList();
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds);
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByBuilding(Integer id, Integer maxReservationNumber);
 
-	public List<LibraryBooksAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id,List<String> kinds);
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByKinds(List<String> kinds, Integer maxReservationNumber);
 
+    public List<LibraryBookAndQuantityDTO> getBooksFilteredByLibraryBuildingIdAndKinds(Integer id, List<String> kinds,
+	    Integer maxReservationNumber);
+
+    public List<LibraryReservableBookExamplary> getReservableBooks(String title, String buildingName,
+	    Integer maxOfReservation);
 }
