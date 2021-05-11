@@ -193,7 +193,7 @@ public class LibraryReservationServiceImpl implements LibraryReservationService 
     protected LibraryBookForReservation cancelReservationUpdateBook(LibraryBookForReservation book) {
 	Integer nbOfReservation = (Integer) ObjectUtils.defaultIfNull(book.getNumberOfReservations(), 0);
 	book.setNumberOfReservations(nbOfReservation - 1);
-	if (nbOfReservation < 0) {
+	if (book.getNumberOfReservations() < 0) {
 	    book.setNumberOfReservations(0);
 	}
 	return book;
