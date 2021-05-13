@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>std.libraryApp</groupId>
 	<artifactId>libraryBookCase</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2</version>
 	<name>libraryBookCase</name>
 	<description>libraryBookCase</description>
 

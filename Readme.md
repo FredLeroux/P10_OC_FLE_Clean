@@ -1,47 +1,63 @@
-## Depot Git
-## OPENCLASSROOMS
-PARCOURS : DÃ©veloppeur d'application - Java
-PROJET 10 : AmÃ©liorez le systÃ¨me dâ€™information de la bibliothÃ¨que
-ETUDIANT : FrÃ©dÃ©ric Leroux
+# Depot Git
+# OPENCLASSROOMS
+### PARCOURS : Développeur d'application - Java
+#### PROJET 7 : Développez le nouveau système d’information de la bibliothèque d’une grande ville
+#### PROJET 10 : Améliorer le  système d’information de la bibliothèque
+#### ETUDIANT : Frédéric Leroux
 
-Pre-requis :
-	- java 1.8
-	- Apache tomcat 9.7
-	- PostgreSQL 11.3
-	- FakeSMTP 2.0 (fournis)
-	- EDI eclipse ou autre
-
-
-Contenu :
-
-	- DOSSIER: P7_App -> ensemble du code source JEE
-	- DOSSIER: P7_DB -> un dump de la DB en ".sql" & ".txt"  pour la crÃ©ation des roles et de la dite base modele physique de donnÃ©
-	- DOSSIER: P7_DOC -> modele physique de donnÃ©
-	- DOSSIER: P7_Fake_SMTP_Server -> Fake-SMTP API
-	- DOSSIER: P10_Launch -> fichiers .bat et .sh application launcher
-	- P10_Postman_Tests -> ensemble des tests Postman en format json
-	- P10_ticket_management -> suivi des tickets
-
-Installation :
-
-	-Creer la base de donnÃ© via les commandes:
-		P7_DB
-	-Backup de la base
-		P7_DB
-
-	-Lancer les jar
-		Application: \P10_Launch\App
+## Pre-requis
+	java 1.8
+	Apache tomcat 9.7
+	PostgreSQL 11.3
+	FakeSMTP 2.0 (fournis)
+	EDI eclipse ou autre
 
 
-	-ou compiler via code source
-		P7_App
+### Contenu
+
+- DOSSIER: P7_App :     ensemble du code source JEE.
+- DOSSIER: P7_DB :      un dump de la DB en ".sql" & ".txt"  pour la création des roles et de la dite base 	                    modele physique de donné.
+- DOSSIER P10_UpDateDB:  script sql de mise à jour
+- DOSSIER P10_AppUpdate: update jar to 1.2
+- DOSSIER: P7_DOC:       modele physique de donné.
+- DOSSIER: P7_Fake_SMTP_Server: Fake-SMTP API
+- DOSSIER: P7_Launch: fichiers .bat et .sh application launcher + jar
+- DOSSIER: P10_Launch: fichiers .bat et .sh application launcher + jar
+- DOOSIER p10_Postman_Tests: export des tests postman
+
+# Installation
+
+- Creer la base de donné via les script dans:
+		/P7_DB
+- Backup de la base via les script dans
+		/P7_DB
+- Lancer les jar
+		Application: /P7_Launch/App
+		Batch and Mailing: /P7_Launch\BatchAndMailing
+- ou compiler via code source
+		/P7_App
+
+# Mise à jour
+- stopper les service
+- stopper la base de données
+- mettre à jour la base de donné avec le script  /P10_UpdateDb/Ticket_1_Update_DB_v1.2.sql
+- Lancer les jar
+		Application: /P10_Launch
+- ou compiler via code source
+		/P7_App
+
+# Test Postman
+- Utiliser le profil itService pour les test services
+- Utiliser le profile it pour les test API
+-
+## Note
+- pour les test mail and scheduling utilisé les services eureka et configserver en supplément
+- pour les test API ainsi que mail fakeSMTP est nécésssaire(fournis)
 
 URL acces:
 	http://localhost:9005/
 
 Note:
 
-	Projet Ã  vocation de prÃ©sentation et de test, l'utilisation de fakeSMTP simule un serverSMTP utilisÃ© dans l'application,
-
-
-
+	Projet à vocation de présentation et de test, l'utilisation de fakeSMTP simule un serverSMTP utilisé dans l'application,
+	un mail est envoyé toute les minutes concernant les retards.

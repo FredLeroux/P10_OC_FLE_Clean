@@ -18,7 +18,7 @@
 							"pm.test(\"Customer_check\",()=>{\r",
 							"const customer = pm.response.json();\r",
 							"pm.expect(customer.customerEmail).to.eql(\"customer1\");\r",
-							"pm.expect(customer.customerPassword).to.eql(\"pass1\");\r",
+							"pm.expect(customer.customerPassword).to.eql(\"$2a$10$J7U9P4OvtyhusycyxfjXTusjLyNdT20c/BvqpGzm7/Fm7xWxHRXpa\");\r",
 							"pm.expect(customer.customerAuthToken).to.eql(null);\r",
 							"pm.expect(customer.role.id).to.eql(1);\r",
 							"pm.expect(customer.role.roleType).to.eql(\"TYPE_admin\");\r",
@@ -321,7 +321,7 @@
 							"});\r",
 							"pm.test(\"Customer_check\",()=>{\r",
 							"const customer =pm.response.text();\r",
-							"pm.expect(customer).to.eql(\"customer1\");\r",
+							"pm.expect(customer).to.eql(\"customer4\");\r",
 							"\r",
 							"});"
 						],
@@ -333,7 +333,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9103/getCustomerUserName?token=token1_added",
+					"raw": "http://localhost:9103/getCustomerUserName?token=token4",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -345,7 +345,7 @@
 					"query": [
 						{
 							"key": "token",
-							"value": "token1_added"
+							"value": "token4"
 						}
 					]
 				}

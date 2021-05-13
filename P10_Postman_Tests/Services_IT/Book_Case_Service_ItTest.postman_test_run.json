@@ -1,0 +1,308 @@
+{
+	"id": "15af7785-d764-4079-8b9e-38592524e289",
+	"name": "Book_Case_Service_ItTest",
+	"timestamp": "2021-05-13T20:12:47.029Z",
+	"collection_id": "ab1c4f01-3a05-46b5-a657-7aa4d52aee7c",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 15,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "be516327-9c91-4fac-831b-6e2d7069ede6",
+			"name": "getBookByReference",
+			"url": "http://localhost:9101/getBookByReference?reference=1",
+			"time": 283,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Book_Found": true,
+				"Book found is the expected one": true
+			},
+			"testPassFailCounts": {
+				"Book_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Book found is the expected one": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				283
+			],
+			"allTests": [
+				{
+					"Book_Found": true,
+					"Book found is the expected one": true
+				}
+			]
+		},
+		{
+			"id": "131fffb1-782e-4c7a-9684-af53f7f17612",
+			"name": "getBookByReferenceFail",
+			"url": "http://localhost:9101/getBookByReference?reference=100",
+			"time": 35,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Book_NotFound": true
+			},
+			"testPassFailCounts": {
+				"Book_NotFound": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				35
+			],
+			"allTests": [
+				{
+					"Book_NotFound": true
+				}
+			]
+		},
+		{
+			"id": "3b27df5c-7868-44bb-883a-4b419529321d",
+			"name": "kinds",
+			"url": "http://localhost:9101/kinds",
+			"time": 136,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Kinds": true,
+				"The response has all properties": true
+			},
+			"testPassFailCounts": {
+				"Kinds": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The response has all properties": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				136
+			],
+			"allTests": [
+				{
+					"Kinds": true,
+					"The response has all properties": true
+				}
+			]
+		},
+		{
+			"id": "24cf6aea-5d53-49e3-b62f-b28032d7eb47",
+			"name": "books",
+			"url": "http://localhost:9101/books?maxReservationNumber=2",
+			"time": 39,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All_Books_Found": true,
+				"Books_List_Size": true
+			},
+			"testPassFailCounts": {
+				"All_Books_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Books_List_Size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				39
+			],
+			"allTests": [
+				{
+					"All_Books_Found": true,
+					"Books_List_Size": true
+				}
+			]
+		},
+		{
+			"id": "e0c76f79-805c-4016-ba49-f3b5b4e93934",
+			"name": "BuildingFiltered",
+			"url": "http://localhost:9101/buildingFiltered?libraryBuilding=2&maxReservationNumber=2",
+			"time": 32,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All_Books_Found": true,
+				"check_Building": true
+			},
+			"testPassFailCounts": {
+				"All_Books_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check_Building": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				32
+			],
+			"allTests": [
+				{
+					"All_Books_Found": true,
+					"check_Building": true
+				}
+			]
+		},
+		{
+			"id": "47496138-0fbb-4110-b00b-34c101699890",
+			"name": "kindsFiltered",
+			"url": "http://localhost:9101/kindsFiltered?kinds=A_Kind&maxReservationNumber=2",
+			"time": 27,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All_Books_Found": true,
+				"check_Building": true
+			},
+			"testPassFailCounts": {
+				"All_Books_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check_Building": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				27
+			],
+			"allTests": [
+				{
+					"All_Books_Found": true,
+					"check_Building": true
+				}
+			]
+		},
+		{
+			"id": "540fb645-a558-4a61-bdfd-91a322eac669",
+			"name": "buildingAndKindsFiltered",
+			"url": "http://localhost:9101/buildingAndKindsFiltered?kinds=A_Kind&maxReservationNumber=2&libraryBuilding=3",
+			"time": 22,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All_Books_Found": true,
+				"check_Building": true
+			},
+			"testPassFailCounts": {
+				"All_Books_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check_Building": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"All_Books_Found": true,
+					"check_Building": true
+				}
+			]
+		},
+		{
+			"id": "07ba9c4b-ca63-47c0-b601-17d6c4b00257",
+			"name": "reservableBookExamplaries",
+			"url": "http://localhost:9101/reservableBookExamplaries?buildingName=biblioth%C3%A8que_nord&maxOfReservation=2&title=C_Book",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"reservableBookExamplaries": true,
+				"Check size": true
+			},
+			"testPassFailCounts": {
+				"reservableBookExamplaries": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"reservableBookExamplaries": true,
+					"Check size": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 589,
+	"collection": {
+		"requests": [
+			{
+				"id": "be516327-9c91-4fac-831b-6e2d7069ede6",
+				"method": "GET"
+			},
+			{
+				"id": "131fffb1-782e-4c7a-9684-af53f7f17612",
+				"method": "GET"
+			},
+			{
+				"id": "3b27df5c-7868-44bb-883a-4b419529321d",
+				"method": "GET"
+			},
+			{
+				"id": "24cf6aea-5d53-49e3-b62f-b28032d7eb47",
+				"method": "GET"
+			},
+			{
+				"id": "e0c76f79-805c-4016-ba49-f3b5b4e93934",
+				"method": "GET"
+			},
+			{
+				"id": "47496138-0fbb-4110-b00b-34c101699890",
+				"method": "GET"
+			},
+			{
+				"id": "540fb645-a558-4a61-bdfd-91a322eac669",
+				"method": "GET"
+			},
+			{
+				"id": "07ba9c4b-ca63-47c0-b601-17d6c4b00257",
+				"method": "GET"
+			}
+		]
+	}
+}

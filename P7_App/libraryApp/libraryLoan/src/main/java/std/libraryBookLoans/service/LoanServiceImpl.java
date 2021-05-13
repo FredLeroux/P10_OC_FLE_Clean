@@ -38,6 +38,7 @@ import std.libraryBookLoans.exceptions.LoanNotFoundException;
 import std.libraryBookLoans.exceptions.LoanUnknownException;
 import std.libraryBookLoans.exceptions.ReservationNotFoundException;
 import std.libraryBookLoans.exceptions.RoleNotFoundException;
+import std.libraryBookLoans.exceptions.UnPostponableException;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -205,14 +206,26 @@ public class LoanServiceImpl implements LoanService {
 	Optional<Loan> optLoan = (loanDAO.findByIdAndCustomerCustomerEmail(loanId, userName));
 	if (optLoan.isPresent()) {
 	    Loan loan = optLoan.get();
-	    loan.setReturnDate(posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber,
-		    ChronoUnit.valueOf(unit.toUpperCase()), daysOffList, holidays).toString());
-	    loan.setPostponed(true);
-	    loanDAO.saveAndFlush(loan);
+	    if (isPostPonable(loan)) {
+		loan.setReturnDate(posponeDaysOffTakedInAccount(loan.getReturnDate(), unitNumber,
+			ChronoUnit.valueOf(unit.toUpperCase()), daysOffList, holidays).toString());
+		loan.setPostponed(true);
+		loanDAO.saveAndFlush(loan);
+	    } else {
+		throw new UnPostponableException();
+	    }
 	} else {
 	    throw new LoanNotFoundException();
 	}
 
+    }
+
+    private Boolean isPostPonable(Loan loan) {
+	LocalDate date = LocalDate.parse(loan.getReturnDate());
+	if (date.isAfter(LocalDate.now()) || LocalDate.now().isEqual(date)) {
+	    return true;
+	}
+	return false;
     }
 
     private LocalDate posponeDaysOffTakedInAccount(String date, Integer unitNumber, ChronoUnit unit,

@@ -1,0 +1,383 @@
+{
+	"id": "d1198b03-34f3-4b20-a348-483f6d2dffbf",
+	"name": "Reservation_Service_ItTest",
+	"timestamp": "2021-05-13T20:38:59.055Z",
+	"collection_id": "23fe80a8-fca8-4324-b20a-497cbb279f41",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 15,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "6b43f2ae-5502-4129-b9f8-5a93ab2ccd3c",
+			"name": "createReservation",
+			"url": "http://localhost:9108/createReservation?bookId=68&customerEmail=customer1",
+			"time": 454,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Reservation_Created": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				454
+			],
+			"allTests": [
+				{
+					"Reservation_Created": true
+				}
+			]
+		},
+		{
+			"id": "c04e29bb-ca84-40cb-8fca-6b809fbc2ca5",
+			"name": "createReservationFailAlreadyReserved",
+			"url": "http://localhost:9108/createReservation?bookId=61&customerEmail=customer1",
+			"time": 54,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {
+				"Reservation_Created_Fail": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Created_Fail": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				54
+			],
+			"allTests": [
+				{
+					"Reservation_Created_Fail": true
+				}
+			]
+		},
+		{
+			"id": "c60a55a2-6593-4c07-8bd9-3fa08c276e6f",
+			"name": "createReservationFailAlreadyLoaned",
+			"url": "http://localhost:9108/createReservation?bookId=48&customerEmail=customer1",
+			"time": 12,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {
+				"Reservation_Created_Fail": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Created_Fail": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Reservation_Created_Fail": true
+				}
+			]
+		},
+		{
+			"id": "6a215783-54a4-4047-96dc-f23315bca215",
+			"name": "createReservationFailCustomer",
+			"url": "http://localhost:9108/createReservation?bookId=50&customerEmail=customer100",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Reservation_Created_Fail": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Created_Fail": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Reservation_Created_Fail": true
+				}
+			]
+		},
+		{
+			"id": "76b0ac5e-839c-4b43-a269-39585c2adade",
+			"name": "createReservationFailBook",
+			"url": "http://localhost:9108/createReservation?bookId=500&customerEmail=customer1",
+			"time": 14,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Reservation_Created_Fail": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Created_Fail": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Reservation_Created_Fail": true
+				}
+			]
+		},
+		{
+			"id": "804d6c4b-be38-4cd3-b1c3-fbac2f1f474a",
+			"name": "cancelReservation",
+			"url": "http://localhost:9108/cancelReservation?reservationId=1",
+			"time": 25,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Reservation_Canceled": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Canceled": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				25
+			],
+			"allTests": [
+				{
+					"Reservation_Canceled": true
+				}
+			]
+		},
+		{
+			"id": "1fa91857-43a4-4023-8028-3ec040a7c485",
+			"name": "cancelReservationFail",
+			"url": "http://localhost:9108/cancelReservation?reservationId=100",
+			"time": 8,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Reservation_Canceled_Not_Found": true
+			},
+			"testPassFailCounts": {
+				"Reservation_Canceled_Not_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Reservation_Canceled_Not_Found": true
+				}
+			]
+		},
+		{
+			"id": "e986f839-d1a0-438f-8e26-3311869f0597",
+			"name": "customerReservations",
+			"url": "http://localhost:9108/customerReservations?customerEmail=customer1",
+			"time": 121,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Reservation_List": true,
+				"list_Check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Reservation_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"list_Check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				121
+			],
+			"allTests": [
+				{
+					"Customer_Reservation_List": true,
+					"list_Check": true
+				}
+			]
+		},
+		{
+			"id": "10663177-ab2c-4d19-9c29-b1431b61ac56",
+			"name": "customerReservationsCustomerNotFound",
+			"url": "http://localhost:9108/customerReservations?customerEmail=customer100",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Reservation_List": true,
+				"list_Check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Reservation_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"list_Check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Customer_Reservation_List": true,
+					"list_Check": true
+				}
+			]
+		},
+		{
+			"id": "9ecfbb66-7e88-49c6-9aff-fc54e7d6470e",
+			"name": "customerToNotified",
+			"url": "http://localhost:9108/customerToNotified?bookId=68&priority=1",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Reservation_List": true,
+				"customer_Check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Reservation_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"customer_Check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Customer_Reservation_List": true,
+					"customer_Check": true
+				}
+			]
+		},
+		{
+			"id": "954462d6-9029-4f33-b0d8-6cf5ade2027c",
+			"name": "customerToNotified Copy",
+			"url": "http://localhost:9108/customerToNotified?bookId=680&priority=1",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Reservation_List": true,
+				"customer_Check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Reservation_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"customer_Check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Customer_Reservation_List": true,
+					"customer_Check": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 725,
+	"collection": {
+		"requests": [
+			{
+				"id": "6b43f2ae-5502-4129-b9f8-5a93ab2ccd3c",
+				"method": "POST"
+			},
+			{
+				"id": "c04e29bb-ca84-40cb-8fca-6b809fbc2ca5",
+				"method": "POST"
+			},
+			{
+				"id": "c60a55a2-6593-4c07-8bd9-3fa08c276e6f",
+				"method": "POST"
+			},
+			{
+				"id": "6a215783-54a4-4047-96dc-f23315bca215",
+				"method": "POST"
+			},
+			{
+				"id": "76b0ac5e-839c-4b43-a269-39585c2adade",
+				"method": "POST"
+			},
+			{
+				"id": "804d6c4b-be38-4cd3-b1c3-fbac2f1f474a",
+				"method": "POST"
+			},
+			{
+				"id": "1fa91857-43a4-4023-8028-3ec040a7c485",
+				"method": "POST"
+			},
+			{
+				"id": "e986f839-d1a0-438f-8e26-3311869f0597",
+				"method": "GET"
+			},
+			{
+				"id": "10663177-ab2c-4d19-9c29-b1431b61ac56",
+				"method": "GET"
+			},
+			{
+				"id": "9ecfbb66-7e88-49c6-9aff-fc54e7d6470e",
+				"method": "GET"
+			},
+			{
+				"id": "954462d6-9029-4f33-b0d8-6cf5ade2027c",
+				"method": "GET"
+			}
+		]
+	}
+}

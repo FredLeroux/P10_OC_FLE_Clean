@@ -1,0 +1,668 @@
+{
+	"id": "752e9365-a9b6-4de1-b31a-5018fcd31b40",
+	"name": "Loan_Service_ItTest",
+	"timestamp": "2021-05-13T20:21:57.173Z",
+	"collection_id": "9f993a54-c74d-47e3-bd99-2d838639abd8",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 25,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "519e4549-1429-440d-aa02-19417b0644df",
+			"name": "createLoan",
+			"url": "http://localhost:9104/createLoan/?customerId=1&bookId=40&unitNumber=4&unit=weeks",
+			"time": 396,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				396
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "17f5a321-b634-431e-aba6-8aa9eb7599a8",
+			"name": "createLoanAlreadyLoaned",
+			"url": "http://localhost:9104/createLoan/?customerId=1&bookId=40&unitNumber=4&unit=weeks",
+			"time": 66,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				66
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "f4bd1fe6-833f-4865-a6c6-aaa8694dfece",
+			"name": "createLoanFailCustomer",
+			"url": "http://localhost:9104/createLoan/?customerId=100&bookId=50&unitNumber=4&unit=weeks",
+			"time": 13,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "0b761138-1c1f-4b7a-99c8-8f379b1b3bda",
+			"name": "createLoanFailBook",
+			"url": "http://localhost:9104/createLoan/?customerId=1&bookId=400&unitNumber=4&unit=weeks",
+			"time": 9,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "72ca636e-c781-4082-ba91-651204b17610",
+			"name": "createLoanFromReservation",
+			"url": "http://localhost:9104/createLoanFromReservation?reservationId=1&customerId=1&unitNumber=4&unit=weeks",
+			"time": 37,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "bbb4a360-a954-4787-853a-19a5709e01be",
+			"name": "createLoanFromReservationFailCustomer",
+			"url": "http://localhost:9104/createLoanFromReservation?reservationId=1&customerId=100&unitNumber=4&unit=weeks",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "48c11d52-43a4-4012-a870-f495a0423344",
+			"name": "createLoanFromReservationFailReservation",
+			"url": "http://localhost:9104/createLoanFromReservation?reservationId=100&customerId=1&unitNumber=4&unit=weeks",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "fc1eb2be-d765-4827-a08c-378945307a79",
+			"name": "postpone",
+			"url": "http://localhost:9104/postpone/?loanId=1&userName=customer1&unitNumber=4&unit=weeks",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "4a408fa0-16bd-489f-8fbc-bbf6249aaf65",
+			"name": "postponeFailLoanId",
+			"url": "http://localhost:9104/postpone/?loanId=200&userName=customer1&unitNumber=4&unit=weeks",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Not_Found": true
+			},
+			"testPassFailCounts": {
+				"Loan_Not_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Loan_Not_Found": true
+				}
+			]
+		},
+		{
+			"id": "b4d65c21-9ad1-429f-adf7-8de44d000568",
+			"name": "postponeFailCustomerId",
+			"url": "http://localhost:9104/postpone/?loanId=1&userName=customer2&unitNumber=4&unit=weeks",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "ea2fd322-a896-4a4b-b871-18b3ba1e6e08",
+			"name": "postponeFailUnit",
+			"url": "http://localhost:9104/postpone/?loanId=1&userName=customer1&unitNumber=4&unit=eras",
+			"time": 7,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Loan_Found_And_Saved": true
+			},
+			"testPassFailCounts": {
+				"Loan_Found_And_Saved": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Loan_Found_And_Saved": true
+				}
+			]
+		},
+		{
+			"id": "f204ea4f-a7d6-4387-af1c-11ad90ac3520",
+			"name": "loansList",
+			"url": "http://localhost:9104/loansList?userName=customer1",
+			"time": 77,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true,
+				"Loans_list_size": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Loans_list_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"Loans_List": true,
+					"Loans_list_size": true
+				}
+			]
+		},
+		{
+			"id": "d60cab6b-0fb6-4451-bbd7-d4c69d5923ea",
+			"name": "loansListFail",
+			"url": "http://localhost:9104/loansList?userName=customer100",
+			"time": 12,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Loans_List": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Loans_List": true
+				}
+			]
+		},
+		{
+			"id": "dd59ad42-cb92-45a2-a90f-52a7a19281cb",
+			"name": "returnLoan",
+			"url": "http://localhost:9104/returnLoan?customerId=1&bookId=10",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Loans_List": true
+				}
+			]
+		},
+		{
+			"id": "5cce7a89-db45-4e34-beb1-156377a70e85",
+			"name": "returnLoanFailCustomer",
+			"url": "http://localhost:9104/returnLoan?customerId=100&bookId=10",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loans_List": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Loans_List": true
+				}
+			]
+		},
+		{
+			"id": "c634f43c-19fa-4f5f-9517-bf881e5252e5",
+			"name": "returnLoanFailBook",
+			"url": "http://localhost:9104/returnLoan?customerId=1&bookId=100",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Loans_List": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Loans_List": true
+				}
+			]
+		},
+		{
+			"id": "40e4966a-9438-478f-abb5-291a57e17a71",
+			"name": "reservableBookLinkedLoans",
+			"url": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=5,10,40,48",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true,
+				"Loans_list_size": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Loans_list_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Loans_List": true,
+					"Loans_list_size": true
+				}
+			]
+		},
+		{
+			"id": "1d220486-e975-4c8a-b029-0b7ebd2bf31e",
+			"name": "reservableBookLinkedLoansEmpty",
+			"url": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=50,100,400,480",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true,
+				"Loans_list_size": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Loans_list_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Loans_List": true,
+					"Loans_list_size": true
+				}
+			]
+		},
+		{
+			"id": "729fd2e6-d588-4802-8349-a79c1a9b74f3",
+			"name": "reservableBookExamplary",
+			"url": "http://localhost:9104/reservableBookLinkedLoans?bookIdList=5,10,40,48",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true,
+				"Loans_list_size": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Loans_list_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Loans_List": true,
+					"Loans_list_size": true
+				}
+			]
+		},
+		{
+			"id": "b88f8aac-f0da-4096-88d2-81dee9db8b6f",
+			"name": "reservableBookExamplaryEmpty",
+			"url": "http://localhost:9104/reservableBookExamplary?bookIdList=50,100,400,480&numberChronoOfUnit=4&unit=weeks",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Loans_List": true,
+				"Loans_list_size": true
+			},
+			"testPassFailCounts": {
+				"Loans_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Loans_list_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Loans_List": true,
+					"Loans_list_size": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 727,
+	"collection": {
+		"requests": [
+			{
+				"id": "519e4549-1429-440d-aa02-19417b0644df",
+				"method": "POST"
+			},
+			{
+				"id": "17f5a321-b634-431e-aba6-8aa9eb7599a8",
+				"method": "POST"
+			},
+			{
+				"id": "f4bd1fe6-833f-4865-a6c6-aaa8694dfece",
+				"method": "POST"
+			},
+			{
+				"id": "0b761138-1c1f-4b7a-99c8-8f379b1b3bda",
+				"method": "POST"
+			},
+			{
+				"id": "72ca636e-c781-4082-ba91-651204b17610",
+				"method": "POST"
+			},
+			{
+				"id": "bbb4a360-a954-4787-853a-19a5709e01be",
+				"method": "POST"
+			},
+			{
+				"id": "48c11d52-43a4-4012-a870-f495a0423344",
+				"method": "POST"
+			},
+			{
+				"id": "fc1eb2be-d765-4827-a08c-378945307a79",
+				"method": "POST"
+			},
+			{
+				"id": "4a408fa0-16bd-489f-8fbc-bbf6249aaf65",
+				"method": "POST"
+			},
+			{
+				"id": "b4d65c21-9ad1-429f-adf7-8de44d000568",
+				"method": "POST"
+			},
+			{
+				"id": "ea2fd322-a896-4a4b-b871-18b3ba1e6e08",
+				"method": "POST"
+			},
+			{
+				"id": "f204ea4f-a7d6-4387-af1c-11ad90ac3520",
+				"method": "GET"
+			},
+			{
+				"id": "d60cab6b-0fb6-4451-bbd7-d4c69d5923ea",
+				"method": "GET"
+			},
+			{
+				"id": "dd59ad42-cb92-45a2-a90f-52a7a19281cb",
+				"method": "POST"
+			},
+			{
+				"id": "5cce7a89-db45-4e34-beb1-156377a70e85",
+				"method": "POST"
+			},
+			{
+				"id": "c634f43c-19fa-4f5f-9517-bf881e5252e5",
+				"method": "POST"
+			},
+			{
+				"id": "40e4966a-9438-478f-abb5-291a57e17a71",
+				"method": "GET"
+			},
+			{
+				"id": "1d220486-e975-4c8a-b029-0b7ebd2bf31e",
+				"method": "GET"
+			},
+			{
+				"id": "729fd2e6-d588-4802-8349-a79c1a9b74f3",
+				"method": "GET"
+			},
+			{
+				"id": "b88f8aac-f0da-4096-88d2-81dee9db8b6f",
+				"method": "GET"
+			}
+		]
+	}
+}

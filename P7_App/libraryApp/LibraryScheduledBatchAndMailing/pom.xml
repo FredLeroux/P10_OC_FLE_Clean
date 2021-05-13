@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>std.libraryApp</groupId>
 	<artifactId>LibraryScheduledBatchAndMailing</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2</version>
 	<name>LibraryScheduledBatchAndMailing</name>
 	<description>Spring batch and scheduling mail </description>
 

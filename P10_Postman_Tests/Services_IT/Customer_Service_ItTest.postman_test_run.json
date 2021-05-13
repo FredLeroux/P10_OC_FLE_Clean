@@ -1,0 +1,284 @@
+{
+	"id": "bb07cdd4-ee8f-42ee-a3ed-c649f6fcf9a7",
+	"name": "Customer_Service_ItTest",
+	"timestamp": "2021-05-13T20:20:15.249Z",
+	"collection_id": "9f20ef4c-e6c9-4b4f-ac7a-a23861e9705f",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 11,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "1b6c4ad4-cd39-4aa3-937a-05615d0234de",
+			"name": "getCustomerLog",
+			"url": "http://localhost:9103/getCustomerLog?username=customer1",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Found": true,
+				"Customer_check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Customer_check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Customer_Found": true,
+					"Customer_check": true
+				}
+			]
+		},
+		{
+			"id": "77d29337-1e4a-4a98-81f4-5007f1edcf13",
+			"name": "getCustomerLogFail",
+			"url": "http://localhost:9103/getCustomerLog?username=customer6",
+			"time": 8,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Customer_Found": true
+			},
+			"testPassFailCounts": {
+				"Customer_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Customer_Found": true
+				}
+			]
+		},
+		{
+			"id": "cff412a3-4f7c-40f8-86c3-75d715452ace",
+			"name": "getCustomerFull",
+			"url": "http://localhost:9103/getCustomerFull?username=customer2",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Found": true,
+				"Customer_check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Customer_check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Customer_Found": true,
+					"Customer_check": true
+				}
+			]
+		},
+		{
+			"id": "95fed46f-16c0-462a-91a1-af223d7c018f",
+			"name": "getCustomerFullFail",
+			"url": "http://localhost:9103/getCustomerFull?username=customer6",
+			"time": 8,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Customer_Found": true
+			},
+			"testPassFailCounts": {
+				"Customer_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Customer_Found": true
+				}
+			]
+		},
+		{
+			"id": "77b36d42-d3a4-43c4-989d-b3ea9907beaf",
+			"name": "authTokenFail",
+			"url": "http://localhost:9103/authToken?userName=customer10&token=token10_added",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Name_Not_Found": true
+			},
+			"testPassFailCounts": {
+				"Customer_Name_Not_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Customer_Name_Not_Found": true
+				}
+			]
+		},
+		{
+			"id": "0ba77c58-1807-48e4-8f00-7dce86dc5a26",
+			"name": "authToken",
+			"url": "http://localhost:9103/authToken?userName=customer2&token=token2_added",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Name_Found": true
+			},
+			"testPassFailCounts": {
+				"Customer_Name_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Customer_Name_Found": true
+				}
+			]
+		},
+		{
+			"id": "948070bb-bdfa-4b3b-b8d3-20057303e982",
+			"name": "getCustomerUserNameFail",
+			"url": "http://localhost:9103/getCustomerUserName?token=token100",
+			"time": 7,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Customer_Name_Not_Found": true
+			},
+			"testPassFailCounts": {
+				"Customer_Name_Not_Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Customer_Name_Not_Found": true
+				}
+			]
+		},
+		{
+			"id": "cb30625e-0755-4f40-a90e-3f004f147582",
+			"name": "getCustomerUserName",
+			"url": "http://localhost:9103/getCustomerUserName?token=token4",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer_Name_Found": true,
+				"Customer_check": true
+			},
+			"testPassFailCounts": {
+				"Customer_Name_Found": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Customer_check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Customer_Name_Found": true,
+					"Customer_check": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 64,
+	"collection": {
+		"requests": [
+			{
+				"id": "1b6c4ad4-cd39-4aa3-937a-05615d0234de",
+				"method": "GET"
+			},
+			{
+				"id": "77d29337-1e4a-4a98-81f4-5007f1edcf13",
+				"method": "GET"
+			},
+			{
+				"id": "cff412a3-4f7c-40f8-86c3-75d715452ace",
+				"method": "GET"
+			},
+			{
+				"id": "95fed46f-16c0-462a-91a1-af223d7c018f",
+				"method": "GET"
+			},
+			{
+				"id": "77b36d42-d3a4-43c4-989d-b3ea9907beaf",
+				"method": "POST"
+			},
+			{
+				"id": "0ba77c58-1807-48e4-8f00-7dce86dc5a26",
+				"method": "POST"
+			},
+			{
+				"id": "948070bb-bdfa-4b3b-b8d3-20057303e982",
+				"method": "GET"
+			},
+			{
+				"id": "cb30625e-0755-4f40-a90e-3f004f147582",
+				"method": "GET"
+			}
+		]
+	}
+}

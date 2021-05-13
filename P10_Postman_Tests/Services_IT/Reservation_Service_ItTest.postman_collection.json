@@ -317,7 +317,7 @@
 							"pm.test(\"list_Check\",()=>{\r",
 							"const list = pm.response.json();\r",
 							"pm.expect(list.length).to.eql(1);\r",
-							"pm.expect(list[0].id).to.eql(2);\r",
+							"pm.expect(list[0].id).to.eql(7);\r",
 							"});\r",
 							"\r",
 							""

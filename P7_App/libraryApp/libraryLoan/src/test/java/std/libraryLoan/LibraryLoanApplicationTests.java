@@ -60,6 +60,7 @@ import std.libraryBookLoans.exceptions.LoanNotFoundException;
 import std.libraryBookLoans.exceptions.LoanUnknownException;
 import std.libraryBookLoans.exceptions.ReservationNotFoundException;
 import std.libraryBookLoans.exceptions.RoleNotFoundException;
+import std.libraryBookLoans.exceptions.UnPostponableException;
 
 @SpringBootTest(classes = { Loan.class, LoanServiceImplForTest.class })
 @TestPropertySource(value = "/application-unitTest.properties")
@@ -539,6 +540,19 @@ class LibraryLoanApplicationTests {
 	assertThatThrownBy(() -> service.postponeLoan(1, "userName", 5, "weeks", null, null))
 		.isInstanceOf(LoanNotFoundException.class);
 	assertThat(loanTest.getReturnDate()).isEqualTo(today.toString());
+	assertThat(loanTest.getPostponed()).isFalse();
+	verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
+
+    }
+
+    @Test
+    public void postponeLoanTestFailDate() {
+	loanTest.setReturnDate(today.minusDays(1).toString());
+	when(loanDAO.findByIdAndCustomerCustomerEmail(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
+		.thenReturn(Optional.of(loanTest));
+	assertThatThrownBy(() -> service.postponeLoan(1, "userName", 5, "weeks", null, null))
+		.isInstanceOf(UnPostponableException.class);
+	assertThat(loanTest.getReturnDate()).isEqualTo(today.minusDays(1).toString());
 	assertThat(loanTest.getPostponed()).isFalse();
 	verify(loanDAO, times(0)).saveAndFlush(ArgumentMatchers.any(Loan.class));
 

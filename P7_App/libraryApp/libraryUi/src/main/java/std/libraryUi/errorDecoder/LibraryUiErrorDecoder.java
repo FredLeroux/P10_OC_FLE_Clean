@@ -11,6 +11,7 @@ import std.libraryUi.errorDecoder.exceptions.LoanNotFoundException;
 import std.libraryUi.errorDecoder.exceptions.NotFoundException;
 import std.libraryUi.errorDecoder.exceptions.NotFoundInDataBaseException;
 import std.libraryUi.errorDecoder.exceptions.ReservationNotFoundException;
+import std.libraryUi.errorDecoder.exceptions.UnPostponableException;
 import std.libraryUi.exceptions.UnknowErrorException;;
 
 @Component
@@ -27,6 +28,12 @@ public class LibraryUiErrorDecoder implements ErrorDecoder {
 	if (response.status() == 501) {
 	    if (methodKey.contains("postpone")) {
 		return new ChronoUnitNotImplementedException();
+	    }
+	}
+
+	if (response.status() == 409) {
+	    if (methodKey.contains("postpone")) {
+		return new UnPostponableException("Loan can't be postponed cause late");
 	    }
 	}
 	if (response.status() == 409) {

@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "1c02bd8a-61a6-458a-ab2a-140f9d1fe3cc",
+		"name": "MailAndScheduling_Service_ItTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sendNotificationBookAvailableAfterCustomerCancel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Notif_sent\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9106/sendNotificationBookAvailableAfterCustomerCancel?bookId=6&priority=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9106",
+					"path": [
+						"sendNotificationBookAvailableAfterCustomerCancel"
+					],
+					"query": [
+						{
+							"key": "bookId",
+							"value": "6"
+						},
+						{
+							"key": "priority",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendNotificationBookAvailable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Notif_sent\",()=>{\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9106/sendNotificationBookAvailable?customerEmail=customer3&bookTitle=D_Book&buildingName=bibliothèque_ouest&reference=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9106",
+					"path": [
+						"sendNotificationBookAvailable"
+					],
+					"query": [
+						{
+							"key": "customerEmail",
+							"value": "customer3"
+						},
+						{
+							"key": "bookTitle",
+							"value": "D_Book"
+						},
+						{
+							"key": "buildingName",
+							"value": "bibliothèque_ouest"
+						},
+						{
+							"key": "reference",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

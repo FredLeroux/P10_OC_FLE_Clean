@@ -1,0 +1,55 @@
+{
+	"id": "86bb068b-95b2-4b3a-b018-f60a6aed56af",
+	"name": "Building_Service_ItTest",
+	"timestamp": "2021-05-13T20:15:19.419Z",
+	"collection_id": "a759fa6b-ecfb-43c7-822c-e13fcdd5170b",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 2,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "c21a8438-52ab-4b92-9a8d-1a7b1bd10196",
+			"name": "buildings",
+			"url": "http://localhost:9102/buildings",
+			"time": 410,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Buildings_List": true,
+				"Buildings_List_size": true
+			},
+			"testPassFailCounts": {
+				"Buildings_List": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Buildings_List_size": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				410
+			],
+			"allTests": [
+				{
+					"Buildings_List": true,
+					"Buildings_List_size": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 410,
+	"collection": {
+		"requests": [
+			{
+				"id": "c21a8438-52ab-4b92-9a8d-1a7b1bd10196",
+				"method": "GET"
+			}
+		]
+	}
+}

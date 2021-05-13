@@ -15,7 +15,6 @@
 							"pm.test(\"Buildings_List\",()=>{\r",
 							"pm.response.to.have.status(200);\r",
 							"}); \r",
-							"\r",
 							"pm.test(\"Buildings_List_size\",()=>{\r",
 							"    const buildings = pm.response.json();\r",
 							"    pm.expect(buildings.length).to.eql(5);\r",

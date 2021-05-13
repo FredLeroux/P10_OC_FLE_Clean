@@ -1,0 +1,80 @@
+{
+	"id": "cae6a88e-87b4-4dc5-a6c0-44bc1e636b42",
+	"name": "MailAndScheduling_Service_ItTest",
+	"timestamp": "2021-05-13T20:30:22.447Z",
+	"collection_id": "1c02bd8a-61a6-458a-ab2a-140f9d1fe3cc",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 2,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "2c907c4a-f81c-4d81-b982-b02c5a94750b",
+			"name": "sendNotificationBookAvailableAfterCustomerCancel",
+			"url": "http://localhost:9106/sendNotificationBookAvailableAfterCustomerCancel?bookId=6&priority=1",
+			"time": 482,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Notif_sent": true
+			},
+			"testPassFailCounts": {
+				"Notif_sent": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				482
+			],
+			"allTests": [
+				{
+					"Notif_sent": true
+				}
+			]
+		},
+		{
+			"id": "40683070-3f57-4281-99a8-9c5d1b5ba951",
+			"name": "sendNotificationBookAvailable",
+			"url": "http://localhost:9106/sendNotificationBookAvailable?customerEmail=customer3&bookTitle=D_Book&buildingName=biblioth%C3%A8que_ouest&reference=5",
+			"time": 42,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Notif_sent": true
+			},
+			"testPassFailCounts": {
+				"Notif_sent": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				42
+			],
+			"allTests": [
+				{
+					"Notif_sent": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 524,
+	"collection": {
+		"requests": [
+			{
+				"id": "2c907c4a-f81c-4d81-b982-b02c5a94750b",
+				"method": "POST"
+			},
+			{
+				"id": "40683070-3f57-4281-99a8-9c5d1b5ba951",
+				"method": "POST"
+			}
+		]
+	}
+}
